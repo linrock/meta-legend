@@ -2,8 +2,10 @@ require 'open-uri'
 
 class ReplayExtractor
 
-  def self.extract_all!
-    ReplayOutcome.legend_players.since(5.days.ago).top_legend(1000).each do |r|
+  def self.extract_all!(replay_outcomes = nil)
+    replay_outcomes ||=
+      ReplayOutcome.legend_players.since(5.days.ago).top_legend(1000)
+    replay_outcomes.each do |r|
       begin
         re = self.new(r.hsreplay_id)
         re.save! unless re.exists?
