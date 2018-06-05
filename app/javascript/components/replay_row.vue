@@ -1,5 +1,9 @@
 <template lang="pug">
-  a.replay-link(:href="replay.link" target="_blank" @click="trackClick")
+  a.replay-link(
+    :href="replay.link" target="_blank"
+    @click="trackClick"
+    @mouseenter="fetchReplayInfo"
+  )
     .player.player1
       .win-indicator
         svg.crown(v-if="replay.winner === `p1`")
@@ -17,6 +21,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import PlayerRank from "./player_rank"
 
   export default {
@@ -35,6 +40,21 @@
             event_label: this.replay.link
           })
         }
+      },
+      fetchReplayInfo() {
+        const hsreplayId = this.replay.link.match(/\/([^\/]*)$/)[1]
+        axios.get(`replays/${hsreplayId}.json`)
+          .then(response => {
+            if (response.data) {
+              console.log(JSON.stringify(response.data))
+            }
+          })
+          .catch(error => {
+            if (error.request.status === 404) {
+              console.log(`no data found for ${hsreplayId}`)
+            }
+          })
+        console.log(hsreplayId)
       }
     },
 
