@@ -16,8 +16,6 @@ class ReplayXmlData
     deck_card_lists.length == 2
   end
 
-  private
-
   def doc
     @doc ||= Nokogiri.parse @replay_xml
   end

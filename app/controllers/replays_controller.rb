@@ -13,8 +13,10 @@ class ReplaysController < ActionController::API
     replay_data = ReplayData.new(hsreplay_id)
     if replay_data.exists?
       render json: {
+        hsreplay_id: hsreplay_id,
         player_names: replay_data.player_names,
         has_both_decks: replay_data.has_both_decks?,
+        num_turns: replay_data.num_turns,
       }
     else
       render json: "{}", status: 404

@@ -15,7 +15,15 @@ class ReplayData
     replay_xml_data.player_names
   end
 
+  def num_turns
+    replay_html_data.num_turns
+  end
+
   private
+
+  def replay_html_data
+    @replay_html_data ||= ReplayHtmlData.new(open("data/#{@hsreplay_id}.html").read)
+  end
 
   def replay_xml_data
     @replay_xml_data ||= ReplayXmlData.new(open("data/#{@hsreplay_id}.xml").read)
