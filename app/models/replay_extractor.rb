@@ -1,3 +1,5 @@
+# Extracts replay data from hsreplay.net
+
 require 'open-uri'
 
 class ReplayExtractor
