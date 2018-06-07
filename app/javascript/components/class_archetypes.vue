@@ -1,5 +1,6 @@
 <template lang="pug">
   .class-archetypes(v-if="classArchetypeRows.length > 0")
+    h2 {{ title }}
     .label-row
       .class-label deck type
       .winrate-label winrate
@@ -29,19 +30,28 @@
           return []
         }
       },
+      title() {
+        if (this.currentRoute) {
+          return `Top ${this.currentRoute.class} decks`
+        }
+      }
     }
   }
 </script>
 
 <style lang="stylus" scoped>
+  h2
+    font-weight bold
+    padding-bottom 10px
+    border-bottom 1px solid rgba(0,0,0,0.05)
+    margin-bottom 10px
+
   .label-row
-    width 240px
     font-size 10px
     letter-spacing 0.4px
     text-transform uppercase
     display flex
     opacity 0.5
-    padding 0 9px
     margin-bottom 8px
 
     .class-label
@@ -54,8 +64,7 @@
   .stats-row
     display flex
     line-height 24px
-    width 240px
-    padding 2px 8px
+    padding 2px 0
     border-radius 2px
     text-decoration none
     color #333
@@ -65,11 +74,11 @@
       cursor pointer
 
     .name
-      width 180px
       font-weight bold
 
     .winrate
       width 60px
+      margin-left auto
       text-align right
 
   .fade-enter-active, .fade-leave-active

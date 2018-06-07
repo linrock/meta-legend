@@ -37,7 +37,7 @@
     flex-wrap wrap
     justify-content space-between
     align-items center
-    margin-bottom 30px
+    margin-bottom 10px
 
   img
     width 77px

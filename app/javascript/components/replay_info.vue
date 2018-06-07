@@ -73,7 +73,7 @@
       width 25px
 
     .name
-      width 180px
+      width 190px
 
     .quantity
       opacity 0.4

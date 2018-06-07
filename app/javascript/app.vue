@@ -2,8 +2,8 @@
   main
     header
       class-image-selector
-      rank-filter
       class-winrates
+      rank-filter
     article
       section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
         h3.replay-feed-title {{ $store.state.replayFeedTitle }}
@@ -28,7 +28,6 @@
         template(v-if="$store.getters.currentReplay")
           replay-info
         template(v-else)
-          about-selection
           class-archetypes
           about-winrates
 
@@ -229,7 +228,7 @@
     width replay-feed-width
 
   #sidebar
-    width 300px
+    width 250px
 
   section.loading
     opacity 0.5
@@ -258,7 +257,7 @@
     width replay-feed-width
     font-size 16px
     font-weight bold
-    margin 20px 0
+    margin-bottom 20px
     text-align center
 
   .replay-feed

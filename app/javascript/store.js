@@ -68,6 +68,9 @@ const store = new Vuex.Store({
       if (route.class && !route.archetype) {
         dispatch(`hoverOverClassImage`, path)
       }
+      if (getters.currentReplay) {
+        commit(`selectReplay`, null)
+      }
       commit(`setPath`, path || `/`)
     },
     setFilterOption({ commit }, filter) {

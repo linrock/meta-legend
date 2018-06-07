@@ -1,6 +1,7 @@
 <template lang="pug">
   .about-selection
-    h2 {{ currentRouteType }}
+    h2 {{ title }}
+
 </template>
 
 <script>
@@ -9,15 +10,19 @@
       currentRoute() {
         return this.$store.getters.currentRoute
       },
-      currentRouteType() {
-        if (this.currentRoute.class) {
-          if (this.currentRoute.archetype) {
-            return `${this.currentRoute.archetype} ${this.currentRoute.class}`
-          } else {
-            return this.currentRoute.class
-          }
+      title() {
+        if (this.currentRoute) {
+          return `Top ${this.currentRoute.class} decks`
         }
       }
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+  h2
+    font-weight bold
+    padding-bottom 5px
+    border-bottom 1px solid rgba(0,0,0,0.3)
+
+</style>

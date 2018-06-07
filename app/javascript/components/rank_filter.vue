@@ -30,7 +30,7 @@
     display flex
     align-items center
     font-size 14px
-    margin-bottom 25px
+    margin 35px 0 25px
 
     select
       margin-left 10px
