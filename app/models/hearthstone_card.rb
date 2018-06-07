@@ -1,19 +1,29 @@
 class HearthstoneCard
   DATA_FILE = "data/cards.json"
 
-  def self.id_to_name_map
-    return @@id_to_name_map if defined? @@id_to_name_map
+  def self.card_map
+    return @@card_map if defined? @@card_map
     json_data = open(DATA_FILE, 'r').read
-    @@id_to_name_map ||= Hash[JSON.parse(json_data).map {|card|
-      [card['id'], card['name']]
+    @@card_map ||= Hash[JSON.parse(json_data).map {|card|
+      [card['id'], {
+        cost: card['cost'],
+        name: card['name'],
+      }]
     }]
   end
 
-  def self.name_by_card_id(card_id)
-    id_to_name_map[card_id]
+  def self.lookup(card_id)
+    card_map[card_id]
   end
 
-  def self.card_ids_to_names(card_ids)
-    card_ids.map {|id| name_by_card_id(id) }
+  def self.card_ids_to_cards(card_ids)
+    card_ids.map {|id| lookup(id) }
+  end
+
+  def self.card_ids_to_deck_list(card_ids)
+    card_ids_to_cards(card_ids)
+      .group_by {|card| card[:name] }.values
+      .map {|cards| cards[0].merge({ n: cards.length }) }
+      .sort_by {|card| card[:cost] }
   end
 end

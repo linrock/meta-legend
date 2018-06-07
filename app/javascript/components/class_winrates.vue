@@ -9,16 +9,6 @@
     )
       .name {{ currentClassName }}
       .winrate {{ currentClassWinrate }}%
-    transition(name="fade")
-      .archetype-selector(v-if="classArchetypeRows.length > 0")
-        router-link.stats-row(
-          v-for="([path, route]) in classArchetypeRows"
-          :class="[{ active: currentRoute.archetype === route.archetype }]"
-          :key="path"
-          :to="path"
-        )
-          .name {{ route.archetype }}
-          .winrate {{ route.winrate }}%
 
 </template>
 
@@ -37,13 +27,6 @@
       },
       currentClassWinrate() {
         return this.$store.getters.routeMap(this.currentClassName.toLowerCase()).winrate
-      },
-      classArchetypeRows() {
-        if (this.currentRoute.class) {
-          return this.$store.getters.classArchetypeRows(this.currentRoute.class)
-        } else {
-          return []
-        }
       },
     }
   }
@@ -88,14 +71,5 @@
       .winrate
         width 60px
         text-align right
-
-    .fade-enter-active, .fade-leave-active
-      transition all 0.2s ease
-      transform translate3d(0, 0, 0)
-      opacity 1
-
-    .fade-enter, .fade-leave-to
-      transform translate3d(0, -4px, 0)
-      opacity 0
 
 </style>

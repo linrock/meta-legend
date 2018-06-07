@@ -17,6 +17,7 @@ const store = new Vuex.Store({
     routeMap: {},
     replays: new Replays(),
     replayFeedTitle: ``,
+    replay: null,
   },
 
   mutations: {
@@ -47,7 +48,10 @@ const store = new Vuex.Store({
     },
     setPage(state, page) {
       state.page = page
-    }
+    },
+    selectReplay(state, replay) {
+      state.replay = replay
+    },
   },
 
   actions: {
@@ -91,6 +95,9 @@ const store = new Vuex.Store({
     },
     setPage({ commit }, page) {
       commit(`setPage`, page)
+    },
+    selectReplay({ commit }, replay) {
+      commit(`selectReplay`, replay)
     }
   },
 
@@ -101,6 +108,7 @@ const store = new Vuex.Store({
     classArchetypeRows: state => className => state.routeMap.classArchetypeRows(className),
     currentRoute: (state, getters) => getters.routeMap(state.path),
     currentPage: state => state.page,
+    currentReplay: state => state.replay,
     routeMap: state => path => state.routeMap.getRoute(path),
     replays: state => state.replays.replayList,
   }

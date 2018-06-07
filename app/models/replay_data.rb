@@ -59,7 +59,9 @@ class ReplayData
       hsreplay_id: @hsreplay_id,
       num_turns: num_turns,
       found_at: found_at,
-      deck_card_names: HearthstoneCard.card_ids_to_names(replay_xml_data.deck_card_ids)
+      deck_card_names: HearthstoneCard.card_ids_to_deck_list(
+        replay_xml_data.deck_card_ids
+      )
     })
   end
 

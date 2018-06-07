@@ -1,8 +1,7 @@
 <template lang="pug">
   a.replay-link(
-    :href="hsreplayLink" target="_blank"
-    @click="trackClick"
-    @mouseenter="fetchReplayInfo"
+    href="javascript:" target="_blank"
+    @click="selectReplay(replay)"
   )
     .player.player1
       .win-indicator
@@ -33,31 +32,16 @@
     },
 
     methods: {
-      trackClick() {
-        if (window.gtag) {
-          window.gtag('event', 'click', {
-            event_category: 'link',
-            event_label: this.hsreplayLink
-          })
-        }
+      selectReplay() {
+        const replay = this.replay === this.currentReplay ? null : this.replay
+        this.$store.dispatch(`selectReplay`, replay)
       },
-      fetchReplayInfo() {
-        axios.get(`replays/${this.replay.hsreplay_id}.json`)
-          .then(response => {
-            if (response.data) {
-              console.log(JSON.stringify(response.data))
-            }
-          })
-          .catch(error => {
-            if (error.request.status === 404) {
-              console.log(`no data found for ${this.replay.hsreplay_id}`)
-            }
-          })
-        console.log(this.replay.hsreplay_id)
-      }
     },
 
     computed: {
+      currentReplay() {
+        return this.$store.getters.currentReplay
+      },
       hsreplayLink() {
         return `https://hsreplay.net/replay/${this.replay.hsreplay_id}`
       }

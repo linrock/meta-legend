@@ -1,40 +1,50 @@
 <template lang="pug">
   main
-    section#sidebar
-      rank-filter
+    header
       class-image-selector
-      about-winrates
+      rank-filter
       class-winrates
-    section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
-      h3.replay-feed-title {{ $store.state.replayFeedTitle }}
-      template(v-if="$store.getters.replays.length === 0")
-        .loading-text(v-if="isLoading") Loading...
-        .loading-text(v-else) No replays found
-      .error-text(v-if="error") Failed to fetch replays :(
-      .replay-feed-container
-        .replay-feed
-          .replay-list
-            replay-row(
-              v-for="replay in $store.getters.replays"
-              :key="replay.hsreplay_id"
-              :replay="replay"
-            )
-          replay-timestamps
-        .bottom(ref="bottom")
-          .back-to-top(
-            v-if="$store.getters.currentPage > 1 && !infiniteScrollOn"
-            @click="backToTop()"
-          ) Back to top
+    article
+      section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
+        h3.replay-feed-title {{ $store.state.replayFeedTitle }}
+        template(v-if="$store.getters.replays.length === 0")
+          .loading-text(v-if="isLoading") Loading...
+          .loading-text(v-else) No replays found
+        .error-text(v-if="error") Failed to fetch replays :(
+        .replay-feed-container
+          .replay-feed
+            .replay-list
+              replay-row(
+                v-for="replay in $store.getters.replays"
+                :key="replay.hsreplay_id"
+                :replay="replay"
+              )
+            replay-timestamps
+          .bottom(ref="bottom")
+            .back-to-top(
+              v-if="$store.getters.currentPage > 1 && !infiniteScrollOn"
+              @click="backToTop()"
+            ) Back to top
+      section#sidebar
+        template(v-if="$store.getters.currentReplay")
+          replay-info
+        template(v-else)
+          about-selection
+          class-archetypes
+          about-winrates
 
 </template>
 
 <script>
   import axios from 'axios'
 
+  import AboutSelection from './components/about_selection'
   import AboutWinrates from './components/about_winrates'
+  import ClassArchetypes from './components/class_archetypes'
   import ClassImageSelector from './components/class_image_selector'
   import ClassWinrates from './components/class_winrates'
   import RankFilter from './components/rank_filter'
+  import ReplayInfo from './components/replay_info'
   import ReplayRow from './components/replay_row'
   import ReplayTimestamps from './components/replay_timestamps'
 
@@ -195,10 +205,13 @@
     },
 
     components: {
+      AboutSelection,
       AboutWinrates,
+      ClassArchetypes,
       ClassImageSelector,
       ClassWinrates,
       RankFilter,
+      ReplayInfo,
       ReplayRow,
       ReplayTimestamps,
     },
@@ -208,14 +221,18 @@
 <style lang="stylus" scoped>
   replay-feed-width = 510px
 
-  #sidebar
-    position fixed
-    left 30px
-    top 145px
+  main
+    padding-left 30px
+
+  article
+    display flex
 
   #replays
     position relative
-    margin-left 280px
+    width 610px
+
+  #sidebar
+    width 300px
 
   section.loading
     opacity 0.5

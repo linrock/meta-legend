@@ -32,8 +32,7 @@
 
 <style lang="stylus" scoped>
   .class-image-selector
-    width 240px
-    height 240px
+    width 720px
     display flex
     flex-wrap wrap
     justify-content space-between
