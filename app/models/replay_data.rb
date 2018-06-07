@@ -32,17 +32,17 @@ class ReplayData
     })
   end
 
-  private
-
-  def replay_outcome
-    @replay_outcome ||= ReplayOutcome.find_by(hsreplay_id: @hsreplay_id)
-  end
-
   def replay_html_data
     @replay_html_data ||= ReplayHtmlData.find_by(hsreplay_id: @hsreplay_id)
   end
 
   def replay_xml_data
     @replay_xml_data ||= ReplayXmlData.find_by(hsreplay_id: @hsreplay_id)
+  end
+
+  private
+
+  def replay_outcome
+    @replay_outcome ||= ReplayOutcome.find_by(hsreplay_id: @hsreplay_id)
   end
 end
