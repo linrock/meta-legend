@@ -18,6 +18,7 @@ class ReplaysController < ActionController::API
         pilot_name: replay_data.replay_xml_data.pilot_name,
         winner_name: replay_data.replay_xml_data.winner_name,
         num_turns: replay_data.num_turns,
+        hash: replay_data.to_hash,
       }
     else
       render json: "{}", status: 404

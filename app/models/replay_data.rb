@@ -32,6 +32,23 @@ class ReplayData
     })
   end
 
+  # merge data from the replay outcome and xml replay data together
+  def to_hash
+    ro = replay_outcome.to_hash
+    xml = replay_xml_data.to_hash
+    merged_hash = xml
+    if ro[:p1][:is_legend] and ro[:p1][:rank] == xml[:p1][:legend_rank]
+      merged_hash[:p1][:archetype] = ro[:p1][:archetype]
+      merged_hash[:p2][:archetype] = ro[:p2][:archetype]
+    elsif ro[:p2][:is_legend] and ro[:p2][:rank] == xml[:p1][:legend_rank]
+      merged_hash[:p1][:archetype] = ro[:p2][:archetype]
+      merged_hash[:p2][:archetype] = ro[:p1][:archetype]
+    end
+    merged_hash.merge({
+      num_turns: num_turns
+    })
+  end
+
   def replay_html_data
     @replay_html_data ||= ReplayHtmlData.find_by(hsreplay_id: @hsreplay_id)
   end

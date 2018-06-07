@@ -1,8 +1,33 @@
 class ReplayXmlData < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
 
+  validate :check_required_xpaths
+
+  def to_hash
+    players = doc.xpath("//Player").map do |player|
+      {
+        tag: player.attr("name"),
+        legend_rank: player.attr("legendRank"),
+      }
+    end
+    if players[1][:tag] == pilot_name
+      players.reverse!
+    end
+    # p1 is always the pilot
+    {
+      p1: players[0],
+      p2: players[1],
+      winner: players[0][:tag] == winner_name ? 'p1' : 'p2',
+    }
+  end
+
   def player_names
     doc.xpath("//Player/@name").map(&:value)
+  end
+
+  # since the legend rank for a player in the replay is sometimes nil
+  def player_legend_ranks
+    doc.xpath("//Player").map {|p| p.attr("legendRank") }
   end
 
   def winner_name
@@ -31,5 +56,11 @@ class ReplayXmlData < ApplicationRecord
 
   def doc
     @doc ||= Nokogiri.parse data
+  end
+
+  private
+
+  def check_required_xpaths
+    errors.add(:data) unless false
   end
 end
