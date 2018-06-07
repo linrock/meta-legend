@@ -6,6 +6,8 @@ class ReplayOutcome < ApplicationRecord
   validate :check_hsreplay_id
   validate :check_data_format
 
+  after_save :import_legend_replay_data
+
   delegate :player_names, to: :replay_xml_data
   delegate :num_turns, to: :replay_html_data
 
@@ -112,6 +114,11 @@ class ReplayOutcome < ApplicationRecord
     puts replay_string
     puts replay_link
     puts
+  end
+
+  def import_legend_replay_data
+    return unless player1_is_legend? and player2_is_legend?
+    FetchReplayDataJob.perform_later(hsreplay_id)
   end
 
   private

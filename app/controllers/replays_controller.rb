@@ -14,8 +14,9 @@ class ReplaysController < ActionController::API
     if replay_data.exists?
       render json: {
         hsreplay_id: hsreplay_id,
-        player_names_html: replay_data.replay_html_data.player_names,
-        player_names_xml: replay_data.replay_xml_data.player_names,
+        player_names: replay_data.replay_xml_data.player_names,
+        pilot_name: replay_data.replay_xml_data.pilot_name,
+        winner_name: replay_data.replay_xml_data.winner_name,
         num_turns: replay_data.num_turns,
       }
     else

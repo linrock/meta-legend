@@ -2,7 +2,7 @@ class ReplayXmlData < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
 
   def player_names
-    doc.xpath("//Player").map {|p| p.attr("name").value }
+    doc.xpath("//Player").map {|p| p.attr("name") }
   end
 
   def winner_name
