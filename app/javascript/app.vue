@@ -216,7 +216,8 @@
 
 <style lang="stylus" scoped>
   replay-feed-width = 510px
-  sidebar-width = 250px
+  sidebar-width = 240px
+  sidebar-margin = 10px
 
   main
     width replay-feed-width + sidebar-width
@@ -230,6 +231,7 @@
     width replay-feed-width
 
   #sidebar
+    margin-left sidebar-margin
     width sidebar-width
 
   section.loading

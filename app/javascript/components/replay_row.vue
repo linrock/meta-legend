@@ -1,6 +1,7 @@
 <template lang="pug">
   a.replay-link(
     href="javascript:" target="_blank"
+    :class="[{ selected: $store.getters.currentReplay === replay }]"
     @click="selectReplay(replay)"
   )
     .player.player1
@@ -73,6 +74,10 @@
     &:visited
       color #999
       opacity 0.7
+
+    &.selected
+      background rgba(0, 0, 0, 0.04)
+      border-radius 2px
 
     > div
       height 34px

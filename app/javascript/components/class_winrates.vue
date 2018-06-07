@@ -16,7 +16,7 @@
 
 <style lang="stylus" scoped>
   .class-winrates
-    width 720px
+    width 750px
     display flex
     flex-wrap wrap
     justify-content space-between

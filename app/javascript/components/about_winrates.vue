@@ -11,6 +11,7 @@
     font-size 12px
     padding 0 10px
     width 240px
+    display none
 
     a
       color inherit
