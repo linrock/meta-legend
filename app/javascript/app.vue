@@ -3,10 +3,11 @@
     header
       class-image-selector
       class-winrates
-      rank-filter
     article
       section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
-        h3.replay-feed-title {{ $store.state.replayFeedTitle }}
+        .top-row
+          rank-filter
+          h3.replay-feed-title {{ $store.state.replayFeedTitle }}
         template(v-if="$store.getters.replays.length === 0")
           .loading-text(v-if="isLoading") Loading...
           .loading-text(v-else) No replays found
@@ -231,6 +232,9 @@
     width replay-feed-width + sidebar-width
     margin 0 auto
 
+  header
+    margin-bottom 30px
+
   article
     display flex
 
@@ -241,6 +245,9 @@
   #sidebar
     margin-left sidebar-margin
     width sidebar-width
+    // position fixed
+    // left 50%
+    // margin-left 130px
 
   section.loading
     opacity 0.5
@@ -265,12 +272,21 @@
     border 1px solid rgba(0,0,0,0.3)
     z-index 5
 
-  h3.replay-feed-title
-    width replay-feed-width
-    font-size 16px
-    font-weight bold
-    margin-bottom 20px
-    text-align center
+  .top-row
+    display flex
+    align-items center
+    padding-bottom 8px
+    border-bottom 1px solid rgba(0,0,0,0.03)
+    margin-bottom 26px
+
+    .rank-filter
+      font-size 16px
+
+    h3.replay-feed-title
+      width replay-feed-width
+      font-size 16px
+      font-weight bold
+      margin-left 30px
 
   .replay-feed
     display flex
