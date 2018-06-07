@@ -24,7 +24,7 @@
 <script>
   import axios from 'axios'
 
-  const titleSuffix = `Most-frequent decks`
+  const titleSuffix = `Frequent decks`
 
   export default {
     data() {

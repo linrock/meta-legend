@@ -20,6 +20,14 @@ export default class RouteMap {
       .sort((a,b) => parseFloat(b[1].winrate) - parseFloat(a[1].winrate))
   }
 
+  // top 3 archetypes
+  get topArchetypeRows(): Array<[string, Route]> {
+    return Object.entries(this.routeMap)
+      .sort((a,b) => parseFloat(b[1].winrate) - parseFloat(a[1].winrate))
+      .filter(r => r[1].archetype)
+      .slice(0, 3)
+  }
+
   classArchetypeRows(className): Array<[string, Route]> {
     return Object.entries(this.routeMap)
       .filter(r => r[1].class === className && r[1].archetype)

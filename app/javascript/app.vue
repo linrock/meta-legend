@@ -32,6 +32,7 @@
             class-archetypes
             about-winrates
           template(v-else)
+            top-decks
             popular-archetypes
 
 </template>
@@ -48,6 +49,7 @@
   import RankFilter from './components/rank_filter'
   import ReplayInfo from './components/replay_info'
   import ReplayRow from './components/replay_row'
+  import TopDecks from './components/top_decks'
 
   const pageTitleSuffix = `Hearthstone Replay Finder`
   const infScroll = {
@@ -215,6 +217,7 @@
       RankFilter,
       ReplayInfo,
       ReplayRow,
+      TopDecks,
     },
   }
 </script>
