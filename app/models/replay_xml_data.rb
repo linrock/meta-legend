@@ -2,15 +2,31 @@ class ReplayXmlData < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
 
   def player_names
-    doc.xpath("//Player").map {|p| p.attributes["name"].value }
+    doc.xpath("//Player").map {|p| p.attr("name").value }
   end
 
-  def deck_card_lists
-    doc.xpath("//Deck").map(&:children)
+  def winner_name
+    doc.xpath("//Player[@id=#{winner_entity_id}]").attr("name").value
   end
 
-  def has_both_decks?
-    deck_card_lists.length == 2
+  def loser_name
+    doc.xpath("//Player[@id=#{loser_entity_id}]").attr("name").value
+  end
+
+  def pilot_name
+    doc.xpath("//Deck/parent::Player").attr("name").value
+  end
+
+  def deck_card_ids
+    doc.xpath("//Deck/Card").map {|card| card.attributes["id"].value }
+  end
+
+  def winner_entity_id
+    doc.xpath("//TagChange[@tag=17][@value=4]").attr("entity").value
+  end
+
+  def loser_entity_id
+    doc.xpath("//TagChange[@tag=17][@value=5]").attr("entity").value
   end
 
   def doc
