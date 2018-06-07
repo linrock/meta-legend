@@ -28,8 +28,11 @@
         template(v-if="$store.getters.currentReplay")
           replay-info
         template(v-else)
-          class-archetypes
-          about-winrates
+          template(v-if="$store.getters.currentRoute.class")
+            class-archetypes
+            about-winrates
+          template(v-else)
+            popular-archetypes
 
 </template>
 
@@ -41,6 +44,7 @@
   import ClassArchetypes from './components/class_archetypes'
   import ClassImageSelector from './components/class_image_selector'
   import ClassWinrates from './components/class_winrates'
+  import PopularArchetypes from './components/popular_archetypes'
   import RankFilter from './components/rank_filter'
   import ReplayInfo from './components/replay_info'
   import ReplayRow from './components/replay_row'
@@ -207,6 +211,7 @@
       ClassArchetypes,
       ClassImageSelector,
       ClassWinrates,
+      PopularArchetypes,
       RankFilter,
       ReplayInfo,
       ReplayRow,

@@ -11,8 +11,14 @@ class ReplayOutcome < ApplicationRecord
   delegate :player_names, to: :replay_xml_data
   delegate :num_turns, to: :replay_html_data
 
-  # scopes
-  def self.legend_players
+  scope :filter, -> (filter) do
+    case filter
+      when "top100" then self.top_legend(100)
+      when "top1000" then self.top_legend(1000)
+    end
+  end
+
+  scope :legend_players, -> do
     where("
       data ->> 'player1_legend_rank' != 'None'
       AND
@@ -20,7 +26,7 @@ class ReplayOutcome < ApplicationRecord
     ")
   end
 
-  def self.top_legend(n)
+  scope :top_legend, -> (n) do
     where("
       (data ->> 'player1_legend_rank')::int <= ?
       AND
@@ -28,11 +34,15 @@ class ReplayOutcome < ApplicationRecord
     ", n, n)
   end
 
-  def self.since(time_ago)
+  scope :since, -> (time_ago) do
     where("created_at > ?", time_ago)
   end
 
   alias_attribute :found_at, :created_at
+
+  def archetype_ids
+    [ data["player1_archetype"], data["player2_archetype"] ]
+  end
 
   def player1_archetype
     Archetype.name_of_archetype_id data["player1_archetype"]
