@@ -1,8 +1,13 @@
 # Represents the outcome of a replay
 
 class ReplayOutcome < ApplicationRecord
+  validates_uniqueness_of :hsreplay_id
+
   validate :check_hsreplay_id
   validate :check_data_format
+
+  delegate :player_names, to: :replay_xml_data
+  delegate :num_turns, to: :replay_html_data
 
   # scopes
   def self.legend_players

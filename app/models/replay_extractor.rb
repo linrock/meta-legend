@@ -40,9 +40,9 @@ class ReplayExtractor
   end
 
   def save_html!
-    open(html_filename, "w") do |f|
-      f.write html
-    end
+    # open(html_filename, "w") do |f|
+    #   f.write html
+    # end
   end
 
   def save_xml!

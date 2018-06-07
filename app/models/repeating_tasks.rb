@@ -4,6 +4,13 @@ class RepeatingTasks
     ReplayOutcomeImporter.new.keep_fetching
   end
 
+  def import_replay_data
+    loop do
+      ReplayDataImporter.import_missing_data!
+      sleep 60
+    end
+  end
+
   def calculate_legend_stats
     loop do
       cache = ArchetypeCache.new

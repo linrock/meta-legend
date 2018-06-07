@@ -1,8 +1,5 @@
-class ReplayHtmlData
-
-  def initialize(replay_html)
-    @replay_html = replay_html
-  end
+class ReplayHtmlData < ApplicationRecord
+  validates_uniqueness_of :hsreplay_id
 
   def num_turns
     turns_el = doc.css("#infobox-game li").select {|e| e.text =~ /turns/i }.first
@@ -10,7 +7,12 @@ class ReplayHtmlData
     turns_el.text[/(\d+)/, 1].to_i
   end
 
+  def replay_xml_link
+    link = doc.css("[data-replayurl]").first.attr "data-replayurl"
+    link.gsub(/&amp;/, '&')
+  end
+
   def doc
-    @doc ||= Nokogiri::HTML.parse @replay_html
+    @doc ||= Nokogiri::HTML.parse data
   end
 end

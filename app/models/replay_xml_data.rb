@@ -1,8 +1,5 @@
-class ReplayXmlData
-
-  def initialize(replay_xml)
-    @replay_xml = replay_xml
-  end
+class ReplayXmlData < ApplicationRecord
+  validates_uniqueness_of :hsreplay_id
 
   def player_names
     doc.xpath("//Player").map {|p| p.attributes["name"].value }
@@ -17,6 +14,6 @@ class ReplayXmlData
   end
 
   def doc
-    @doc ||= Nokogiri.parse @replay_xml
+    @doc ||= Nokogiri.parse data
   end
 end
