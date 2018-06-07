@@ -7,14 +7,10 @@ export function timeAgo(timestamp) {
   const minutesSinceFound = secondsSinceFound / 60
   if (minutesSinceFound < 60) {
     const minutes = parseInt(minutesSinceFound, 10)
-    if (minutes >= 30) {
-      timeAgo = `30 minutes ago`
-    } else if (minutes >= 15) {
-      timeAgo = `15 minutes ago`
-    } else if (minutes >= 5) {
-      timeAgo = `5 minutes ago`
+    if (minutes <= 1) {
+      timeAgo = `1 minute ago`
     } else {
-      timeAgo = `just now`
+      timeAgo = `${minutes} minutes ago`
     }
   } else {
     const hoursSinceFound = parseInt(minutesSinceFound / 60, 10)

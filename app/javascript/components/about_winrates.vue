@@ -4,7 +4,6 @@
       | Winrates calculated from {{ $store.getters.numReplays }}
       | replays over the past {{ $store.getters.sinceDays }} days.
       | Archetypes with less than 50 games not shown.
-      a(href="https://github.com/linrock/hs-replay-finder" target="_blank").source Source code
 </template>
 
 <style lang="stylus" scoped>

@@ -226,7 +226,7 @@
 
   #replays
     position relative
-    width 610px
+    width replay-feed-width
 
   #sidebar
     width 300px
