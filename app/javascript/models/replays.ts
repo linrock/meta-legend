@@ -1,5 +1,9 @@
 interface Replay {
-  link: string
+  hsreplay_id: string,
+  winner: string,
+  num_turns: number,
+  p1: object,
+  p2: object,
 }
 
 export default class Replays {
@@ -14,8 +18,8 @@ export default class Replays {
   // returns a list of all replays
   addReplays(replays): Array<Replay> {
     replays.forEach(replay => {
-      if (!this.replaySet.has(replay.link)) {
-        this.replaySet.add(replay.link)
+      if (!this.replaySet.has(replay.hsreplay_id)) {
+        this.replaySet.add(replay.hsreplay_id)
         this.replayList.push(replay)
       }
     })

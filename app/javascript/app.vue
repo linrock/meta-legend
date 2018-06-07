@@ -16,7 +16,7 @@
           .replay-list
             replay-row(
               v-for="replay in $store.getters.replays"
-              :key="replay.link"
+              :key="replay.hsreplay_id"
               :replay="replay"
             )
           replay-timestamps

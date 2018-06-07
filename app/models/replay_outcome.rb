@@ -32,6 +32,8 @@ class ReplayOutcome < ApplicationRecord
     where("created_at > ?", time_ago)
   end
 
+  alias_attribute :found_at, :created_at
+
   def player1_archetype
     Archetype.name_of_archetype_id data["player1_archetype"]
   end
@@ -105,6 +107,7 @@ class ReplayOutcome < ApplicationRecord
         rank: player2_is_legend? ? player2_legend_rank : player2_rank,
       },
       winner: player1_won? ? 'p1' : 'p2',
+      hsreplay_id: hsreplay_id,
       link: replay_link,
       found_at: created_at,
     }

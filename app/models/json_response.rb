@@ -16,7 +16,8 @@ class JsonResponse
       page_size: ReplayOutcomeQuery::PAGE_SIZE,
       replays: replay_outcome_ids.map do |id|
         begin
-          replay_outcome_cache.replay_hash(id)
+          hsreplay_id = ReplayOutcome.find(id).hsreplay_id
+          ReplayData.new(hsreplay_id).to_hash
         rescue
           logger.error "json_response! - replay #{id}"
           nil

@@ -10,9 +10,7 @@ class ReplayXmlData < ApplicationRecord
         legend_rank: player.attr("legendRank"),
       }
     end
-    if players[1][:tag] == pilot_name
-      players.reverse!
-    end
+    players.reverse! if players[1][:tag] == pilot_name
     # p1 is always the pilot
     {
       p1: players[0],
@@ -61,6 +59,6 @@ class ReplayXmlData < ApplicationRecord
   private
 
   def check_required_xpaths
-    errors.add(:data) unless false
+    errors.add(:data) if false
   end
 end

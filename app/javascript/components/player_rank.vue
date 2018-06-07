@@ -1,7 +1,7 @@
 <template lang="pug">
   .rank
-    .rank-num(:class="rankClass") {{ player.rank }}
-    svg.hexagon(:class="hexagonClass")
+    .rank-num.legend_rank {{ player.legend_rank }}
+    svg.hexagon.legend-hexagon
       use(xlink:href="#hexagon")
 
 </template>
@@ -29,15 +29,6 @@
         } else {
           return `low`
         }
-      },
-      classPrefix() {
-        return this.player.is_legend ? `legend` : `rank`
-      },
-      rankClass() {
-        return `${this.classPrefix}-rank ${this.player.is_legend && this.legendRank}`
-      },
-      hexagonClass() {
-        return `${this.classPrefix}-hexagon`
       },
     }
   }
