@@ -17,7 +17,7 @@ class JsonResponse
       replays: replay_outcome_ids.map do |id|
         begin
           hsreplay_id = ReplayOutcome.find(id).hsreplay_id
-          ReplayData.new(hsreplay_id).to_hash
+          ReplayDataCache.new.replay_data_hash(hsreplay_id)
         rescue
           logger.error "json_response! - replay #{id}"
           nil
