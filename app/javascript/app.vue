@@ -19,7 +19,6 @@
                 :key="replay.hsreplay_id"
                 :replay="replay"
               )
-            replay-timestamps
           .bottom(ref="bottom")
             .back-to-top(
               v-if="$store.getters.currentPage > 1 && !infiniteScrollOn"
@@ -46,7 +45,6 @@
   import RankFilter from './components/rank_filter'
   import ReplayInfo from './components/replay_info'
   import ReplayRow from './components/replay_row'
-  import ReplayTimestamps from './components/replay_timestamps'
 
   const pageTitleSuffix = `Hearthstone Replay Finder`
   const infScroll = {
@@ -213,7 +211,6 @@
       RankFilter,
       ReplayInfo,
       ReplayRow,
-      ReplayTimestamps,
     },
   }
 </script>

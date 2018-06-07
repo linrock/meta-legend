@@ -7,6 +7,7 @@
     .about-replay
       .players {{ replay.p1.tag }} vs. {{ replay.p2.tag }}
       .num-turns {{ replay.num_turns }} turns
+      .time-ago {{ timeAgo }}
     .deck-card-names
       .card(v-for="card in replay.deck_card_names")
         .cost {{ card.cost }}
@@ -16,6 +17,8 @@
 </template>
 
 <script>
+  import { timeAgo } from '../utils'
+
   export default {
     computed: {
       replay() {
@@ -24,6 +27,9 @@
       },
       replayLink() {
         return `https://hsreplay.net/replay/${this.replay.hsreplay_id}`
+      },
+      timeAgo() {
+        return timeAgo(this.replay.found_at)
       }
     }
   }
