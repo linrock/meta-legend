@@ -27,7 +27,9 @@ body {
 }
 
 .container {
-  padding: 20px 0 15px 30px;
+  padding: 20px 0 15px;
   display: flex;
   align-items: center;
+  width: 760px;
+  margin: 0 auto;
 }

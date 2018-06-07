@@ -216,9 +216,11 @@
 
 <style lang="stylus" scoped>
   replay-feed-width = 510px
+  sidebar-width = 250px
 
   main
-    padding-left 30px
+    width replay-feed-width + sidebar-width
+    margin 0 auto
 
   article
     display flex
@@ -228,7 +230,7 @@
     width replay-feed-width
 
   #sidebar
-    width 250px
+    width sidebar-width
 
   section.loading
     opacity 0.5
