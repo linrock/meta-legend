@@ -34,7 +34,7 @@
             about-winrates
           template(v-else)
             top-decks
-            popular-archetypes
+            // popular-archetypes
 
 </template>
 
