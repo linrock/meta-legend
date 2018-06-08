@@ -1,15 +1,15 @@
 <template lang="pug">
   .replay-info
-    a.watch-link(
-      :href="replayLink"
-      target="_blank"
-    ) Watch on hsreplay.net
     .about-replay
       .players {{ p1Name }} vs. {{ p2Name }}
       .small
         .num-turns {{ replay.num_turns }} turns
         .separator &bull;
         .time-ago {{ timeAgo }}
+      a.watch-link(
+        :href="replayLink"
+        target="_blank"
+      ) Watch on hsreplay.net
     .deck-card-names
       .card(v-for="card in replay.deck_card_names")
         .cost {{ card.cost }}
@@ -48,7 +48,7 @@
     font-size 14px
 
   .about-replay
-    margin 5px 0 15px
+    margin-bottom 15px
 
     .players
       font-weight bold
@@ -58,6 +58,7 @@
       display flex
       font-size 12px
       opacity 0.7
+      margin-bottom 10px
 
       .separator
         margin 0 5px

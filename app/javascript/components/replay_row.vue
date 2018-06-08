@@ -72,7 +72,8 @@
     text-decoration none
     justify-content center
     font-size 15px
-    padding 6px 0
+    padding 8px 0
+    margin 8px 0
     width 510px
     border-radius 2px
 
