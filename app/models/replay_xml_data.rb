@@ -1,7 +1,8 @@
 class ReplayXmlData < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
-
   validate :check_required_xpaths
+
+  before_save :extract_and_save_xml_data
 
   def to_hash
     players = doc.xpath("//Player").map do |player|
@@ -50,6 +51,10 @@ class ReplayXmlData < ApplicationRecord
 
   def loser_entity_id
     doc.xpath("//TagChange[@tag=17][@value=5]").attr("entity").value
+  end
+
+  def extract_and_save_xml_data
+    self.extracted_data = to_hash
   end
 
   def doc

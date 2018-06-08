@@ -1,6 +1,8 @@
 class ReplayHtmlData < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
 
+  before_save :extract_and_save_html_data
+
   def num_turns
     # old format
     turns_el = doc.css("#infobox-game li").select {|e| e.text =~ /turns/i }[0]
@@ -25,6 +27,10 @@ class ReplayHtmlData < ApplicationRecord
   def json_data
     react_data = doc.css("#react_context")
     react_data.present? ? JSON.parse(react_data.text) : {}
+  end
+
+  def extract_and_save_html_data
+    self.extracted_data = json_data
   end
 
   def doc
