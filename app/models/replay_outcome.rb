@@ -6,6 +6,7 @@ class ReplayOutcome < ApplicationRecord
   validate :check_hsreplay_id
   validate :check_data_format
 
+  after_create :extract_and_save_data
   after_save :import_legend_replay_data
 
   delegate :player_names, to: :replay_xml_data
@@ -109,6 +110,10 @@ class ReplayOutcome < ApplicationRecord
   end
 
   def to_hash
+    extracted_data || to_hash!
+  end
+
+  def to_hash!
     {
       p1: {
         archetype: player1_archetype,
@@ -122,19 +127,17 @@ class ReplayOutcome < ApplicationRecord
       },
       winner: player1_won? ? 'p1' : 'p2',
       hsreplay_id: hsreplay_id,
-      link: replay_link,
       found_at: created_at,
     }
   end
 
-  def print_info
-    puts replay_string
-    puts replay_link
-    puts
+  def extract_and_save_data
+    self.extracted_data = to_hash!
+    self.save!
   end
 
   def import_legend_replay_data
-    return unless legend_game?
+    return unless legend_game? || ReplayXmlData.exists?(hsreplay_id: hsreplay_id)
     ReplayDataImporter.new(hsreplay_id).import_async
   end
 

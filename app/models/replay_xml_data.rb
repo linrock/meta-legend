@@ -3,9 +3,13 @@ class ReplayXmlData < ApplicationRecord
   validate :has_either_data_or_extracted_data
   validate :check_required_xpaths
 
-  before_save :extract_and_save_xml_data
+  after_create :extract_and_save_xml_data
 
   def to_hash
+    extracted_data || to_hash!
+  end
+
+  def to_hash!
     players = doc.xpath("//Player").map do |player|
       {
         tag: player.attr("name"),
@@ -21,8 +25,13 @@ class ReplayXmlData < ApplicationRecord
     }
   end
 
+  def players
+    doc.xpath("//Player").map {|p| p.attr("value") }
+  end
+
   def player_names
-    doc.xpath("//Player/@name").map(&:value)
+    # doc.xpath("//Player/@name").map(&:value)
+    doc.xpath("//Player").map {|p| p.attr("name") }
   end
 
   # since the legend rank for a player in the replay is sometimes nil
@@ -55,7 +64,8 @@ class ReplayXmlData < ApplicationRecord
   end
 
   def extract_and_save_xml_data
-    self.extracted_data = to_hash
+    self.extracted_data = to_hash!
+    self.save!
   end
 
   def doc
