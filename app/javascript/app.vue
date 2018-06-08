@@ -25,16 +25,7 @@
               v-if="$store.getters.currentPage > 1 && !infiniteScrollOn"
               @click="backToTop()"
             ) Back to top
-      section#sidebar(:class="[{ fixed: fixedSidebar }]")
-        template(v-if="$store.getters.currentReplay")
-          replay-info
-        template(v-else)
-          template(v-if="$store.getters.currentRoute.class")
-            class-archetypes
-            about-winrates
-          template(v-else)
-            top-decks
-            // popular-archetypes
+      sidebar
 
 </template>
 
@@ -42,15 +33,12 @@
   import axios from 'axios'
 
   import AboutSelection from './components/about_selection'
-  import AboutWinrates from './components/about_winrates'
-  import ClassArchetypes from './components/class_archetypes'
   import ClassImageSelector from './components/class_image_selector'
   import ClassWinrates from './components/class_winrates'
   import PopularArchetypes from './components/popular_archetypes'
   import RankFilter from './components/rank_filter'
-  import ReplayInfo from './components/replay_info'
   import ReplayRow from './components/replay_row'
-  import TopDecks from './components/top_decks'
+  import Sidebar from './components/sidebar'
 
   const pageTitleSuffix = `Hearthstone Replay Finder`
   const infScroll = {
@@ -65,7 +53,6 @@
         error: false,
         isLoading: false,
         isLoadingPageOne: false,
-        fixedSidebar: false,
         infiniteScrollOn: false,
         scrollPoller: null,
       }
@@ -96,14 +83,6 @@
         }
       }, infScroll.pollInterval)
 
-      // move fixed sidebar component
-      window.addEventListener('scroll', () => {
-        if (window.scrollY >= 185 && !this.fixedSidebar) {
-          this.fixedSidebar = true
-        } else if (window.scrollY < 185 && this.fixedSidebar) {
-          this.fixedSidebar = false
-        }
-      })
     },
 
     computed: {
@@ -220,15 +199,12 @@
 
     components: {
       AboutSelection,
-      AboutWinrates,
-      ClassArchetypes,
       ClassImageSelector,
       ClassWinrates,
       PopularArchetypes,
       RankFilter,
-      ReplayInfo,
       ReplayRow,
-      TopDecks,
+      Sidebar,
     },
   }
 </script>
@@ -251,16 +227,6 @@
   #replays
     position relative
     width replay-feed-width
-
-  #sidebar
-    padding-left sidebar-margin
-    width sidebar-width
-
-    &.fixed
-      position fixed
-      left 50%
-      margin-left 135px
-      top 30px
 
   section.loading
     opacity 0.5
