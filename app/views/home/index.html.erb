@@ -1,13 +1,15 @@
 <div class="container">
-  <h1 class="title">Meta Legend</h1>
+  <header>
+    <h1 class="title">Meta Legend</h1>
+    <div class="user-info">
+      <%= @user.battletag if @user %>
+    </div>
+  </header>
+
   <h2 class="description">
     Find replays of games by
     legend-rank Hearthstone players
   </h2>
-
-  <div class="user-info">
-    <%= @user.battletag if @user %>
-  </div>
 </div>
 
 <div style="display: none">

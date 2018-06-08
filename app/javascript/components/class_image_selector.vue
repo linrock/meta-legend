@@ -45,7 +45,6 @@
     display block
     opacity 0.3
     border-radius 2px
-    margin auto
     margin-left 0
     transition opacity 0.2s ease-in-out
 

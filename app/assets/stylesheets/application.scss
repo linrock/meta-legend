@@ -1,0 +1,43 @@
+/*
+ *= require reset
+ *= require_self
+ */
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.container {
+  padding: 20px 0 25px;
+  width: 760px;
+  margin: 0 auto;
+
+  header {
+    display: flex;
+    align-items: center;
+
+    .title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .user-info {
+      font-size: 14px;
+      margin-left: auto;
+    }
+  }
+
+  .description {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-top: 12px;
+  }
+}

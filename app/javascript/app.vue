@@ -98,9 +98,9 @@
 
       // move fixed sidebar component
       window.addEventListener('scroll', () => {
-        if (window.scrollY >= 154 && !this.fixedSidebar) {
+        if (window.scrollY >= 185 && !this.fixedSidebar) {
           this.fixedSidebar = true
-        } else if (window.scrollY < 154 && this.fixedSidebar) {
+        } else if (window.scrollY < 185 && this.fixedSidebar) {
           this.fixedSidebar = false
         }
       })
