@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
 
   def index
-    @user = current_user
     @legend_stats = ReplayStatsCache.new.legend_stats
     @replay_data = JsonResponseCache.new(params).cached_json_response || "{}"
     set_title

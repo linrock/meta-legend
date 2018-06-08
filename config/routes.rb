@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   get "/account"          => "users#me"
   get "/account/login"    => "users#login"
 
-  # get "/auth/:provider"
+  get "/forum"            => "forum#index"
+
   get "/auth/:provider/callback", to: "sessions#create"
 
   get ":path" => "home#index"

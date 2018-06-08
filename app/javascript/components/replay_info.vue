@@ -10,11 +10,13 @@
         :href="replayLink"
         target="_blank"
       ) Watch on hsreplay.net
-    .deck-card-names
-      .card(v-for="card in replay.deck_card_names")
-        .cost {{ card.cost }}
-        .name {{ card.name }}
-        .quantity x{{ card.n }}
+    .deck
+      // .about-deck {{ p1Name }}'s deck
+      .deck-card-names
+        .card(v-for="card in replay.deck_card_names")
+          .cost {{ card.cost }}
+          .name {{ card.name }}
+          .quantity x{{ card.n }}
 
 </template>
 
@@ -63,8 +65,11 @@
       .separator
         margin 0 5px
 
-  .deck-card-names
+  .deck
     margin-top 25px
+
+    .deck-card-names
+      margin-top 10px
 
   .card
     padding 2px

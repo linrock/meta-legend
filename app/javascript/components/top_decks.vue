@@ -1,6 +1,8 @@
 <template lang="pug">
   .top-decks
-    h2 Top decks
+    .header-row
+      h2 Top decks
+      h3 past {{ $store.getters.sinceDays }} days
     .label-row
       .class-label deck type
       .winrate-label winrate
@@ -29,11 +31,21 @@
   .top-decks
     margin-bottom 40px
 
-  h2
-    font-weight bold
+  .header-row
     padding-bottom 10px
     border-bottom 1px solid rgba(0,0,0,0.05)
     margin-bottom 10px
+    display flex
+    align-items center
+
+    h2
+      font-weight bold
+
+    h3
+      font-size 12px
+      margin-left auto
+      text-transform uppercase
+      opacity 0.5
 
   .label-row
     font-size 10px
