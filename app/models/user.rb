@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :forum_posts
 
   def self.find_or_create_from_auth_hash(auth_hash)
     user = User.find_by(battletag: auth_hash["info"]["battletag"])

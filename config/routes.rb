@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "/account/login"    => "users#login"
 
   get "/forum"            => "forum#index"
+  post "/forum"           => "forum#create"
 
   get "/auth/:provider/callback", to: "sessions#create"
 

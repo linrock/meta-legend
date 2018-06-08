@@ -4,6 +4,7 @@
     <title><%= @title %></title>
     <meta name="description" content="<%= @meta_desc %>"/>
     <meta name="viewport" content="width=device-width"/>
+    <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= stylesheet_pack_tag 'application', media: 'all' %>

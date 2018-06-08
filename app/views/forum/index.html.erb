@@ -1,9 +1,28 @@
 <div class="container">
   <h2>General Discussion</h2>
 
-  <form>
-    <h3>Submit a post</h3>
-    <input type="text" placeholder="Title"/>
-    <textarea placeholder="Enter your post here..."></textarea>
-  </form>
+  <div class="forum-posts">
+    <% @forum_posts.each do |forum_post| %>
+      <div class="forum-post">
+        <h3><%= forum_post.title %> by <%= forum_post.user.battletag %></h3>
+        <div class="forum-post-content"><%= forum_post.content %></div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @user %>
+    <%= form_tag "/forum", method: :post do %>
+      <input type="hidden"
+             value="<%= request_forgery_protection_token %>"
+             name="csrf_token"/>
+      <h3>Submit a post</h3>
+      <input type="text" placeholder="Title" name="forum_post[title]"/>
+      <textarea placeholder="Enter your post here..."
+                name="forum_post[content]"></textarea>
+      <input type="submit"/>
+    <% end %>
+  <% else %>
+    <a href="/account/login" class="bnet-login">Log in with Battle.net</a>
+    <div>To create a post</div>
+  <% end %>
 </div>
