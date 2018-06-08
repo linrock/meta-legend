@@ -114,6 +114,9 @@
       enableInfiniteScroll() {
         setTimeout(() => this.infiniteScrollOn = true, infScroll.delayBeforeEnabling)
       },
+      disableInfiniteScroll() {
+        this.infiniteScrollOn = false
+      },
       distanceFromBottom() {
         if (!this.$refs.bottom) {
           return Infinity
@@ -150,16 +153,16 @@
             if (data.page === 1) {
               this.setReplays(data.replays)
               this.setPageTitle(data.route || {})
-              if (data.replays.length === data.page_size) {
+              if (data.replays_count === data.page_size) {
                 this.enableInfiniteScroll()
               } else {
-                this.infiniteScrollOn = false
+                this.disableInfiniteScroll()
               }
               this.backToTop()
             } else {
               this.$store.dispatch(`addReplays`, data.replays)
               if (data.page < page || data.replays.length === 0) {
-                this.infiniteScrollOn = false
+                this.disableInfiniteScroll()
               }
             }
           })
@@ -169,7 +172,7 @@
               return
             }
             console.error(error)
-            this.infiniteScrollOn = false
+            this.disableInfiniteScroll()
             this.isLoading = false
             this.isLoadingPageOne = false
             this.error = true

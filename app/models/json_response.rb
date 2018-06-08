@@ -17,6 +17,7 @@ class JsonResponse
       page: @page,
       route: route,
       page_size: ReplayOutcomeQuery::PAGE_SIZE,
+      replays_count: hsreplay_ids.length,
       replays: hsreplay_ids.map do |hsreplay_id|
         begin
           ReplayDataCache.new.replay_data_hash(hsreplay_id)
@@ -40,22 +41,14 @@ class JsonResponse
 
   def replay_outcome_ids
     class_query = route || { class: 'any', archetype: 'any' }
-    replay_outcome_cache.replay_outcome_ids(class_query, {
+    ReplayOutcomeCache.new.replay_outcome_ids(class_query, {
       filter: @filter,
       page: @page
     })
   end
 
-  def replay_outcome_cache
-    @replay_outcome_cache ||= ReplayOutcomeCache.new
-  end
-
-  def route_map
-    @route_map ||= RouteMap.new
-  end
-
   def route
-    @route ||= route_map.lookup(@path)
+    @route ||= RouteMap.new.lookup(@path)
   end
 
   def get_page(page)
