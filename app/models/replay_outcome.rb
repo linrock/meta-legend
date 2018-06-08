@@ -137,8 +137,10 @@ class ReplayOutcome < ApplicationRecord
   end
 
   def import_legend_replay_data
-    return unless legend_game? || ReplayXmlData.exists?(hsreplay_id: hsreplay_id)
-    ReplayDataImporter.new(hsreplay_id).import_async
+    return unless legend_game?
+    data_importer = ReplayDataImporter.new(hsreplay_id)
+    return if data_improter.data_exists?
+    data_importer.import_async
   end
 
   private

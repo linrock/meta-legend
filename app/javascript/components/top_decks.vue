@@ -19,7 +19,6 @@
   export default {
     computed: {
       topArchetypeRows() {
-        console.dir(this.$store.state.routeMap.topArchetypeRows)
         return this.$store.state.routeMap.topArchetypeRows
       }
     }

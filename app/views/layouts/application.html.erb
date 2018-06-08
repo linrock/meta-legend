@@ -7,7 +7,9 @@
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= stylesheet_pack_tag 'application', media: 'all' %>
-    <%= javascript_pack_tag 'application' %>
+    <% if request.path !~ /\A\/account/ %>
+      <%= javascript_pack_tag 'application' %>
+    <% end %>
 
     <% if Rails.env.development? %>
       <link href="/assets/fonts.css" rel="stylesheet">

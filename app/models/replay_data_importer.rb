@@ -40,6 +40,7 @@ class ReplayDataImporter
   end
 
   def save_html
+    logger.info "Importing html for #{@hsreplay_id}"
     return true if html_exists?
     save_html!
   end
@@ -57,6 +58,7 @@ class ReplayDataImporter
   end
 
   def save_xml
+    logger.info "Importing xml for #{@hsreplay_id}"
     return true if xml_exists?
     save_xml!
   end
@@ -69,5 +71,9 @@ class ReplayDataImporter
       hsreplay_id: @hsreplay_id,
       data: xml
     })
+  end
+
+  def logger
+    @logger ||= Logger.new("#{Rails.root}/log/replay_data_importer.log")
   end
 end
