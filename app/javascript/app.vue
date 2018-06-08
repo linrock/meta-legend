@@ -82,7 +82,6 @@
           this.fetchReplays(this.$store.getters.currentPage + 1)
         }
       }, infScroll.pollInterval)
-
     },
 
     computed: {
@@ -95,9 +94,6 @@
     },
 
     methods: {
-      getRoute(path) {
-        return this.$store.getters.routeMap(path)
-      },
       setReplays(replays) {
         this.$store.dispatch(`setReplays`, replays)
       },

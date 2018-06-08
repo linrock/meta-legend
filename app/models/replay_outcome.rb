@@ -139,7 +139,7 @@ class ReplayOutcome < ApplicationRecord
   def import_legend_replay_data
     return unless legend_game?
     data_importer = ReplayDataImporter.new(hsreplay_id)
-    return if data_improter.data_exists?
+    return if data_importer.data_exists?
     data_importer.import_async
   end
 
