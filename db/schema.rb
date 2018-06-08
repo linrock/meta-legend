@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_08_115700) do
+ActiveRecord::Schema.define(version: 2018_06_08_140547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 2018_06_08_115700) do
 
   create_table "replay_html_data", force: :cascade do |t|
     t.string "hsreplay_id", null: false
-    t.text "data", null: false
+    t.text "data"
     t.jsonb "extracted_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2018_06_08_115700) do
 
   create_table "replay_xml_data", force: :cascade do |t|
     t.string "hsreplay_id", null: false
-    t.text "data", null: false
+    t.text "data"
     t.jsonb "extracted_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

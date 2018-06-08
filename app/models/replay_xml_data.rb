@@ -1,5 +1,6 @@
 class ReplayXmlData < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
+  validate :has_either_data_or_extracted_data
   validate :check_required_xpaths
 
   before_save :extract_and_save_xml_data
@@ -62,6 +63,12 @@ class ReplayXmlData < ApplicationRecord
   end
 
   private
+
+  def has_either_data_or_extracted_data
+    unless data.present? or extracted_data.present?
+      errors.add(:data, "can't be empty if extracted_data does not exist")
+    end
+  end
 
   def check_required_xpaths
     n_cards = deck_card_ids.length
