@@ -33,3 +33,5 @@ yarn-debug.log*
 # Ignore data
 /scripts/data/
 /data/
+
+.env.development
