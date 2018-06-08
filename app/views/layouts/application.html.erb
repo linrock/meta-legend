@@ -5,12 +5,9 @@
     <meta name="description" content="<%= @meta_desc %>"/>
     <meta name="viewport" content="width=device-width"/>
 
-    <%= stylesheet_link_tag('application', media: 'all')
-          .gsub(/\/assets/, 'assets').html_safe %>
-    <%= javascript_pack_tag('application')
-          .gsub(/\/packs/, 'packs').html_safe %>
-    <%= stylesheet_pack_tag('application')
-          .gsub(/\/packs/, 'packs').html_safe %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
 
     <% if Rails.env.development? %>
       <link href="/assets/fonts.css" rel="stylesheet">
@@ -21,6 +18,39 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container header-container">
+      <header>
+        <h1 class="title">
+          <a href="/">Meta Legend</a>
+        </h1>
+        <div class="user-info">
+          <% if @user %>
+            <a href="/account"><%= @user.battletag %></a>
+          <% else %>
+            <a href="/account/login" class="bnet-login">Log in with Battle.net</a>
+          <% end %>
+        </div>
+      </header>
+
+      <h2 class="description">
+        Find replays of games by
+        legend-rank Hearthstone players
+      </h2>
+    </div>
+
+    <div class="main">
+      <%= yield %>
+    </div>
+
+    <% if ENV["GA_ID"] %>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV["GA_ID"] %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '<%= ENV["GA_ID"] %>');
+      </script>
+    <% end %>
   </body>
 </html>

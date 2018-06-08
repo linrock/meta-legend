@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   get "/replays/:id.json" => "replays#show"
   get "/popular.json"     => "replays#popular"
 
-  get "/account/sign_up"  => "users#sign_up"
-  get "/account/log_in"   => "users#log_in"
+  get "/account"          => "users#me"
+  get "/account/login"    => "users#login"
 
   # get "/auth/:provider"
   get "/auth/:provider/callback", to: "sessions#create"
