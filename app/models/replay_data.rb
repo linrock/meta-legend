@@ -44,6 +44,7 @@ class ReplayData
       merged_hash[:p1][:archetype] = ro[:p1][:archetype]
       merged_hash[:p2][:archetype] = ro[:p2][:archetype]
       # fix missing legend ranks from xml data
+      # if one of the ranks is correlated to replay outcome data
       unless merged_hash[:p2][:legend_rank].present?
         merged_hash[:p2][:legend_rank] = ro[:p2][:rank]
       end
@@ -51,17 +52,17 @@ class ReplayData
       merged_hash[:p1][:archetype] = ro[:p2][:archetype]
       merged_hash[:p2][:archetype] = ro[:p1][:archetype]
       # fix missing legend ranks from xml data
+      # if one of the ranks is correlated to replay outcome data
       unless merged_hash[:p2][:legend_rank].present?
         merged_hash[:p2][:legend_rank] = ro[:p1][:rank]
       end
     end
+    deck_card_ids = xml[:deck_card_ids] || replay_xml_data.deck_card_ids
     merged_hash.merge({
       hsreplay_id: @hsreplay_id,
       num_turns: num_turns,
       found_at: found_at,
-      deck_card_names: HearthstoneCard.card_ids_to_deck_list(
-        replay_xml_data.deck_card_ids
-      )
+      deck_card_names: HearthstoneCard.card_ids_to_deck_list(deck_card_ids)
     })
   end
 

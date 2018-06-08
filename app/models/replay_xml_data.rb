@@ -5,6 +5,12 @@ class ReplayXmlData < ApplicationRecord
 
   after_create :extract_and_save_xml_data
 
+  delegate :doc, :players, :player_names,
+           :player_legend_ranks, :winner_name,
+           :loser_name, :pilot_name, :deck_card_ids,
+           :winner_entity_id, :loser_entity_id,
+           to: :replay_xml_parser
+
   def to_hash
     extracted_data.deep_symbolize_keys || to_hash!
   end
@@ -22,45 +28,9 @@ class ReplayXmlData < ApplicationRecord
       p1: players[0],
       p2: players[1],
       winner: players[0][:tag] == winner_name ? 'p1' : 'p2',
+      pilot_name: pilot_name,
+      deck_card_ids: deck_card_ids,
     }
-  end
-
-  def players
-    doc.xpath("//Player").map {|p| p.attr("value") }
-  end
-
-  def player_names
-    # doc.xpath("//Player/@name").map(&:value)
-    doc.xpath("//Player").map {|p| p.attr("name") }
-  end
-
-  # since the legend rank for a player in the replay is sometimes nil
-  def player_legend_ranks
-    doc.xpath("//Player").map {|p| p.attr("legendRank") }
-  end
-
-  def winner_name
-    doc.xpath("//Player[@id=#{winner_entity_id}]").attr("name").value
-  end
-
-  def loser_name
-    doc.xpath("//Player[@id=#{loser_entity_id}]").attr("name").value
-  end
-
-  def pilot_name
-    doc.xpath("//Deck/parent::Player").attr("name").value rescue nil
-  end
-
-  def deck_card_ids
-    doc.xpath("//Deck/Card/@id").map(&:value)
-  end
-
-  def winner_entity_id
-    doc.xpath("//TagChange[@tag=17][@value=4]").attr("entity").value
-  end
-
-  def loser_entity_id
-    doc.xpath("//TagChange[@tag=17][@value=5]").attr("entity").value
   end
 
   def extract_and_save_xml_data
@@ -68,8 +38,8 @@ class ReplayXmlData < ApplicationRecord
     self.save!
   end
 
-  def doc
-    @doc ||= Nokogiri.parse data
+  def replay_xml_parser
+    @replay_xml_parser ||= ReplayXmlParser.new(data)
   end
 
   private
