@@ -25,7 +25,7 @@
               v-if="$store.getters.currentPage > 1 && !infiniteScrollOn"
               @click="backToTop()"
             ) Back to top
-      section#sidebar
+      section#sidebar(:class="[{ fixed: fixedSidebar }]")
         template(v-if="$store.getters.currentReplay")
           replay-info
         template(v-else)
@@ -65,6 +65,7 @@
         error: false,
         isLoading: false,
         isLoadingPageOne: false,
+        fixedSidebar: false,
         infiniteScrollOn: false,
         scrollPoller: null,
       }
@@ -94,6 +95,15 @@
           this.fetchReplays(this.$store.getters.currentPage + 1)
         }
       }, infScroll.pollInterval)
+
+      // move fixed sidebar component
+      window.addEventListener('scroll', () => {
+        if (window.scrollY >= 154 && !this.fixedSidebar) {
+          this.fixedSidebar = true
+        } else if (window.scrollY < 154 && this.fixedSidebar) {
+          this.fixedSidebar = false
+        }
+      })
     },
 
     computed: {
@@ -243,11 +253,14 @@
     width replay-feed-width
 
   #sidebar
-    margin-left sidebar-margin
+    padding-left sidebar-margin
     width sidebar-width
-    // position fixed
-    // left 50%
-    // margin-left 130px
+
+    &.fixed
+      position fixed
+      left 50%
+      margin-left 135px
+      top 30px
 
   section.loading
     opacity 0.5
