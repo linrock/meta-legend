@@ -5,18 +5,22 @@
     @click="selectReplay(replay)"
   )
     .player.player1
-      .win-indicator
-        svg.crown(v-if="replay.winner === `p1`")
-          use(xlink:href="#crown")
+      .player-name
+        .win-indicator
+          svg.crown(v-if="replay.winner === `p1`")
+            use(xlink:href="#crown")
+        div {{ p1Name }}
       .archetype {{ replay.p1.archetype }}
     player-rank(:player="replay.p1")
     .vs vs
     player-rank(:player="replay.p2")
     .player.player2
+      .player-name
+        div {{ p2Name }}
+        .win-indicator
+          svg.crown(v-if="replay.winner === `p2`")
+            use(xlink:href="#crown")
       .archetype {{ replay.p2.archetype }}
-      .win-indicator
-        svg.crown(v-if="replay.winner === `p2`")
-          use(xlink:href="#crown")
 
 </template>
 
@@ -43,9 +47,15 @@
       currentReplay() {
         return this.$store.getters.currentReplay
       },
+      p1Name() {
+        return this.replay.p1.tag.split("#")[0]
+      },
+      p2Name() {
+        return this.replay.p2.tag.split("#")[0]
+      },
       hsreplayLink() {
         return `https://hsreplay.net/replay/${this.replay.hsreplay_id}`
-      }
+      },
     },
 
     components: {
@@ -62,6 +72,7 @@
     text-decoration none
     justify-content center
     font-size 15px
+    padding 6px 0
     width 510px
     border-radius 2px
 
@@ -79,19 +90,33 @@
       background rgba(0, 0, 0, 0.04)
       border-radius 2px
 
-    > div
-      height 34px
-      line-height 34px
-
   .player
     display flex
+    flex-direction column
     width 190px
 
     &.player1
+      text-align right
       justify-content flex-end
 
+      .player-name
+        margin-left auto
+
     &.player2
+      text-align left
       justify-content flex-start
+
+      .player-name
+        margin-right auto
+
+  .player-name
+    display flex
+    margin-bottom 5px
+    flex-direction row
+
+  .archetype
+    font-size 13px
+    font-weight bold
 
   .vs
     font-weight 300
