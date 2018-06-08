@@ -28,6 +28,7 @@ class ReplayOutcomeImporter
 
   def import_from_json_api_response(json_string)
     num_saved = 0
+    legend_saved = 0
     data = JSON.parse json_string
     replay_outcomes = data["data"]
     replay_outcomes.each do |replay|
@@ -36,12 +37,15 @@ class ReplayOutcomeImporter
       replay_outcome = ReplayOutcome.new(hsreplay_id: hsreplay_id, data: replay)
       if replay_outcome.valid?
         replay_outcome.save!
+        if replay_outcome.legend_game?
+          legend_saved += 1
+        end
         num_saved += 1
       else
         logger.error "hsreplay #{hsreplay_id} - #{replay.to_json}"
       end
     end
-    evt_logger.info "Saved #{num_saved} out of #{replay_outcomes.length} replays"
+    evt_logger.info "Saved #{num_saved}/#{replay_outcomes.length} replays (#{legend_saved} legend)"
     true
   end
 

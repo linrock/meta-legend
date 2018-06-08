@@ -15,6 +15,15 @@ class ReplayDataImporter
     @hsreplay_id = hsreplay_id
   end
 
+  def import
+    save_html
+    save_xml
+  end
+
+  def import_async
+    FetchReplayDataJob.perform_async(@hsreplay_id)
+  end
+
   def data_exists?
     html_exists? and xml_exists?
   end
