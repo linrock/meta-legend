@@ -1,0 +1,3 @@
+dev.metalegend.com:443
+tls self_signed
+proxy / localhost:3000

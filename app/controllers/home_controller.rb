@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
 
   def index
+    @user = current_user
     @legend_stats = ReplayStatsCache.new.legend_stats
     @replay_data = JsonResponseCache.new(params).cached_json_response || "{}"
     set_title
@@ -25,14 +26,18 @@ class HomeController < ApplicationController
 
   def player_type
     return @player_type if defined? @player_type
+    @player_type = player_type!
+  end
+
+  def player_type!
     route = route_map.lookup params[:path]
     return "" unless route.present?
-    @player_type = if route[:class] and route[:archetype]
-                     "#{route[:archetype]} #{route[:class]}"
-                   elsif route[:class]
-                     route[:class]
-                   else
-                     ""
-                   end
+    if route[:class] and route[:archetype]
+      "#{route[:archetype]} #{route[:class]}"
+    elsif route[:class]
+      route[:class]
+    else
+      ""
+    end
   end
 end

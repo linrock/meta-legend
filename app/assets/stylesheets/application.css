@@ -26,6 +26,11 @@ body {
   opacity: 0.7;
 }
 
+.user-info {
+  font-size: 14px;
+  margin-left: auto;
+}
+
 .container {
   padding: 20px 0 15px;
   display: flex;
