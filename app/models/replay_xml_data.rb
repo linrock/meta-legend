@@ -12,7 +12,7 @@ class ReplayXmlData < ApplicationRecord
            to: :replay_xml_parser
 
   def to_hash
-    extracted_data.deep_symbolize_keys || to_hash!
+    extracted_data&.deep_symbolize_keys || to_hash!
   end
 
   def to_hash!

@@ -8,18 +8,20 @@ class JsonResponse
   end
 
   def to_hash
+    hsreplay_ids = ReplayOutcome.where(id: replay_outcome_ids)
+      .order('created_at DESC')
+      .pluck(:hsreplay_id)
     {
       path: @path,
       filter: @filter,
       page: @page,
       route: route,
       page_size: ReplayOutcomeQuery::PAGE_SIZE,
-      replays: replay_outcome_ids.map do |id|
+      replays: hsreplay_ids.map do |hsreplay_id|
         begin
-          hsreplay_id = ReplayOutcome.find(id).hsreplay_id
           ReplayDataCache.new.replay_data_hash(hsreplay_id)
         rescue
-          logger.error "json_response! - replay #{id}"
+          logger.error "json_response! - replay #{hsreplay_id}"
           nil
         end
       end.compact
