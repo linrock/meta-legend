@@ -38,7 +38,7 @@ class ReplayXmlData < ApplicationRecord
   end
 
   def pilot_name
-    doc.xpath("//Deck/parent::Player").attr("name").value
+    doc.xpath("//Deck/parent::Player").attr("name").value rescue nil
   end
 
   def deck_card_ids
@@ -64,6 +64,12 @@ class ReplayXmlData < ApplicationRecord
   private
 
   def check_required_xpaths
-    errors.add(:data) if false
+    n_cards = deck_card_ids.length
+    if n_cards != 30
+      errors.add(:data, "has wrong # of cards - #{n_cards}")
+    end
+    if pilot_name.nil?
+      errors.add(:data, "is missing pilot_name")
+    end
   end
 end

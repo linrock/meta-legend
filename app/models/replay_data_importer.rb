@@ -2,12 +2,19 @@ require 'open-uri'
 
 class ReplayDataImporter
 
-  def self.import_missing_data!
-    ReplayOutcome.legend_players.since(3.days.ago).find_each do |r|
+  def self.import_missing_data!(since = 3.days.ago)
+    ReplayOutcome.legend_players.since(since).find_each do |r|
       importer = self.new(r.hsreplay_id)
       next if importer.data_exists?
-      importer.save_html
-      importer.save_xml
+      importer.import
+    end
+  end
+
+  def self.import_missing_data_async!(since = 1.day.ago)
+    ReplayOutcome.legend_players.since(since).find_each do |r|
+      importer = self.new(r.hsreplay_id)
+      next if importer.data_exists?
+      importer.import_async
     end
   end
 

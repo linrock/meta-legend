@@ -6,7 +6,7 @@ class ReplayOutcome < ApplicationRecord
   validate :check_hsreplay_id
   validate :check_data_format
 
-  after_save :import_replay_data, if: :legend_game?
+  after_save :import_legend_replay_data
 
   delegate :player_names, to: :replay_xml_data
   delegate :num_turns, to: :replay_html_data

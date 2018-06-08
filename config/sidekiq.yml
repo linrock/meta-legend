@@ -1,5 +1,6 @@
 ---
 :concurrency: 2
+:max_retries: 3
 :queues:
   - fetcher
   - cacher
