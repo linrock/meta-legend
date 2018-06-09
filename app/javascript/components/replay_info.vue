@@ -65,6 +65,13 @@
       .separator
         margin 0 5px
 
+    .watch-link
+      color: #45abfe;
+      text-decoration: none;
+
+      &:hover
+        text-decoration: underline;
+
   .deck
     margin-top 25px
 

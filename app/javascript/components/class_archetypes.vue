@@ -1,9 +1,11 @@
 <template lang="pug">
   .class-archetypes(v-if="classArchetypeRows.length > 0")
-    h2 {{ title }}
+    .header-row
+      h2 {{ title }}
+      h3 {{ pastDays }}
     .label-row
-      .class-label deck type
-      .winrate-label winrate
+      .left-label deck type
+      .right-label winrate
     .archetype-selector
       router-link.stats-row(
         v-for="([path, route]) in classArchetypeRows"
@@ -30,6 +32,14 @@
           return []
         }
       },
+      pastDays() {
+        const since = this.$store.getters.sinceDays
+        if (since === 1) {
+          return `past day`
+        } else {
+          return `past ${since} days`
+        }
+      },
       title() {
         if (this.currentRoute) {
           return `Top ${this.currentRoute.class} decks`
@@ -40,11 +50,21 @@
 </script>
 
 <style lang="stylus" scoped>
-  h2
-    font-weight bold
+  .header-row
     padding-bottom 10px
     border-bottom 1px solid rgba(0,0,0,0.05)
     margin-bottom 10px
+    display flex
+    align-items center
+
+    h2
+      font-weight bold
+
+    h3
+      font-size 10px
+      margin-left auto
+      text-transform uppercase
+      opacity 0.5
 
   .label-row
     font-size 10px
@@ -54,10 +74,10 @@
     opacity 0.5
     margin-bottom 8px
 
-    .class-label
+    .left-label
       text-align left
 
-    .winrate-label
+    .right-label
       text-align right
       margin-left auto
 

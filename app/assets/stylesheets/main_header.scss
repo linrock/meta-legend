@@ -1,3 +1,5 @@
+$link-color: #45abfe;
+
 .header-container {
   padding: 20px 0 25px;
 
@@ -13,6 +15,7 @@
     .header-links {
       font-size: 14px;
       margin-left: 30px;
+      color: $link-color;
     }
 
     .user-info {
@@ -29,7 +32,8 @@
       }
 
       &.bnet-login {
-        color: blue;
+        color: $link-color;
+        font-weight: bold;
       }
     }
   }
