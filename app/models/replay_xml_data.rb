@@ -1,10 +1,12 @@
 class ReplayXmlData < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
+  validates_presence_of :hsreplay_id
   validates_presence_of :data, unless: :data_extracted?
   validate :ensure_data_is_hsreplay, unless: :data_extracted?
   validate :check_required_xpaths, unless: :data_extracted?
   validate :has_either_data_or_extracted_data
 
+  after_validation :log_if_invalid
   after_create :extract_and_save_xml_data
 
   delegate :doc, :players, :player_names,
@@ -59,8 +61,12 @@ class ReplayXmlData < ApplicationRecord
     extracted_data.present?
   end
 
-  def ensure_data_is_hsreplay
+  def hsreplay_xml?
     replay_xml_parser.hsreplay_xml? rescue false
+  end
+
+  def ensure_data_is_hsreplay
+    hsreplay_xml?
   end
 
   def has_either_data_or_extracted_data
@@ -70,12 +76,19 @@ class ReplayXmlData < ApplicationRecord
   end
 
   def check_required_xpaths
+    return unless hsreplay_xml?
     n_cards = deck_card_ids.length
     if n_cards != 30
       errors.add(:data, "has wrong # of cards - #{n_cards}")
     end
     if pilot_name.nil?
       errors.add(:data, "is missing pilot_name")
+    end
+  end
+
+  def log_if_invalid
+    if errors.present?
+      logger.info "#{hsreplay_id} is invalid - #{errors.messages.to_s}"
     end
   end
 
