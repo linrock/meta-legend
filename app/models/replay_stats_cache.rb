@@ -17,11 +17,12 @@ class ReplayStatsCache
   def legend_stats!
     replay_stats = ReplayStats.new(ReplayOutcome.legend_players.since(5.days.ago))
     results = {
-      route_map: replay_stats.to_route_map,
-      about_winrates: {
+      routes: replay_stats.to_route_map,
+      players: replay_stats.most_active_players,
+      about: {
         count: replay_stats.replays_count,
         since: replay_stats.oldest_replay_timestamp,
-      }
+      },
     }
     @cache.write cache_key, results
     results

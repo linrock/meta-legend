@@ -1,18 +1,69 @@
 <template lang="pug">
-  .top-players
+  .top-players(v-if="$store.state.activePlayers.length > 0")
     .header-row
       h2 Active players
       h3 past {{ $store.getters.sinceDays }} days
     .label-row
-      .class-label name
-      .winrate-label # games
+      .left-label name
+      .right-label # games
     .archetype-stats
-      router-link.stats-row(
-        v-for="([path, deck]) in topArchetypeRows"
-        :key="path"
-        :to="path"
-      )
-        .name {{ deck.archetype }} {{ deck.class }}
-        .winrate {{ deck.winrate }}%
+      .stats-row(v-for="([name, count]) in $store.state.activePlayers")
+        .left-label {{ name.split("#")[0] }}
+        .right-label {{ count }}
 
 </template>
+
+<script>
+  export default {}
+</script>
+
+<style lang="stylus" scoped>
+  .header-row
+    padding-bottom 10px
+    border-bottom 1px solid rgba(0,0,0,0.05)
+    margin-bottom 10px
+    display flex
+    align-items center
+
+    h2
+      font-weight bold
+
+    h3
+      font-size 10px
+      margin-left auto
+      text-transform uppercase
+      opacity 0.5
+
+  .label-row
+    font-size 10px
+    letter-spacing 0.4px
+    text-transform uppercase
+    display flex
+    opacity 0.5
+    margin-bottom 8px
+
+    .left-label
+      text-align left
+
+    .right-label
+      text-align right
+      margin-left auto
+
+  .stats-row
+    display flex
+    line-height 24px
+    padding 2px 0
+    border-radius 2px
+    text-decoration none
+    color #333
+
+    .left-label
+      font-weight bold
+
+    .right-label
+      width 60px
+      font-weight normal
+      margin-left auto
+      text-align right
+
+</style>

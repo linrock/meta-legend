@@ -18,6 +18,7 @@ const store = new Vuex.Store({
     replays: new Replays(),
     replayFeedTitle: ``,
     replay: null,
+    activePlayers: [],
   },
 
   mutations: {
@@ -52,6 +53,9 @@ const store = new Vuex.Store({
     selectReplay(state, replay) {
       state.replay = replay
     },
+    setActivePlayers(state, players) {
+      state.activePlayers = players
+    },
   },
 
   actions: {
@@ -60,8 +64,11 @@ const store = new Vuex.Store({
       commit(`hoverOverClassName`, className)
     },
     setInitialData({ commit }, initialData) {
-      commit(`setRouteMap`, new RouteMap(initialData.routeMap))
-      commit(`setAboutWinrates`, new AboutWinrates(initialData.aboutWinrates))
+      commit(`setRouteMap`, new RouteMap(initialData.routes))
+      commit(`setAboutWinrates`, new AboutWinrates(initialData.about))
+      if (initialData.players) {
+        commit(`setActivePlayers`, initialData.players)
+      }
     },
     setPath({ commit, dispatch, getters }, path) {
       const route = getters.routeMap(path)

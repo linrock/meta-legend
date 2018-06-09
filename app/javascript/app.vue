@@ -59,10 +59,9 @@
     },
 
     created() {
+      // legendStats - routes, about, players
       const { legendStats, replayData } = window.hsrpf
-      const routeMap = legendStats.route_map
-      const aboutWinrates = legendStats.about_winrates
-      this.$store.dispatch(`setInitialData`, { routeMap, aboutWinrates })
+      this.$store.dispatch(`setInitialData`, legendStats)
       const path = this.$route.params.path || `/`
       this.$store.dispatch(`setPath`, path)
       const replays = replayData.replays

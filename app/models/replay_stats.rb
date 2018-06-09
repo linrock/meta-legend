@@ -84,9 +84,9 @@ class ReplayStats
   end
 
   # Counts the number of games found for each player
-  def player_counts
+  def most_active_players
     ReplayXmlData.since(oldest_replay_timestamp).pluck(:extracted_data).compact.map do |data|
-      data ? [ data['p1']['tag'], data['p2']['tag'] ] : nil
+      data ? data['p1']['tag'] : nil
     end.compact.flatten.group_by(&:to_s).map {|k,v| [k, v.length ] }.sort_by {|_, v| -v }.take(5)
   end
 

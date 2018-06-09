@@ -8,6 +8,7 @@
         about-winrates
       template(v-else)
         top-decks
+        top-players
         // popular-archetypes
 </template>
 
@@ -16,6 +17,7 @@
   import ClassArchetypes from './class_archetypes'
   import ReplayInfo from './replay_info'
   import TopDecks from './top_decks'
+  import TopPlayers from './top_players'
 
   const scrollThreshold = 185
 
@@ -42,6 +44,7 @@
       ClassArchetypes,
       ReplayInfo,
       TopDecks,
+      TopPlayers,
     }
   }
 </script>
