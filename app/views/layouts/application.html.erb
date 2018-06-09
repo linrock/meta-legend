@@ -21,8 +21,8 @@
   </head>
 
   <body>
-    <div class="container header-container">
-      <header>
+    <header class="main-header">
+      <div class="container header-container">
         <h1 class="title">
           <a href="/">Meta Legend</a>
         </h1>
@@ -36,16 +36,18 @@
             <a href="/account/login" class="bnet-login">Log in with Battle.net</a>
           <% end %>
         </div>
-      </header>
+      </div>
+    </header>
 
-      <h2 class="description">
+    <div class="container">
+      <h2 class="main-description">
         Find replays of games by
         legend-rank Hearthstone players
       </h2>
-    </div>
 
-    <div class="main">
-      <%= yield %>
+      <div class="main">
+        <%= yield %>
+      </div>
     </div>
 
     <% if ENV["GA_ID"] %>

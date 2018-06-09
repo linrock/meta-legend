@@ -1,46 +1,50 @@
 $link-color: #45abfe;
 
-.header-container {
-  padding: 20px 0 25px;
+.main-header {
+  display: flex;
+  background: #222;
+  padding: 10px 0;
 
-  header {
+  .container {
     display: flex;
     align-items: center;
+  }
 
-    .title {
-      font-size: 16px;
+  .title {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .header-links {
+    font-size: 14px;
+    margin-left: 30px;
+    // color: $link-color;
+  }
+
+  .user-info {
+    font-size: 14px;
+    margin-left: auto;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &.bnet-login {
+      color: $link-color;
       font-weight: bold;
     }
-
-    .header-links {
-      font-size: 14px;
-      margin-left: 30px;
-      color: $link-color;
-    }
-
-    .user-info {
-      font-size: 14px;
-      margin-left: auto;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-
-      &.bnet-login {
-        color: $link-color;
-        font-weight: bold;
-      }
-    }
   }
+}
 
-  .description {
-    font-size: 14px;
-    opacity: 0.7;
-    margin-top: 12px;
-  }
+.main-description {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-top: 12px;
+  margin-bottom: 24px;
 }
