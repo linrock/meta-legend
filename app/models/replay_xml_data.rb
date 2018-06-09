@@ -22,6 +22,11 @@ class ReplayXmlData < ApplicationRecord
         legend_rank: player.attr("legendRank"),
       }
     end
+    players.each do |player|
+      unless player[:legend_rank].present?
+        logger.info "#{hsreplay_id} - player #{player[:tag]} missing legend rank"
+      end
+    end
     players.reverse! if players[1][:tag] == pilot_name
     # p1 is always the pilot
     {
@@ -58,5 +63,9 @@ class ReplayXmlData < ApplicationRecord
     if pilot_name.nil?
       errors.add(:data, "is missing pilot_name")
     end
+  end
+
+  def logger
+    @logger ||= Logger.new("#{Rails.root}/log/replay_xml_data.log")
   end
 end
