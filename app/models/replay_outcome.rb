@@ -1,8 +1,6 @@
 # Represents the outcome of a replay
 
 class ReplayOutcome < ApplicationRecord
-  validates_uniqueness_of :hsreplay_id
-
   validate :check_hsreplay_id
   validate :check_data_format
 

@@ -8,8 +8,7 @@ class ReplayOutcomeImporter
     n_consecutive_errors = 0
     loop do
       begin
-        json_string = open(API_ENDPOINT).read
-        import_from_json_api_response json_string
+        fetch!
       rescue => e
         puts "#{e.class.name}: #{e.message}"
         puts e.backtrace
@@ -26,45 +25,44 @@ class ReplayOutcomeImporter
     end
   end
 
+  def fetch!
+    json_string = open(API_ENDPOINT).read
+    import_from_json_api_response json_string
+  end
+
   def import_from_json_api_response(json_string)
     num_saved = 0
     legend_saved = 0
     data = JSON.parse json_string
     replay_outcomes = data["data"]
-    replay_outcomes.each do |replay|
-      hsreplay_id = replay["id"]
-      next if ReplayOutcome.exists?(hsreplay_id: hsreplay_id)
-      replay_outcome = ReplayOutcome.new(hsreplay_id: hsreplay_id, data: replay)
-      if replay_outcome.valid?
-        replay_outcome.save!
-        if replay_outcome.legend_game?
-          legend_saved += 1
+    hsreplay_id_map = replay_outcomes.group_by {|ro| ro["id"] }
+    hsreplay_ids = Set.new(hsreplay_id_map.keys)
+    existing_hsreplay_ids = Set.new(
+      ReplayOutcome.where(hsreplay_id: hsreplay_ids).pluck(:hsreplay_id)
+    )
+    ReplayOutcome.transaction do
+      (hsreplay_ids - existing_hsreplay_ids).to_a.each do |hsreplay_id|
+        replay_outcome = ReplayOutcome.new(
+          hsreplay_id: hsreplay_id,
+          data: hsreplay_id_map[hsreplay_id][0]
+        )
+        if replay_outcome.valid?
+          replay_outcome.save!
+          if replay_outcome.legend_game?
+            legend_saved += 1
+          end
+          num_saved += 1
+        else
+          logger.error "#{hsreplay_id} is invalid #{replay.to_json}"
         end
-        num_saved += 1
-      else
-        logger.error "hsreplay #{hsreplay_id} - #{replay.to_json}"
       end
     end
     evt_logger.info "Saved #{num_saved}/#{replay_outcomes.length} replays (#{legend_saved} legend)"
     true
   end
 
-  # Imports replays fetched as JSON data from the API endpoint
-  def self.import_from_downloaded_json
-    filenames = Dir.glob("scripts/data/replays.*.json").sort_by do |name|
-      name[/replays\.(\d*)\.json/, 1].to_i
-    end
-    filenames.each do |filename|
-      begin
-        import_from_json_api_response open(filename).read
-      rescue
-        binding.pry
-      end
-    end
-  end
-
   def evt_logger
-    @evt_logger ||= Logger.new("#{Rails.root}/log/importer.log")
+    @evt_logger ||= Logger.new("#{Rails.root}/log/replay_outcome_importer.log")
   end
 
   def logger
