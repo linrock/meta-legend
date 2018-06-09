@@ -9,27 +9,27 @@ class ReplayOutcomeQuery
   end
 
   def replay_outcomes(page = 1)
-    all_replay_outcomes.order('id DESC').limit(PAGE_SIZE).offset((page - 1) * PAGE_SIZE)
+    all_replay_outcomes
+      .order('replay_outcomes.created_at DESC')
+      .limit(PAGE_SIZE)
+      .offset((page - 1) * PAGE_SIZE)
   end
 
   def all_replay_outcomes
     rank_query = "
-      data ->> 'player1_legend_rank' != 'None'
+      replay_outcomes.data ->> 'player1_legend_rank' != 'None'
       AND
-      data ->> 'player2_legend_rank' != 'None'
+      replay_outcomes.data ->> 'player2_legend_rank' != 'None'
     "
-    p1_query = [
-      ("data ->> 'player1_archetype' IN (?)" if archetype_ids),
-      ("data ->> 'player2_won' = '#{(!winning_outcome?).to_s.capitalize}'" unless any_outcome?),
-    ].compact.join(" AND ")
-    p2_query = [
-      ("data ->> 'player2_archetype' IN (?)" if archetype_ids),
-      ("data ->> 'player2_won' = '#{(winning_outcome?).to_s.capitalize}'" unless any_outcome?),
-    ].compact.join(" AND ")
-    query = [
-      rank_query,
-      ("((#{p1_query}) OR (#{p2_query}))" if p1_query.present? && p2_query.present?)
-    ].compact.join (" AND ")
+    archetype_query = nil
+    if archetype_ids
+      archetype_query = "
+        (replay_outcomes.data ->> 'player1_archetype' IN (?))
+        OR
+        (replay_outcomes.data ->> 'player2_archetype' IN (?))
+      "
+    end
+    query = [ rank_query, archetype_query ].compact.join (" AND ")
     prepared_variables = [(archetype_ids if archetype_ids)].compact
     ReplayOutcome.where(query, *prepared_variables*2)
   end
@@ -46,14 +46,6 @@ class ReplayOutcomeQuery
     else
       Archetype.ids_by_class_name @class
     end
-  end
-
-  def winning_outcome?
-    @outcome == 'win'
-  end
-
-  def any_outcome?
-    @outcome == 'any'
   end
 
   def to_query

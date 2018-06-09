@@ -21,22 +21,29 @@ class ReplayOutcome < ApplicationRecord
 
   scope :legend_players, -> do
     where("
-      data ->> 'player1_legend_rank' != 'None'
+      replay_outcomes.data ->> 'player1_legend_rank' != 'None'
       AND
-      data ->> 'player2_legend_rank' != 'None'
+      replay_outcomes.data ->> 'player2_legend_rank' != 'None'
     ")
   end
 
   scope :top_legend, -> (n) do
     where("
-      (data ->> 'player1_legend_rank')::int <= ?
+      (replay_outcomes.data ->> 'player1_legend_rank')::int <= ?
       AND
-      (data ->> 'player2_legend_rank')::int <= ?
+      (replay_outcomes.data ->> 'player2_legend_rank')::int <= ?
     ", n, n)
   end
 
   scope :since, -> (time_ago) do
-    where("created_at > ?", time_ago)
+    where("replay_outcomes.created_at > ?", time_ago)
+  end
+
+  scope :with_xml_data, -> do
+    joins("
+      INNER JOIN replay_xml_data
+      ON replay_xml_data.hsreplay_id = replay_outcomes.hsreplay_id
+    ")
   end
 
   alias_attribute :found_at, :created_at

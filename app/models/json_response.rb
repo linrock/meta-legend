@@ -21,8 +21,10 @@ class JsonResponse
       replays: hsreplay_ids.map do |hsreplay_id|
         begin
           ReplayDataCache.new.replay_data_hash(hsreplay_id)
-        rescue
+        rescue => e
           logger.error "json_response! - replay #{hsreplay_id}"
+          logger.error "#{e.class.name}: #{e.message}"
+          logger.error "#{e.backtrace.join("\n")}"
           nil
         end
       end.compact
