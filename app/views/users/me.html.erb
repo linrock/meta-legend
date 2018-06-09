@@ -1,6 +1,43 @@
-<div class="container top-margin">
-  <div>Legend verification: not started</div>
-  <div>Twitch URL: </div>
-  <div>Forum display name: </div>
-  <div>Battle.net region: </div>
+<div class="container user-profile">
+  <h3>My profile</h3>
+
+  <div class="field">
+    <div class="field-name">Battletag:</div>
+    <div class="field-value"><%= @user.battletag %></div>
+  </div>
+
+  <div class="field">
+    <div class="field-name">Legend verification:</div>
+    <div class="field-value">not started</div>
+  </div>
+
+  <br><br>
+
+  <form>
+    <div class="field">
+      <div class="field-name">Forum username:</div>
+      <div class="field-value"><input type="text"/></div>
+    </div>
+    <div>can be set once</div>
+
+    <div class="editable-fields">
+      <div class="field">
+        <div class="field-name">Twitch URL:</div>
+        <div class="field-value"><input type="text"/></div>
+      </div>
+
+      <div class="field">
+        <div class="field-name">Battle.net region:</div>
+        <div class="field-value">
+          <select>
+            <option value="us">US</option>
+            <option value="eu">EU</option>
+            <option value="sea">SEA</option>
+            <option value="cn">CN</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <input type="submit" value="Save"/>
+  </form>
 </div>

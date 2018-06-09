@@ -1,0 +1,35 @@
+.user-profile {
+  margin-top: 50px;
+
+  h3 {
+    font-weight: bold;
+    margin-bottom: 40px;
+  }
+
+  input[type="text"] {
+    font-size: 16px;
+    width: 300px;
+  }
+
+  input[type="submit"] {
+    display: block;
+    margin-top: 15px;
+  }
+
+  .editable-fields {
+    margin-top: 80px;
+  }
+
+  .field {
+    display: flex;
+    margin: 5px 0;
+
+    .field-name {
+      width: 200px;
+    }
+
+    .field-value {
+      width: 500px;
+    }
+  }
+}
