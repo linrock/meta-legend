@@ -2,11 +2,11 @@
   .top-players(v-if="$store.state.activePlayers.length > 0")
     .header-row
       h2 Active players
-      h3 past {{ $store.getters.sinceDays }} days
+      h3 {{ pastDays }}
     .label-row
       .left-label name
       .right-label # games
-    .archetype-stats
+    .stats
       .stats-row(v-for="([name, count]) in $store.state.activePlayers")
         .left-label {{ name.split("#")[0] }}
         .right-label {{ count }}
@@ -14,7 +14,18 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    computed: {
+      pastDays() {
+        const since = this.$store.getters.sinceDays
+        if (since === 1) {
+          return `past day`
+        } else {
+          return `past ${since} days`
+        }
+      }
+    }
+  }
 </script>
 
 <style lang="stylus" scoped>
@@ -58,7 +69,7 @@
     color #333
 
     .left-label
-      font-weight bold
+      font-weight normal
 
     .right-label
       width 60px

@@ -2,7 +2,7 @@
   .top-decks
     .header-row
       h2 Top decks
-      h3 past {{ $store.getters.sinceDays }} days
+      h3 {{ pastDays }}
     .label-row
       .class-label deck type
       .winrate-label winrate
@@ -22,6 +22,14 @@
     computed: {
       topArchetypeRows() {
         return this.$store.state.routeMap.topArchetypeRows
+      },
+      pastDays() {
+        const since = this.$store.getters.sinceDays
+        if (since === 1) {
+          return `past day`
+        } else {
+          return `past ${since} days`
+        }
       }
     }
   }
@@ -42,7 +50,7 @@
       font-weight bold
 
     h3
-      font-size 12px
+      font-size 10px
       margin-left auto
       text-transform uppercase
       opacity 0.5

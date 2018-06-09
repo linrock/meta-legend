@@ -1,4 +1,5 @@
 class ReplayStatsCache
+  SINCE = 3.days.ago
 
   def initialize
     @cache = Rails.cache
@@ -15,7 +16,7 @@ class ReplayStatsCache
   end
 
   def legend_stats!
-    replay_stats = ReplayStats.new(ReplayOutcome.legend_players.since(5.days.ago))
+    replay_stats = ReplayStats.new(ReplayOutcome.legend_players.since(SINCE))
     results = {
       routes: replay_stats.to_route_map,
       players: replay_stats.most_active_players,
