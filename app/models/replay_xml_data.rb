@@ -1,7 +1,9 @@
 class ReplayXmlData < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
+  validates_presence_of :data, unless: :data_extracted?
+  validate :ensure_data_is_hsreplay, unless: :data_extracted?
+  validate :check_required_xpaths, unless: :data_extracted?
   validate :has_either_data_or_extracted_data
-  validate :check_required_xpaths
 
   after_create :extract_and_save_xml_data
 
@@ -53,8 +55,16 @@ class ReplayXmlData < ApplicationRecord
 
   private
 
+  def data_extracted?
+    extracted_data.present?
+  end
+
+  def ensure_data_is_hsreplay
+    replay_xml_parser.hsreplay_xml? rescue false
+  end
+
   def has_either_data_or_extracted_data
-    unless data.present? or extracted_data.present?
+    unless data.present? or data_extracted?
       errors.add(:data, "can't be empty if extracted_data does not exist")
     end
   end

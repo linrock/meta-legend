@@ -39,6 +39,10 @@ class ReplayXmlParser
     doc.xpath("//Deck/Card/@id").map(&:value)
   end
 
+  def hsreplay_xml?
+    doc.xpath('name(/*)').downcase == 'hsreplay'
+  end
+
   private
 
   def winner_entity_id
