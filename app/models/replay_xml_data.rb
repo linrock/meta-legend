@@ -11,6 +11,10 @@ class ReplayXmlData < ApplicationRecord
            :winner_entity_id, :loser_entity_id,
            to: :replay_xml_parser
 
+  scope :since, -> (timestamp) do
+    where("created_at > ?", timestamp)
+  end
+
   def to_hash
     extracted_data&.deep_symbolize_keys || to_hash!
   end
