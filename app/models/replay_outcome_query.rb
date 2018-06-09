@@ -16,22 +16,11 @@ class ReplayOutcomeQuery
   end
 
   def all_replay_outcomes
-    rank_query = "
-      replay_outcomes.data ->> 'player1_legend_rank' != 'None'
-      AND
-      replay_outcomes.data ->> 'player2_legend_rank' != 'None'
-    "
-    archetype_query = nil
     if archetype_ids
-      archetype_query = "
-        (replay_outcomes.data ->> 'player1_archetype' IN (?))
-        OR
-        (replay_outcomes.data ->> 'player2_archetype' IN (?))
-      "
+      ReplayOutcome.legend_players.with_archetypes(archetype_ids)
+    else
+      ReplayOutcome.legend_players
     end
-    query = [ rank_query, archetype_query ].compact.join (" AND ")
-    prepared_variables = [(archetype_ids if archetype_ids)].compact
-    ReplayOutcome.where(query, *prepared_variables*2)
   end
 
   def archetype_ids

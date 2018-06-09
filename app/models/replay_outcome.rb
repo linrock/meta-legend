@@ -35,6 +35,14 @@ class ReplayOutcome < ApplicationRecord
     ", n, n)
   end
 
+  scope :with_archetypes, -> (archetype_ids) do
+    where("
+      (replay_outcomes.data ->> 'player1_archetype' IN (?))
+      OR
+      (replay_outcomes.data ->> 'player2_archetype' IN (?))
+    ", *[archetype_ids.map(&:to_s)]*2)
+  end
+
   scope :since, -> (time_ago) do
     where("replay_outcomes.created_at > ?", time_ago)
   end
