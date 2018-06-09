@@ -1,0 +1,12 @@
+<div class="forum-post-preview">
+  <a href="<%= forum_post_path(forum_post.id) %>">
+    <header>
+      <h3 class="title"><%= forum_post.title %></h3>
+      <h4 class="author">by <%= forum_post.user.name %></h4>
+    </header>
+
+    <div class="timestamp">
+      <%= time_ago_in_words(forum_post.created_at).gsub(/about/, '').strip %> ago
+    </div>
+  </a>
+</div>

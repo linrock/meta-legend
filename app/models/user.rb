@@ -21,4 +21,8 @@ class User < ApplicationRecord
   # "info"=>{"battletag"=>"battletag#1337", "id"=>12345},
   # "credentials"=>{"token"=>"11111", "expires_at"=>1531050531, "expires"=>true},
   # "extra"=>{}}
+
+  def name
+    battletag&.split("#")[0]
+  end
 end

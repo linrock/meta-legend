@@ -1,0 +1,56 @@
+.forum {
+  header {
+    display: flex;
+  }
+}
+
+.forum-post-preview {
+  margin: 20px 0;
+
+  header {
+    display: flex;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: #45ABFE;
+    }
+  }
+
+  .title {
+    font-weight: bold;
+  }
+
+  .author {
+    margin-left: 5px;
+  }
+
+  .timestamp {
+    margin-top: 7px;
+    font-size: 14px;
+  }
+}
+
+.new-forum-post {
+  input[type="text"] {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 16px;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 2px;
+    padding: 3px 8px;
+    width: 500px;
+  }
+
+  textarea {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 16px;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 2px;
+    padding: 3px 8px;
+    width: 500px;
+    min-height: 150px;
+  }
+}
