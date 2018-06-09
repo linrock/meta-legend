@@ -52,15 +52,17 @@ class ReplayDataImporter
 
   def save_html!
     html = open("https://hsreplay.net/replay/#{@hsreplay_id}").read
-    if html_exists?
-      replay_html_data = ReplayHtmlData.find_by(hsreplay_id: @hsreplay_id)
-      replay_html_data.data = html
-      replay_html_data.save!
-    else
-      ReplayHtmlData.create!({
-        hsreplay_id: @hsreplay_id,
-        data: html
-      })
+    ActiveRecord::Base.logger.silence do
+      if html_exists?
+        replay_html_data = ReplayHtmlData.find_by(hsreplay_id: @hsreplay_id)
+        replay_html_data.data = html
+        replay_html_data.save!
+      else
+        ReplayHtmlData.create!({
+          hsreplay_id: @hsreplay_id,
+          data: html
+        })
+      end
     end
   end
 
@@ -78,15 +80,17 @@ class ReplayDataImporter
     replay_html_data = ReplayHtmlData.find_by(hsreplay_id: @hsreplay_id)
     xml_link = replay_html_data.replay_xml_link
     xml = open(xml_link).read.force_encoding("utf-8")
-    if xml_exists?
-      replay_xml_data = ReplayXmlData.find_by(hsreplay_id: @hsreplay_id)
-      replay_xml_data.data = xml
-      replay_xml_data.save!
-    else
-      ReplayXmlData.create!({
-        hsreplay_id: @hsreplay_id,
-        data: xml
-      })
+    ActiveRecord::Base.logger.silence do
+      if xml_exists?
+        replay_xml_data = ReplayXmlData.find_by(hsreplay_id: @hsreplay_id)
+        replay_xml_data.data = xml
+        replay_xml_data.save!
+      else
+        ReplayXmlData.create!({
+          hsreplay_id: @hsreplay_id,
+          data: xml
+        })
+      end
     end
   end
 
