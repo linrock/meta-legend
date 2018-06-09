@@ -1,0 +1,12 @@
+<div class="forum-comment">
+  <div class="content">
+    <%= sanitize(forum_comment.content).gsub(/(\r|\n){2,}/, '<br><br>').html_safe %>
+  </div>
+  <footer>
+    <h4 class="author">by <%= forum_comment.user.name %></h4>
+    <div class="separator">&bull;</div>
+    <div class="timestamp">
+      <%= time_ago_in_words(forum_comment.created_at).gsub(/about/, '').strip %> ago
+    </div>
+  <footer>
+</div>

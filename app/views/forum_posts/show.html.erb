@@ -1,8 +1,40 @@
-<div class="container forum-post">
-  <h3 class="title"><%= @forum_post.title %></h3>
-  <h4 class="author">by <%= @forum_post.user.name %></h4>
+<div class="container">
+  <a href="<%= forum_path %>">&lt; Back to forum</a>
 
-  <div class="content">
-    <%= sanitize(@forum_post.content).gsub(/(\r|\n){2,}/, '<br><br>').html_safe %>
+  <div class="forum-post show-forum-post">
+    <h3 class="title"><%= @forum_post.title %></h3>
+
+    <div class="content">
+      <%= sanitize(@forum_post.content).gsub(/(\r|\n){2,}/, '<br><br>').html_safe %>
+    </div>
+
+    <footer>
+      <h4 class="author">by <%= @forum_post.user.name %></h4>
+      <div class="separator">&bull;</div>
+      <div class="timestamp">
+        <%= time_ago_in_words(@forum_post.created_at).gsub(/about/, '').strip %> ago
+      </div>
+    </footer>
   </div>
+
+  <%= render partial: "forum_posts/forum_comment",
+             collection: @forum_post.forum_comments.order("id ASC") %>
+
+  <% if @user %>
+    <div class="new-forum-post">
+      <%= form_tag forum_comments_path(@forum_post.id), method: :post do %>
+        <input type="hidden"
+               value="<%= request_forgery_protection_token %>"
+               name="csrf_token"/>
+        <h3>Write a response</h3>
+        <textarea placeholder="Enter your response here..."
+                  name="forum_comment[content]"></textarea>
+        <br>
+        <input type="submit"/>
+      <% end %>
+    </div>
+  <% else %>
+    <a href="<%= account_login_path %>" class="bnet-login">Log in with Battle.net</a>
+    <div>To write a response</div>
+  <% end %>
 </div>

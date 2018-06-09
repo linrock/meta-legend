@@ -10,6 +10,12 @@
       <div class="timestamp">
         <%= time_ago_in_words(forum_post.created_at).gsub(/about/, '').strip %> ago
       </div>
+      <% if forum_post.forum_comments_count > 0%>
+        <div class="separator">&bull;</div>
+        <div class="comments-count">
+          <%= forum_post.forum_comments_count %> comments
+        </div>
+      <% end %>
     </footer>
   </a>
 </div>

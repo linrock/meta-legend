@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   get "/forum"            => "forum#index"
   get "/forum/posts/new"  => "forum_posts#new"
   get "/forum/posts/:id"  => "forum_posts#show", as: "forum_post"
-  post "/forum/posts"     => "forum_posts#create"
+
+  post "/forum/posts"              => "forum_posts#create"
+  post "/forum/posts/:id/comments" => "forum_comments#create", as: "forum_comments"
 
   get "/auth/:provider/callback", to: "sessions#create"
 

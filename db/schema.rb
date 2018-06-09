@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_08_193218) do
+ActiveRecord::Schema.define(version: 2018_06_09_115557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(version: 2018_06_08_193218) do
     t.jsonb "data", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "forum_comments", force: :cascade do |t|
+    t.integer "forum_post_id", null: false
+    t.integer "user_id", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["forum_post_id"], name: "index_forum_comments_on_forum_post_id"
+    t.index ["user_id"], name: "index_forum_comments_on_user_id"
   end
 
   create_table "forum_posts", force: :cascade do |t|

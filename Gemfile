@@ -12,6 +12,7 @@ gem 'dalli', '~> 2.7'
 gem 'sidekiq'
 
 gem 'omniauth-bnet'
+gem 'nokogiri', '>= 1.8'
 
 # assets
 gem 'sass-rails', '~> 5.0'
