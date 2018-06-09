@@ -1,4 +1,8 @@
 <div class="container forum-post">
   <h3 class="title"><%= @forum_post.title %></h3>
   <h4 class="author">by <%= @forum_post.user.name %></h4>
+
+  <div class="content">
+    <%= sanitize(@forum_post.content).gsub(/(\r|\n){2,}/, '<br><br>').html_safe %>
+  </div>
 </div>

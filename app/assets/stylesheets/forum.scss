@@ -5,32 +5,25 @@
 }
 
 .forum-post-preview {
-  margin: 20px 0;
+  margin: 25px 0;
 
-  header {
+  header, footer {
     display: flex;
+    align-items: center;
+  }
+
+  footer {
+    margin-top: 5px;
   }
 
   a {
     color: inherit;
+    display: block;
     text-decoration: none;
 
     &:hover {
       color: #45ABFE;
     }
-  }
-
-  .title {
-    font-weight: bold;
-  }
-
-  .author {
-    margin-left: 5px;
-  }
-
-  .timestamp {
-    margin-top: 7px;
-    font-size: 14px;
   }
 }
 
@@ -52,5 +45,23 @@
     padding: 3px 8px;
     width: 500px;
     min-height: 150px;
+  }
+}
+
+.forum-post {
+  .title {
+    font-weight: bold;
+  }
+
+  .separator {
+    margin: 0 5px;
+  }
+
+  .timestamp {
+    font-size: 14px;
+  }
+
+  .content {
+    margin-top: 30px;
   }
 }
