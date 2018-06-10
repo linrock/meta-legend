@@ -1,15 +1,13 @@
 <template lang="pug">
-  .class-image-selector(@mouseleave="hoverOverClassImage(null)")
+  .class-image-selector
     router-link(
-      tag="img"
       v-for="([path, route]) in $store.getters.classArray"
-      :src="imgSrc(path)"
-      :alt="path"
       :class="[{ active: !currentRoute.class || currentRoute.class === route.class }]"
       :key="path"
       :to="$store.state.path === path ? `/` : path"
-      @mouseenter.native="hoverOverClassImage(path)"
     )
+      img(:src="imgSrc(path)" :alt="path")
+
 </template>
 
 <script>
@@ -24,9 +22,6 @@
       imgSrc(path) {
         return `assets/classes/${path}.png`
       },
-      hoverOverClassImage(path) {
-        this.$store.dispatch(`hoverOverClassImage`, path)
-      },
     },
   }
 </script>
@@ -40,19 +35,21 @@
     align-items center
     margin-bottom 10px
 
-  img
+  a
+    display block
     width 77px
     height 77px
-    display block
     opacity 0.3
-    border-radius 2px
-    margin-left 0
     transition opacity 0.2s ease-in-out
 
     &.active
       opacity 1
 
-    &:hover
-      cursor pointer
+  img
+    width 100%
+    height 100%
+    display block
+    border-radius 2px
+    margin-left 0
 
 </style>

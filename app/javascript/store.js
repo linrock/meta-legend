@@ -13,7 +13,6 @@ const store = new Vuex.Store({
     path: `/`,
     filter: `all`,
     page: 1,
-    hoverClassName: null,
     aboutWinrates: {},
     routeMap: {},
     replays: new Replays(),
@@ -24,9 +23,6 @@ const store = new Vuex.Store({
   },
 
   mutations: {
-    hoverOverClassName(state, className) {
-      state.hoverClassName = className
-    },
     setAboutWinrates(state, aboutWinrates) {
       state.aboutWinrates = aboutWinrates
     },
@@ -64,10 +60,6 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    hoverOverClassImage({ commit, getters }, path) {
-      const className = path ? getters.routeMap(path).class : null
-      commit(`hoverOverClassName`, className)
-    },
     setInitialData({ commit }, initialData) {
       commit(`setRouteMap`, new RouteMap(initialData.routes))
       commit(`setAboutWinrates`, new AboutWinrates(initialData.about))
@@ -77,9 +69,6 @@ const store = new Vuex.Store({
     },
     setPath({ commit, dispatch, getters }, path) {
       const route = getters.routeMap(path)
-      if (route.class && !route.archetype) {
-        dispatch(`hoverOverClassImage`, path)
-      }
       if (getters.currentReplay) {
         commit(`selectReplay`, null)
       }
