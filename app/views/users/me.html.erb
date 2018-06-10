@@ -13,31 +13,49 @@
 
   <br><br>
 
-  <form>
+  <% if @user.forum_username %>
     <div class="field">
       <div class="field-name">Forum username:</div>
-      <div class="field-value"><input type="text"/></div>
+      <div class="field-value"><%= @user.forum_username %></div>
     </div>
-    <div>can be set once</div>
+  <% end %>
+
+  <%= form_tag account_path, method: :patch do %>
+    <% unless @user.forum_username.present? %>
+      <div class="field">
+        <div class="field-name">Forum username:</div>
+        <div class="field-value">
+          <input type="text" name="user[forum_username]"/>
+        </div>
+      </div>
+      <small>
+        Can be set once. 4-25 letters, numbers, or underscores, can't start with an underscore
+      </small>
+    <% end %>
 
     <div class="editable-fields">
       <div class="field">
-        <div class="field-name">Twitch URL:</div>
-        <div class="field-value"><input type="text"/></div>
+        <div class="field-name">Twitch username:</div>
+        <div class="field-value">
+          <input type="text" name="user[twitch_username]" value="<%= @user.twitch_username %>"/>
+        </div>
       </div>
 
       <div class="field">
         <div class="field-name">Battle.net region:</div>
         <div class="field-value">
-          <select>
-            <option value="us">US</option>
-            <option value="eu">EU</option>
-            <option value="sea">SEA</option>
-            <option value="cn">CN</option>
-          </select>
+          <%= select_tag "user[region]",
+                options_for_select(User::BNET_REGIONS, selected: @user.region),
+                include_blank: true %>
         </div>
       </div>
     </div>
     <input type="submit" value="Save"/>
-  </form>
+  <% end %>
+
+  <% if flash[:notice] %>
+    <div class="errors">
+      <%= flash[:notice].gsub(/\n\n/, "<br><br>").html_safe %>
+    </div>
+  <% end %>
 </div>

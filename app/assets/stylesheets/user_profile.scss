@@ -16,6 +16,11 @@
     margin-top: 15px;
   }
 
+  small {
+    font-size: 13px;
+    opacity: 0.5;
+  }
+
   .editable-fields {
     margin-top: 80px;
   }
@@ -29,7 +34,13 @@
     }
 
     .field-value {
+      font-weight: bold;
       width: 500px;
     }
+  }
+
+  .errors {
+    margin-top: 15px;
+    color: orange;
   }
 }
