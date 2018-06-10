@@ -22,7 +22,7 @@
         .card(v-for="card in replay.deck_card_names")
           .cost {{ card.cost }}
           .name {{ card.name }}
-          .quantity x{{ card.n }}
+          .quantity(v-if="card.n > 1") x{{ card.n }}
 
 </template>
 
@@ -109,19 +109,21 @@
 
     .small
       display flex
-      font-size 12px
+      font-size 15px
       opacity 0.7
       margin-bottom 10px
 
     .watch-link
-      color: #45abfe;
-      text-decoration: none;
+      color #45abfe
+      text-decoration none
+      font-size 16px
 
       &:hover
-        text-decoration: underline;
+        text-decoration underline
 
   .replay-likes
     display flex
+    font-size 17px
 
   .deck
     margin-top 25px
@@ -130,8 +132,10 @@
       margin-top 10px
 
   .card
-    padding 2px
+    padding 3px 0
     display flex
+    font-size 15px
+    letter-spacing -0.2px
 
     .cost
       width 25px

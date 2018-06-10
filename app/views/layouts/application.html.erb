@@ -3,7 +3,7 @@
   <head>
     <title><%= @title %></title>
     <meta name="description" content="<%= @meta_desc %>"/>
-    <meta name="viewport" content="width=790, initial-scale=1"/>
+    <meta name="viewport" content="width=790, user-scalable=yes"/>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
@@ -43,7 +43,8 @@
       <% if request.path !~ /\A\/(account|forum)/ %>
         <h2 class="main-description">
           Find replays of games by
-          legend-rank Hearthstone players
+          legend-rank Hearthstone players.
+          Choose a class to filter replays and top decks.
         </h2>
       <% end %>
 
