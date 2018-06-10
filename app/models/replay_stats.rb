@@ -106,6 +106,6 @@ class ReplayStats
   end
 
   def logger
-    @logger ||= Logger.new "#{Rails.root}/log/error.log"
+    @logger ||= Logger.new "#{Rails.root}/log/replay_stats.log"
   end
 end

@@ -2,12 +2,12 @@ class JsonResponseCache
   EXPIRES_IN = 3.minutes
 
   def self.warm_all_caches!
-    %w( 1 2 3 ).each do |page|
+    %w( 1 2 ).each do |page|
       ReplayOutcomeFilter::FILTERS.each do |filter|
         self.new({ path: "/", filter: filter, page: page }).json_response!
-        ReplayStatsCache.new.route_map.keys.each do |path|
-          self.new({ path: path, filter: filter, page: page }).json_response!
-        end
+        # ReplayStatsCache.new.route_map.keys.each do |path|
+        #   self.new({ path: path, filter: filter, page: page }).json_response!
+        # end
       end
     end
   end

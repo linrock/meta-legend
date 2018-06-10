@@ -57,15 +57,11 @@ class ReplayOutcomeImporter
         end
       end
     end
-    evt_logger.info "Saved #{num_saved}/#{replay_outcomes.length} replays (#{legend_saved} legend)"
+    logger.info "Saved #{num_saved}/#{replay_outcomes.length} replays (#{legend_saved} legend)"
     true
   end
 
-  def evt_logger
-    @evt_logger ||= Logger.new("#{Rails.root}/log/replay_outcome_importer.log")
-  end
-
   def logger
-    @logger ||= Logger.new("#{Rails.root}/log/error.log")
+    @logger ||= Logger.new("#{Rails.root}/log/replay_outcome_importer.log")
   end
 end

@@ -20,7 +20,21 @@ class JsonResponse
       replays_count: hsreplay_ids.length,
       replays: hsreplay_ids.map do |hsreplay_id|
         begin
-          ReplayDataCache.new.replay_data_hash(hsreplay_id)
+          replay_data = ReplayDataCache.new.replay_data_hash(hsreplay_id)
+          errors = false
+          if replay_data.dig(:p1, :legend_rank).nil? and
+             replay_data.dig(:p2, :legend_rank).nil?
+            logger.info "#{hsreplay_id} legend ranks are both nil"
+            errors = true
+          end
+          if replay_data[:deck_card_names].length == 0
+            logger.info "#{hsreplay_id} is missing a deck"
+          end
+          if errors
+            nil
+          else
+            replay_data
+          end
         rescue => e
           logger.error "json_response! - replay #{hsreplay_id}"
           logger.error "#{e.class.name}: #{e.message}"
@@ -60,6 +74,6 @@ class JsonResponse
   end
 
   def logger
-    @logger ||= Logger.new("#{Rails.root}/log/error.log")
+    @logger ||= Logger.new("#{Rails.root}/log/json_response.log")
   end
 end

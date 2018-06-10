@@ -1,6 +1,5 @@
 class ReplayOutcomeQuery
-
-  PAGE_SIZE = 30
+  PAGE_SIZE = 25
 
   def initialize(query = {})
     @class = query[:class] || 'any'

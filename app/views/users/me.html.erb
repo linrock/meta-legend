@@ -13,7 +13,7 @@
 
   <br><br>
 
-  <% if @user.forum_username %>
+  <% if @user.forum_username.present? %>
     <div class="field">
       <div class="field-name">Forum username:</div>
       <div class="field-value"><%= @user.forum_username %></div>

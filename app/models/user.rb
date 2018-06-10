@@ -39,7 +39,7 @@ class User < ApplicationRecord
   private
 
   def ensure_format_of_usernames
-    if forum_username[0] == '_'
+    if forum_username and forum_username[0] == '_'
       errors.add(:forum_username, "can't start with an underscore")
     end
   end
