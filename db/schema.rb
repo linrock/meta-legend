@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_10_041534) do
+ActiveRecord::Schema.define(version: 2018_06_10_061710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,9 @@ ActiveRecord::Schema.define(version: 2018_06_10_041534) do
     t.jsonb "auth_hash", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "twitch_username"
+    t.string "forum_username"
+    t.index "lower((forum_username)::text)", name: "index_users_on_lowercase_forum_username", unique: true
     t.index ["battletag"], name: "index_users_on_battletag", unique: true
   end
 
