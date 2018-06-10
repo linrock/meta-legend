@@ -42,9 +42,10 @@ class ReplayOutcomeImporter
     )
     ReplayOutcome.transaction do
       (hsreplay_ids - existing_hsreplay_ids).to_a.each do |hsreplay_id|
+        replay_data = hsreplay_id_map[hsreplay_id][0]
         replay_outcome = ReplayOutcome.new(
           hsreplay_id: hsreplay_id,
-          data: hsreplay_id_map[hsreplay_id][0]
+          data: replay_data
         )
         if replay_outcome.valid?
           replay_outcome.save!
@@ -53,7 +54,7 @@ class ReplayOutcomeImporter
           end
           num_saved += 1
         else
-          logger.error "#{hsreplay_id} is invalid #{replay.to_json}"
+          logger.error "#{hsreplay_id} is invalid #{replay_data.to_json}"
         end
       end
     end
