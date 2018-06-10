@@ -30,8 +30,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
-
   import AboutSelection from './components/about_selection'
   import ClassImageSelector from './components/class_image_selector'
   import ClassWinrates from './components/class_winrates'
@@ -40,6 +38,7 @@
   import ReplayRow from './components/replay_row'
   import Sidebar from './components/sidebar'
   import { trackEvent } from './utils'
+  import api from './api'
 
   const pageTitleSuffix = `Meta Legend`
   const infScroll = {
@@ -138,7 +137,7 @@
         if (page === 1) {
           this.isLoadingPageOne = true
         }
-        axios.get(this.apiQuery(page))
+        api.get(this.apiQuery(page))
           .then(response => response.data)
           .then(data => {
             if (this.path !== data.path) {
@@ -179,23 +178,17 @@
       },
       fetchReplayLikes(replays) {
         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        axios.post(`/replays/get_likes.json`, {
-          hsreplay_ids: replays.map(r => r.hsreplay_id)
-        }, {
-          headers: {
-            'X-CSRF-Token': token
-          }
-        })
+        api.post(`/replays/get_likes.json`, { hsreplay_ids: replays.map(r => r.hsreplay_id) })
           .then(response => response.data)
-          .then(data => data.replay_likes.forEach(([replayId, likeData]) => {
-            console.log(replayId)
-            console.log(JSON.stringify(likeData))
-            this.$store.dispatch(`setReplayLikes`, {
-              numLikes: likeData.likes,
-              liked: likeData.liked,
-              replayId,
+          .then(data => {
+            data.replay_likes.forEach(([replayId, likeData]) => {
+              this.$store.dispatch(`setReplayLikes`, {
+                numLikes: likeData.likes,
+                liked: likeData.liked,
+                replayId,
+              })
             })
-          }))
+          })
       },
       backToTop() {
         window.scrollTo(0, 0)
@@ -204,8 +197,7 @@
 
     watch: {
       $route(to, from) {
-        let path = to.params.path || `/`
-        this.$store.dispatch(`setPath`, path)
+        this.$store.dispatch(`setPath`, to.params.path || `/`)
         this.fetchReplays()
       },
       filter() {

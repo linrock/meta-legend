@@ -25,7 +25,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import PlayerRank from './player_rank'
   import { trackEvent } from '../utils'
 

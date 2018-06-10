@@ -11,7 +11,7 @@
         target="_blank"
       ) Watch on hsreplay.net
     .replay-likes
-      div(v-if="liked") Liked
+      div(v-if="replayLikes.liked") Liked
       a(v-else href="javascript:" @click="likeReplay") Like
       template(v-if="numLikes")
         .separator &bull;
@@ -27,8 +27,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
-
+  import api from '../api'
   import { trackEvent, timeAgo } from '../utils'
 
   export default {
@@ -41,14 +40,7 @@
 
     methods: {
       likeReplay() {
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        axios.post(`/replays/like.json`, {
-          replay_id: this.replay.hsreplay_id
-        }, {
-          headers: {
-            'X-CSRF-Token': token
-          }
-        })
+        api.post(`/replays/like.json`, { replay_id: this.replay.hsreplay_id })
           .then(response => response.data)
           .then(data => {
             this.$store.dispatch(`setReplayLikes`, {
@@ -66,11 +58,7 @@
         return this.$store.getters.replayLikes(this.replay.hsreplay_id)
       },
       numLikes() {
-        return this.replayLikes ? this.replayLikes.numLikes : null
-      },
-      liked() {
-        console.log(`liked changed - ${this.replayLikes ? this.replayLikes.liked : null}`)
-        return this.replayLikes ? this.replayLikes.liked : null
+        return this.replayLikes.numLikes
       },
       numLikesText() {
         if (this.numLikes) {
