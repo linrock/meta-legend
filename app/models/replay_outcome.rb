@@ -5,7 +5,7 @@ class ReplayOutcome < ApplicationRecord
   validate :check_data_format
 
   after_create :extract_and_save_data
-  after_save :import_legend_replay_data
+  after_create :import_legend_replay_data
 
   delegate :player_names, to: :replay_xml_data
   delegate :num_turns, to: :replay_html_data

@@ -45,7 +45,7 @@ class ReplayDataImporter
   end
 
   def save_html
-    logger.info "Importing html for #{@hsreplay_id}"
+    logger.info "#{@hsreplay_id} - importing html"
     return true if html_exists?
     save_html!
   end
@@ -71,7 +71,7 @@ class ReplayDataImporter
   end
 
   def save_xml
-    logger.info "Importing xml for #{@hsreplay_id}"
+    logger.info "#{@hsreplay_id} - importing xml"
     return true if xml_exists?
     save_xml!
   end
@@ -84,12 +84,17 @@ class ReplayDataImporter
       if xml_exists?
         replay_xml_data = ReplayXmlData.find_by(hsreplay_id: @hsreplay_id)
         replay_xml_data.data = xml
-        replay_xml_data.save!
       else
-        ReplayXmlData.create!({
+        replay_xml_data = ReplayXmlData.new({
           hsreplay_id: @hsreplay_id,
           data: xml
         })
+      end
+      if replay_xml_data.valid?
+        replay_xml_data.save!
+      else
+        errors = r.errors.full_messages
+        logger.error "#{@hsreplay_id} is invalid. Skipping. #{errors}"
       end
     end
   end
