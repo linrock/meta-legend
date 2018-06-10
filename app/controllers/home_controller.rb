@@ -10,7 +10,7 @@ class HomeController < ApplicationController
   private
 
   def set_title
-    @title = "Hearthstone Replay Finder"
+    @title = "Meta Legend"
     @title = "#{player_type} | #{@title}" if player_type.present?
   end
 

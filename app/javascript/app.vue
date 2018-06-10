@@ -41,7 +41,7 @@
   import Sidebar from './components/sidebar'
   import { trackEvent } from './utils'
 
-  const pageTitleSuffix = `Hearthstone Replay Finder`
+  const pageTitleSuffix = `Meta Legend`
   const infScroll = {
     delayBeforeEnabling: 1000,
     triggerDistance: 500,
