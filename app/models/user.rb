@@ -32,6 +32,10 @@ class User < ApplicationRecord
   # "credentials"=>{"token"=>"11111", "expires_at"=>1531050531, "expires"=>true},
   # "extra"=>{}}
 
+  def forum_name
+    forum_username || name
+  end
+
   def name
     battletag&.split("#")[0]
   end

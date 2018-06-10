@@ -1,15 +1,18 @@
-<div class="container">
-  <a href="<%= forum_path %>">&lt; Back to forum</a>
+<div class="forum">
+  <header class="forum-header">
+    <h2><a href="/forum/general-discussion">General Discussion</a></h2>
+    <div class="separator">&mdash;</div>
+    <h3 class="title"><%= @forum_post.title %></h3>
+  </header>
 
   <div class="forum-post show-forum-post">
-    <h3 class="title"><%= @forum_post.title %></h3>
 
     <div class="content">
       <%= sanitize(@forum_post.content).gsub(/(\r|\n){2,}/, '<br><br>').html_safe %>
     </div>
 
     <footer>
-      <h4 class="author">by <%= @forum_post.user.name %></h4>
+      <h4 class="author">by <%= @forum_post.user.forum_name %></h4>
       <div class="separator">&bull;</div>
       <div class="timestamp">
         <%= time_ago_in_words(@forum_post.created_at).gsub(/about/, '').strip %> ago
@@ -26,7 +29,7 @@
         <input type="hidden"
                value="<%= request_forgery_protection_token %>"
                name="csrf_token"/>
-        <h3>Write a response</h3>
+        <h3 class="response-prompt">Write a response</h3>
         <textarea placeholder="Enter your response here..."
                   name="forum_comment[content]"></textarea>
         <br>

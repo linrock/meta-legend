@@ -2,8 +2,8 @@ class ApplicationController < ActionController::Base
   before_action :set_user
 
   def set_user
-    if session[:battletag].present?
-      @user = User.find_by(battletag: session[:battletag])
+    if session[:user_id].present?
+      @user = User.find_by(id: session[:user_id])
     end
   end
 end

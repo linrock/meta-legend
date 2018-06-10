@@ -1,10 +1,26 @@
-<div class="container forum">
-  <header class="forum-header">
-    <h2>General Discussion</h2>
-    <a href="<%= forum_posts_new_path %>">New post</a>
-  </header>
+<div class="forum">
+  <div class="forum-preview">
+    <header class="forum-header">
+      <h2><a href="/forum/general-discussion">General Discussion</a></h2>
+      <a href="<%= forum_posts_new_path %>" class="new-post-link">New post</a>
+    </header>
 
-  <div class="forum-posts">
-    <%= render partial: "forum_posts/forum_post", collection: @forum_posts %>
+    <div class="forum-posts">
+      <%= render partial: "forum_posts/forum_post", collection: @forum_posts %>
+    </div>
+
+    <% if @has_more %>
+      <a href="/forum/general-discussion">View more posts</a>
+    <% end %>
+  </div>
+
+  <div class="forum-preview">
+    <header class="forum-header">
+      <h2>Legend Lounge</h2>
+    </header>
+
+    <div class="access-required">
+      Verify your legend status to gain access
+    </div>
   </div>
 </div>

@@ -5,7 +5,7 @@
     </header>
 
     <footer>
-      <h4 class="author">by <%= forum_post.user.name %></h4>
+      <h4 class="author">by <%= forum_post.user.forum_name %></h4>
       <div class="separator">&bull;</div>
       <div class="timestamp">
         <%= time_ago_in_words(forum_post.created_at).gsub(/about/, '').strip %> ago

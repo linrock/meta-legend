@@ -13,12 +13,13 @@ Rails.application.routes.draw do
   get "/account/login"             => "users#login"
   patch "/account"                 => "users#update"
 
-  # forum posts
+  # forum home
   get "/forum"                     => "forum#index"
+  get "/forum/general-discussion"  => "forum#show"
+
+  # forum posts
   get "/forum/posts/new"           => "forum_posts#new"
   get "/forum/posts/:id"           => "forum_posts#show", as: "forum_post"
-
-  # viewing a forum post
   post "/forum/posts"              => "forum_posts#create"
   post "/forum/posts/:id/comments" => "forum_comments#create", as: "forum_comments"
 

@@ -1,10 +1,15 @@
-<div class="container new-forum-post">
+<div class="forum new-forum-post">
   <% if @user %>
+    <header class="forum-header">
+      <h2>General Discussion</h2>
+      <div class="separator">&mdash;</div>
+      <h3 class="submit-post-header">Submit a post</h3>
+    </header>
+
     <%= form_tag forum_posts_path, method: :post do %>
       <input type="hidden"
              value="<%= request_forgery_protection_token %>"
              name="csrf_token"/>
-      <h3>Submit a post</h3>
       <input type="text" placeholder="Title" name="forum_post[title]"/>
       <br>
       <textarea placeholder="Enter your post here..."
@@ -13,7 +18,9 @@
       <input type="submit"/>
     <% end %>
   <% else %>
-    <a href="<%= account_login_path %>" class="bnet-login">Log in with Battle.net</a>
-    <div>To create a post</div>
+    <div class="login-prompt">
+      <a href="<%= account_login_path %>" class="bnet-login">Log in with Battle.net</a>
+      <div>To create a post</div>
+    </div>
   <% end %>
 </div>
