@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   def me
+    @title = "My Profile | Meta Legend"
     unless @user
       redirect_to account_login_path
       return

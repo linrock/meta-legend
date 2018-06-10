@@ -1,4 +1,5 @@
 class ForumPostsController < ApplicationController
+  before_action :set_title_and_meta_desc
 
   # page for creating new posts
   def new
@@ -17,9 +18,17 @@ class ForumPostsController < ApplicationController
 
   def show
     @forum_post = ForumPost.find(params[:id])
+    @title = "#{@forum_post.title} | Forum | Meta Legend"
   end
 
   def forum_post_params
     params.require(:forum_post).permit(:title, :content)
+  end
+
+  private
+
+  def set_title_and_meta_desc
+    @title = "Forum | Meta Legend"
+    @meta_desc = "Find legend-rank Hearthstone replays and players. Learn how the best players play the top decks."
   end
 end
