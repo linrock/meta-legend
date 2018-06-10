@@ -1,7 +1,7 @@
 <template lang="pug">
   a.replay-link(
     href="javascript:" target="_blank"
-    :class="[{ selected: $store.getters.currentReplay === replay }]"
+    :class="[{ selected: isSelectedReplay }]"
     @click="selectReplay(replay)"
   )
     .player.player1
@@ -9,14 +9,14 @@
         .win-indicator
           svg.crown(v-if="replay.winner === `p1`")
             use(xlink:href="#crown")
-        div {{ p1Name }}
+        div {{ replay.p1Name }}
       .archetype {{ replay.p1.archetype }}
     player-rank(:player="replay.p1")
     .vs vs
     player-rank(:player="replay.p2")
     .player.player2
       .player-name
-        div {{ p2Name }}
+        div {{ replay.p2Name }}
         .win-indicator
           svg.crown(v-if="replay.winner === `p2`")
             use(xlink:href="#crown")
@@ -38,24 +38,15 @@
 
     methods: {
       selectReplay() {
-        const replay = this.replay === this.currentReplay ? null : this.replay
+        const replay = this.isSelectedReplay ? null : this.replay
         this.$store.dispatch(`selectReplay`, replay)
-        trackEvent('click row', 'replay', replay.hsreplay_id)
+        trackEvent('click row', 'replay', replay.hsreplayId)
       },
     },
 
     computed: {
-      currentReplay() {
-        return this.$store.getters.currentReplay
-      },
-      p1Name() {
-        return this.replay.p1.tag.split("#")[0]
-      },
-      p2Name() {
-        return this.replay.p2.tag.split("#")[0]
-      },
-      hsreplayLink() {
-        return `https://hsreplay.net/replay/${this.replay.hsreplay_id}`
+      isSelectedReplay() {
+        return this.replay === this.$store.getters.currentReplay
       },
     },
 

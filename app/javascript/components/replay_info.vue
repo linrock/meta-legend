@@ -1,13 +1,13 @@
 <template lang="pug">
   .replay-info
     .about-replay
-      .players {{ p1Name }} vs. {{ p2Name }}
+      .players {{ replay.p1Name }} vs. {{ replay.p2Name }}
       .small
-        .num-turns {{ replay.num_turns }} turns
+        .num-turns {{ replay.numTurns }} turns
         .separator &bull;
         .time-ago {{ timeAgo }}
       a.watch-link(
-        :href="replayLink"
+        :href="replay.hsreplayLink"
         target="_blank"
       ) Watch on hsreplay.net
     .replay-likes
@@ -17,9 +17,9 @@
         .separator &bull;
         .num-likes {{ numLikesText }}
     .deck
-      // .about-deck {{ p1Name }}'s deck
+      // .about-deck {{ replay.p1Name }}'s deck
       .deck-card-names
-        .card(v-for="card in replay.deck_card_names")
+        .card(v-for="card in replay.deckCardNames")
           .cost {{ card.cost }}
           .name {{ card.name }}
           .quantity(v-if="card.n > 1") x{{ card.n }}
@@ -27,20 +27,21 @@
 </template>
 
 <script>
+  import Replay from '../models/replay'
   import api from '../api'
   import { trackEvent, timeAgo } from '../utils'
 
   export default {
     props: {
       replay: {
-        type: Object,
+        type: Replay,
         required: true
       }
     },
 
     methods: {
       likeReplay() {
-        api.post(`/replays/like.json`, { replay_id: this.replay.hsreplay_id })
+        api.post(`/replays/like.json`, { replay_id: this.replay.hsreplayId })
           .then(response => response.data)
           .then(data => {
             this.$store.dispatch(`setReplayLikes`, {
@@ -49,13 +50,13 @@
               liked: data.liked,
             })
           })
-        trackEvent('like', 'replay', this.replay.hsreplay_id)
+        trackEvent('like', 'replay', this.replay.hsreplayId)
       },
     },
 
     computed: {
       replayLikes() {
-        return this.$store.getters.replayLikes(this.replay.hsreplay_id)
+        return this.$store.getters.replayLikes(this.replay.hsreplayId)
       },
       numLikes() {
         return this.replayLikes.numLikes
@@ -65,17 +66,8 @@
           return this.numLikes === 1 ? `1 like` : `${this.numLikes} likes`
         }
       },
-      replayLink() {
-        return `https://hsreplay.net/replay/${this.replay.hsreplay_id}`
-      },
       timeAgo() {
-        return timeAgo(this.replay.found_at)
-      },
-      p1Name() {
-        return this.replay.p1.tag.split('#')[0]
-      },
-      p2Name() {
-        return this.replay.p2.tag.split('#')[0]
+        return timeAgo(this.replay.foundAt)
       },
     }
   }

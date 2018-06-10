@@ -17,7 +17,7 @@
             .replay-list
               replay-row(
                 v-for="replay in $store.getters.replays"
-                :key="replay.hsreplay_id"
+                :key="replay.key"
                 :replay="replay"
               )
           .bottom(ref="bottom")

@@ -1,10 +1,4 @@
-interface Replay {
-  hsreplay_id: string,
-  winner: string,
-  num_turns: number,
-  p1: object,
-  p2: object,
-}
+import Replay from './replay'
 
 export default class Replays {
   replayList: Array<Replay>
@@ -17,9 +11,10 @@ export default class Replays {
 
   // returns a list of all replays
   addReplays(replays): Array<Replay> {
-    replays.forEach(replay => {
-      if (!this.replaySet.has(replay.hsreplay_id)) {
-        this.replaySet.add(replay.hsreplay_id)
+    replays.forEach(replayOptions => {
+      const replay = new Replay(replayOptions)
+      if (!this.replaySet.has(replay.key)) {
+        this.replaySet.add(replay.key)
         this.replayList.push(replay)
       }
     })
