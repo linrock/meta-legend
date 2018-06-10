@@ -1,7 +1,7 @@
 <div class="forum new-forum-post">
   <% if @user %>
     <header class="forum-header">
-      <h2>General Discussion</h2>
+      <h2><a href="/forum/general-discussion">General Discussion</a></h2>
       <div class="separator">&mdash;</div>
       <h3 class="submit-post-header">Submit a post</h3>
     </header>
@@ -18,9 +18,6 @@
       <input type="submit"/>
     <% end %>
   <% else %>
-    <div class="login-prompt">
-      <a href="<%= account_login_path %>" class="bnet-login">Log in with Battle.net</a>
-      <div>To create a post</div>
-    </div>
+    <%= render partial: "forum_posts/login_prompt" %>
   <% end %>
 </div>
