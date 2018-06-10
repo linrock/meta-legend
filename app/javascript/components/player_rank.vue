@@ -39,7 +39,7 @@
     font-size 10px
     position relative
     text-align center
-    width 47px
+    width 55px
 
   .rank-num
     position relative
@@ -48,11 +48,11 @@
   .legend-rank
     &.top-10
       font-weight bold
-      font-size 16px
+      font-size 18px
 
     &.top
       font-weight bold
-      font-size 12px
+      font-size 13px
       letter-spacing 0.5px
 
     &.high
@@ -71,10 +71,10 @@
     position absolute
     left 50%
     top 50%
-    margin-top -12px
-    margin-left -11px
-    width 22px
-    height 25px
+    margin-top -14px
+    margin-left -12.5px
+    width 25px
+    height 28px
     z-index 1
 
     &.legend-hexagon

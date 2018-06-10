@@ -27,7 +27,7 @@ const router = new VueRouter({
 
 document.addEventListener('DOMContentLoaded', () => {
   new Vue({
-    el: document.body.appendChild(document.createElement('main')),
+    el: document.querySelector(".app-container").appendChild(document.createElement('main')),
     render: h => h(App),
     router,
     store,

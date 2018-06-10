@@ -73,7 +73,7 @@
     display flex
     text-decoration none
     justify-content center
-    font-size 15px
+    font-size 17px
     padding 10px 0
     margin 10px 0
     width 510px
@@ -112,14 +112,14 @@
       .player-name
         margin-right auto
 
-  .player-name
-    display flex
-    margin-bottom 5px
-    flex-direction row
+    .player-name
+      display flex
+      margin-bottom 7px
+      flex-direction row
 
-  .archetype
-    font-size 13px
-    font-weight bold
+    .archetype
+      font-size 15px
+      font-weight bold
 
   .vs
     font-weight 300
@@ -135,7 +135,7 @@
     justify-content center
 
   .crown
-    width 22px
+    width 25px
     height 16px
     fill #ffcd00
     stroke #737373
