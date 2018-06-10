@@ -32,6 +32,10 @@ class User < ApplicationRecord
   # "credentials"=>{"token"=>"11111", "expires_at"=>1531050531, "expires"=>true},
   # "extra"=>{}}
 
+  def find_by_battletag(battletag)
+    find_by("LOWER(battletag) = ?", battletag.downcase)
+  end
+
   def forum_name
     forum_username || name
   end

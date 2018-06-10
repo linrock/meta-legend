@@ -21,9 +21,15 @@ class ReplayStatsCache
 
   def legend_stats!
     replay_stats = ReplayStats.new(ReplayOutcome.legend_players.since(SINCE))
+    players = replay_stats.most_active_players.map do |tag, count|
+      [tag, {
+        count: count,
+        twitch_username: User.find_by_battletag(tag)&.twitch_username
+      }]
+    end
     results = {
       routes: replay_stats.to_route_map,
-      players: replay_stats.most_active_players,
+      players: players,
       about: {
         count: replay_stats.replays_count,
         since: replay_stats.oldest_replay_timestamp,

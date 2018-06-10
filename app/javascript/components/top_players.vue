@@ -2,17 +2,23 @@
   .top-players(v-if="$store.state.activePlayers.length > 0")
     .header-row
       h2 Active players
-      h3 {{ pastDays }}
+      h3 {{ $store.getters.sinceDaysText }}
     .label-row
       .left-label name
       .right-label # games
     .stats
-      .stats-row(
-        v-for="([name, count]) in $store.state.activePlayers"
+      div(
+        v-for="([name, playerData]) in $store.state.activePlayers"
         @click="clickUserName(name)"
       )
-        .left-label {{ name.split("#")[0] }}
-        .right-label {{ count }}
+        .stats-row
+          .left-label {{ name.split("#")[0] }}
+          .right-label {{ playerData.count }}
+        a.twitch-url(
+          v-if="playerData.twitch_username"
+          :href="twitchUrl(playerData.twitch_username)"
+          target="_blank"
+        ) Watch {{ name.split("#")[0] }} on Twitch.tv
 
 </template>
 
@@ -26,16 +32,11 @@
       }
     },
 
-    computed: {
-      pastDays() {
-        const since = this.$store.getters.sinceDays
-        if (since === 1) {
-          return `past day`
-        } else {
-          return `past ${since} days`
-        }
+    methods: {
+      twitchUrl(username) {
+        return `https://twitch.tv/${username}`
       }
-    }
+    },
   }
 </script>
 
@@ -87,5 +88,15 @@
       font-weight normal
       margin-left auto
       text-align right
+
+  .twitch-url
+    color #45ABFE
+    display block
+    font-size 12px
+    text-decoration none
+    margin-bottom 8px
+
+    &:hover
+      text-decoration underline
 
 </style>
