@@ -39,27 +39,10 @@ class ReplaysController < ApplicationController
     end
   end
 
-  # get likes for a replay
-  def likes
-    hsreplay_id = params[:id]
-    if !ReplayOutcome.exists?(hsreplay_id: hsreplay_id)
-      render json: { hsreplay_id: hsreplay_id, error: "Replay not found" }, status: 404
-      return
-    end
-    response_hash = {
-      hsreplay_id: hsreplay_id,
-      likes: LikedReplay.where(hsreplay_id: hsreplay_id).count
-    }
-    if @user
-      response_hash[:liked] = @user.liked_replays.exists?(hsreplay_id: hsreplay_id)
-    end
-    render json: response_hash
-  end
-
   def likes_batch
     hsreplay_ids = params[:hsreplay_ids]
-    if hsreplay_ids.length > ReplayOutcomeQuery::PAGE_SIZE
-      render status: 500
+    if hsreplay_ids.length > ReplayOutcomeQuery::PAGE_SIZE * 2
+      render json: { error: "Request size too large" }, status: 500
       return
     end
     like_counts = LikedReplay.where(hsreplay_id: hsreplay_ids).group(:hsreplay_id).count
@@ -77,22 +60,5 @@ class ReplaysController < ApplicationController
         }]
       end
     }
-  end
-
-  def show
-    hsreplay_id = params[:id]
-    replay_data = ReplayData.new(hsreplay_id)
-    if replay_data.exists?
-      render json: {
-        hsreplay_id: hsreplay_id,
-        player_names: replay_data.replay_xml_data.player_names,
-        pilot_name: replay_data.replay_xml_data.pilot_name,
-        winner_name: replay_data.replay_xml_data.winner_name,
-        num_turns: replay_data.num_turns,
-        hash: replay_data.to_hash,
-      }
-    else
-      render json: "{}", status: 404
-    end
   end
 end

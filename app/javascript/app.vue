@@ -179,7 +179,9 @@
       },
       fetchReplayLikes(replays) {
         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        axios.post(`/replays/likes.json`, { hsreplay_ids: replays.map(r => r.hsreplay_id) }, {
+        axios.post(`/replays/get_likes.json`, {
+          hsreplay_ids: replays.map(r => r.hsreplay_id)
+        }, {
           headers: {
             'X-CSRF-Token': token
           }

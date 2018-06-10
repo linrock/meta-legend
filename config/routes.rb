@@ -3,12 +3,8 @@ Rails.application.routes.draw do
 
   # JSON api endpoints
   get "/replays.json"              => "replays#index"
-  get "/replays/:id.json"          => "replays#show"
-
-  get "/replays/:id/likes.json"    => "replays#likes"
-  post "/replays/likes.json"       => "replays#likes_batch"
-
   post "/replays/like.json"        => "replays#like"
+  post "/replays/get_likes.json"   => "replays#likes_batch"
   get "/popular.json"              => "replays#popular"
 
   # user account routes
