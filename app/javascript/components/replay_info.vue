@@ -10,6 +10,11 @@
         :href="replayLink"
         target="_blank"
       ) Watch on hsreplay.net
+    .replay-actions
+      template(v-if="numLikes")
+        .num-likes {{ numLikesText }}
+      template(v-else)
+        a(href="javascript:" @click="likeReplay") Like
     .deck
       // .about-deck {{ p1Name }}'s deck
       .deck-card-names
@@ -21,13 +26,75 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   import { timeAgo } from '../utils'
 
   export default {
+    props: {
+      replay: {
+        type: Object,
+        required: true
+      }
+    },
+
+    methods: {
+      likeReplay() {
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        axios.post(`/replays/like.json`, {
+          replay_id: this.replay.hsreplay_id
+        }, {
+          headers: {
+            'X-CSRF-Token': token
+          }
+        })
+          .then(response => response.data)
+          .then(data => {
+            this.$store.dispatch(`setReplayLikes`, {
+              replayId: data.hsreplay_id,
+              numLikes: data.likes,
+              liked: data.liked,
+            })
+          })
+      },
+      fetchReplayLikes() {
+        if (Object.keys(this.replayLikes).length > 0) {
+          return
+        }
+        axios.get(`/replays/${this.replay.hsreplay_id}/likes.json`)
+          .then(response => response.data)
+          .then(data => {
+            this.$store.dispatch(`setReplayLikes`, {
+              replayId: data.hsreplay_id,
+              numLikes: data.likes,
+              liked: data.liked,
+            })
+          })
+      }
+    },
+
+    mounted() {
+      this.fetchReplayLikes()
+    },
+
+    watch: {
+      replay(fromReplay, toReplay) {
+        this.fetchReplayLikes()
+      }
+    },
+
     computed: {
-      replay() {
-        console.dir(this.$store.getters.currentReplay)
-        return this.$store.getters.currentReplay
+      replayLikes() {
+        console.log('replay likes changed')
+        return this.$store.getters.replayLikes(this.replay.hsreplay_id)
+      },
+      numLikes() {
+        return this.replayLikes ? this.replayLikes.numLikes : null
+      },
+      numLikesText() {
+        if (this.numLikes) {
+          return this.numLikes === 1 ? `1 like` : `${this.numLikes} likes`
+        }
       },
       replayLink() {
         return `https://hsreplay.net/replay/${this.replay.hsreplay_id}`

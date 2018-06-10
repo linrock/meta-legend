@@ -1,4 +1,4 @@
-class ReplaysController < ActionController::API
+class ReplaysController < ApplicationController
 
   def index
     if RouteMap.new.exists? params[:path]
@@ -18,6 +18,42 @@ class ReplaysController < ActionController::API
       n: replay_stats.replays_count,
       since: replay_stats.oldest_replay_timestamp
     }
+  end
+
+  # user likes a replay
+  def like
+    if @user
+      hsreplay_id = params[:replay_id]
+      if ReplayOutcome.exists?(hsreplay_id: hsreplay_id)
+        @user.liked_replays.find_or_create_by!({ hsreplay_id: hsreplay_id })
+        like_count = LikedReplay.where(hsreplay_id: hsreplay_id).count
+        render json: {
+          hsreplay_id: hsreplay_id,
+          likes: like_count
+        }
+      else
+        render json: { hsreplay_id: hsreplay_id, error: "Replay not found" }, status: 404
+      end
+    else
+      render json: { error: "Not logged in" }, status: 400
+    end
+  end
+
+  # get likes for a replay
+  def likes
+    hsreplay_id = params[:id]
+    if !ReplayOutcome.exists?(hsreplay_id: hsreplay_id)
+      render json: { hsreplay_id: hsreplay_id, error: "Replay not found" }, status: 404
+      return
+    end
+    response_hash = {
+      hsreplay_id: hsreplay_id,
+      likes: LikedReplay.where(hsreplay_id: hsreplay_id).count
+    }
+    if @user
+      response_hash[:liked] = @user.liked_replays.exists?(hsreplay_id: hsreplay_id)
+    end
+    render json: response_hash
   end
 
   def show

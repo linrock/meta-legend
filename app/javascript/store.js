@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import LikedReplays from './models/liked_replays'
 import Replays from './models/replays'
 import RouteMap from './models/route_map'
 import AboutWinrates from './models/about_winrates'
@@ -18,6 +19,7 @@ const store = new Vuex.Store({
     replays: new Replays(),
     replayFeedTitle: ``,
     replay: null,
+    likedReplays: new LikedReplays(),
     activePlayers: [],
   },
 
@@ -56,6 +58,9 @@ const store = new Vuex.Store({
     setActivePlayers(state, players) {
       state.activePlayers = players
     },
+    setReplayLikes(state, { replayId, numLikes, liked }) {
+      Vue.set(state.likedReplays.likeMap, replayId, { numLikes, liked })
+    }
   },
 
   actions: {
@@ -108,6 +113,9 @@ const store = new Vuex.Store({
     },
     selectReplay({ commit }, replay) {
       commit(`selectReplay`, replay)
+    },
+    setReplayLikes({ commit }, { replayId, numLikes, liked }) {
+      commit(`setReplayLikes`, { replayId, numLikes, liked })
     }
   },
 
@@ -123,6 +131,7 @@ const store = new Vuex.Store({
     currentReplay: state => state.replay,
     routeMap: state => path => state.routeMap.getRoute(path),
     replays: state => state.replays.replayList,
+    replayLikes: state => replayId => state.likedReplays.getReplayLikes(replayId),
   }
 })
 

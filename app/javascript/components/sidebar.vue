@@ -1,7 +1,7 @@
 <template lang="pug">
   section#sidebar(:class="[{ fixed: fixedSidebar }]")
     template(v-if="$store.getters.currentReplay")
-      replay-info
+      replay-info(:replay="$store.getters.currentReplay")
     template(v-else)
       template(v-if="$store.getters.currentRoute.class")
         class-archetypes
