@@ -4,6 +4,7 @@
       tag="img"
       v-for="([path, route]) in $store.getters.classArray"
       :src="imgSrc(path)"
+      :alt="path"
       :class="[{ active: !currentRoute.class || currentRoute.class === route.class }]"
       :key="path"
       :to="$store.state.path === path ? `/` : path"

@@ -21,23 +21,7 @@
   </head>
 
   <body>
-    <header class="main-header">
-      <div class="container header-container">
-        <h1 class="title">
-          <a href="/">Meta Legend</a><small>beta</small>
-        </h1>
-        <div class="header-links">
-          <a href="/forum">Forum</a>
-        </div>
-        <div class="user-info">
-          <% if @user %>
-            <a href="/account"><%= @user.battletag %></a>
-          <% else %>
-            <a href="/account/login" class="bnet-login">Log in with Battle.net</a>
-          <% end %>
-        </div>
-      </div>
-    </header>
+    <%= render partial: "layouts/main_header" %>
 
     <div class="container">
       <% if request.path !~ /\A\/(account|forum)/ %>
