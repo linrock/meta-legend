@@ -29,7 +29,8 @@ class ReplaysController < ApplicationController
         like_count = LikedReplay.where(hsreplay_id: hsreplay_id).count
         render json: {
           hsreplay_id: hsreplay_id,
-          likes: like_count
+          likes: like_count,
+          liked: true,
         }
       else
         render json: { hsreplay_id: hsreplay_id, error: "Replay not found" }, status: 404

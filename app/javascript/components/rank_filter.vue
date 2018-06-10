@@ -28,7 +28,7 @@
   }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   .rank-filter
     display flex
     align-items center

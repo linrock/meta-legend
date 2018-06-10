@@ -10,11 +10,12 @@
         :href="replayLink"
         target="_blank"
       ) Watch on hsreplay.net
-    .replay-actions
+    .replay-likes
+      div(v-if="liked") Liked
+      a(v-else href="javascript:" @click="likeReplay") Like
       template(v-if="numLikes")
+        .separator &bull;
         .num-likes {{ numLikesText }}
-      template(v-else)
-        a(href="javascript:" @click="likeReplay") Like
     .deck
       // .about-deck {{ p1Name }}'s deck
       .deck-card-names
@@ -67,6 +68,10 @@
       numLikes() {
         return this.replayLikes ? this.replayLikes.numLikes : null
       },
+      liked() {
+        console.log(`liked changed - ${this.replayLikes ? this.replayLikes.liked : null}`)
+        return this.replayLikes ? this.replayLikes.liked : null
+      },
       numLikesText() {
         if (this.numLikes) {
           return this.numLikes === 1 ? `1 like` : `${this.numLikes} likes`
@@ -88,9 +93,12 @@
   }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   .replay-info
     font-size 14px
+
+  .separator
+    margin 0 5px
 
   .about-replay
     margin-bottom 15px
@@ -105,15 +113,15 @@
       opacity 0.7
       margin-bottom 10px
 
-      .separator
-        margin 0 5px
-
     .watch-link
       color: #45abfe;
       text-decoration: none;
 
       &:hover
         text-decoration: underline;
+
+  .replay-likes
+    display flex
 
   .deck
     margin-top 25px
