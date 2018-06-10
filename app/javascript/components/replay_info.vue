@@ -58,30 +58,6 @@
           })
         trackEvent('like', 'replay', this.replay.hsreplay_id)
       },
-      fetchReplayLikes() {
-        if (Object.keys(this.replayLikes).length > 0) {
-          return
-        }
-        axios.get(`/replays/${this.replay.hsreplay_id}/likes.json`)
-          .then(response => response.data)
-          .then(data => {
-            this.$store.dispatch(`setReplayLikes`, {
-              replayId: data.hsreplay_id,
-              numLikes: data.likes,
-              liked: data.liked,
-            })
-          })
-      }
-    },
-
-    mounted() {
-      this.fetchReplayLikes()
-    },
-
-    watch: {
-      replay(fromReplay, toReplay) {
-        this.fetchReplayLikes()
-      }
     },
 
     computed: {

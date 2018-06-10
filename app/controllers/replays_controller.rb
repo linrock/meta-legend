@@ -56,6 +56,29 @@ class ReplaysController < ApplicationController
     render json: response_hash
   end
 
+  def likes_batch
+    hsreplay_ids = params[:hsreplay_ids]
+    if hsreplay_ids.length > ReplayOutcomeQuery::PAGE_SIZE
+      render status: 500
+      return
+    end
+    like_counts = LikedReplay.where(hsreplay_id: hsreplay_ids).group(:hsreplay_id).count
+    liked_replays = Set.new
+    if @user
+      liked_replays = Set.new(
+        @user.liked_replays.where(hsreplay_id: hsreplay_ids).pluck(:hsreplay_id)
+      )
+    end
+    render json: {
+      replay_likes: like_counts.map do |hsreplay_id, counts|
+        [hsreplay_id, {
+          likes: counts,
+          liked: liked_replays.include?(hsreplay_id)
+        }]
+      end
+    }
+  end
+
   def show
     hsreplay_id = params[:id]
     replay_data = ReplayData.new(hsreplay_id)

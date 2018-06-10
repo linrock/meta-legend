@@ -1,5 +1,5 @@
 {
-  "name": "hs-replay-finder",
+  "name": "meta-legend",
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",

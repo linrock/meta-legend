@@ -96,6 +96,7 @@
     methods: {
       setReplays(replays) {
         this.$store.dispatch(`setReplays`, replays)
+        this.fetchReplayLikes(replays)
       },
       setPageTitle(route) {
         this.$store.dispatch(`setReplayFeedTitle`, route)
@@ -160,6 +161,7 @@
               if (data.page < page || data.replays.length === 0) {
                 this.disableInfiniteScroll()
               }
+              this.fetchReplayLikes(data.replays)
             }
           })
           .catch(error => {
@@ -174,6 +176,24 @@
             this.error = true
           })
         trackEvent('fetch replays', this.path, page)
+      },
+      fetchReplayLikes(replays) {
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        axios.post(`/replays/likes.json`, { hsreplay_ids: replays.map(r => r.hsreplay_id) }, {
+          headers: {
+            'X-CSRF-Token': token
+          }
+        })
+          .then(response => response.data)
+          .then(data => data.replay_likes.forEach(([replayId, likeData]) => {
+            console.log(replayId)
+            console.log(JSON.stringify(likeData))
+            this.$store.dispatch(`setReplayLikes`, {
+              numLikes: likeData.likes,
+              liked: likeData.liked,
+              replayId,
+            })
+          }))
       },
       backToTop() {
         window.scrollTo(0, 0)
