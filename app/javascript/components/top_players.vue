@@ -7,14 +7,25 @@
       .left-label name
       .right-label # games
     .stats
-      .stats-row(v-for="([name, count]) in $store.state.activePlayers")
+      .stats-row(
+        v-for="([name, count]) in $store.state.activePlayers"
+        @click="clickUserName(name)"
+      )
         .left-label {{ name.split("#")[0] }}
         .right-label {{ count }}
 
 </template>
 
 <script>
+  import { trackEvent } from '../utils'
+
   export default {
+    methods: {
+      clickUserName(name) {
+        trackEvent('click player', 'name', name)
+      }
+    },
+
     computed: {
       pastDays() {
         const since = this.$store.getters.sinceDays
