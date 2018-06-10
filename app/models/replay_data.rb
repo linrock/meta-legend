@@ -58,6 +58,7 @@ class ReplayData
       end
     end
     deck_card_ids = xml[:deck_card_ids] || replay_xml_data.deck_card_ids
+    merged_hash.delete(:deck_card_ids)
     merged_hash.merge({
       hsreplay_id: @hsreplay_id,
       num_turns: num_turns,
