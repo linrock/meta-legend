@@ -114,8 +114,10 @@ const store = new Vuex.Store({
   getters: {
     numReplays: state => state.aboutWinrates.numReplays,
     sinceDays: state => state.aboutWinrates.sinceDays,
+    sinceDaysText: state => state.aboutWinrates.sinceDaysText,
     classArray: state => state.routeMap.classArray,
     classArchetypeRows: state => className => state.routeMap.classArchetypeRows(className),
+    topArchetypeRows: state => state.routeMap.topArchetypeRows,
     currentRoute: (state, getters) => getters.routeMap(state.path),
     currentPage: state => state.page,
     currentReplay: state => state.replay,

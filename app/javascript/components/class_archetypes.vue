@@ -2,7 +2,7 @@
   .class-archetypes(v-if="classArchetypeRows.length > 0")
     .header-row
       h2 {{ title }}
-      h3 {{ pastDays }}
+      h3 {{ $store.getters.sinceDaysText }}
     .label-row
       .left-label deck type
       .right-label winrate
@@ -30,14 +30,6 @@
           return this.$store.getters.classArchetypeRows(this.currentRoute.class)
         } else {
           return []
-        }
-      },
-      pastDays() {
-        const since = this.$store.getters.sinceDays
-        if (since === 1) {
-          return `past day`
-        } else {
-          return `past ${since} days`
         }
       },
       title() {

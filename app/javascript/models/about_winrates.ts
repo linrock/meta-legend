@@ -15,6 +15,16 @@ export default class AboutWinrates {
     return ~~(secondsSince / 86400)
   }
 
+  get sinceDaysText(): string {
+    if (this.sinceDays === 0) {
+      return `today`
+    } else if (this.sinceDays === 1) {
+      return `past day`
+    } else {
+      return `past ${this.sinceDays} days`
+    }
+  }
+
   get numReplays(): string {
     return this.about.count
   }

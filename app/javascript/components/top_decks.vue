@@ -2,13 +2,13 @@
   .top-decks
     .header-row
       h2 Top decks
-      h3 {{ pastDays }}
+      h3 {{ $store.getters.sinceDaysText }}
     .label-row
       .class-label deck type
       .winrate-label winrate
     .archetype-stats
       router-link.stats-row(
-        v-for="([path, deck]) in topArchetypeRows"
+        v-for="([path, deck]) in $store.getters.topArchetypeRows"
         :key="path"
         :to="path"
       )
@@ -16,24 +16,6 @@
         .winrate {{ deck.winrate }}%
 
 </template>
-
-<script>
-  export default {
-    computed: {
-      topArchetypeRows() {
-        return this.$store.state.routeMap.topArchetypeRows
-      },
-      pastDays() {
-        const since = this.$store.getters.sinceDays
-        if (since === 1) {
-          return `past day`
-        } else {
-          return `past ${since} days`
-        }
-      }
-    }
-  }
-</script>
 
 <style lang="stylus" scoped>
   .top-decks
