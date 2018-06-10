@@ -9,14 +9,8 @@ import store from '../store'
 
 Vue.use(VueRouter)
 
-const mountBasePath = pathname => {
-  const match = pathname.match(/^\/([^/]+)\//)
-  return match ? match[0] : `/`
-}
-
 const router = new VueRouter({
   mode: 'history',
-  base: mountBasePath(window.location.pathname),
   routes: [
     {
       path: '/:path',

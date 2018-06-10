@@ -1,8 +1,9 @@
-const now = new Date()
+const now = +(new Date())
 
-export function trackEvent(event, category, label) {
-  if (window.gtag) {
-    window.gtag('event', event, {
+export function trackEvent(event, category, label): void {
+  const gtag = (<any>window).gtag
+  if (gtag) {
+    gtag('event', event, {
       event_category: category,
       event_label: label
     })
@@ -11,26 +12,25 @@ export function trackEvent(event, category, label) {
   }
 }
 
-export function timeAgo(timestamp) {
+export function timeAgo(timestamp): string {
   let timeAgo = ``
-  const date = new Date(timestamp)
+  const date = +(new Date(timestamp))
   const secondsSinceFound = (now - date) / 1000
   const minutesSinceFound = secondsSinceFound / 60
   if (minutesSinceFound < 60) {
-    const minutes = parseInt(minutesSinceFound, 10)
-    if (minutes <= 1) {
+    if (minutesSinceFound < 1) {
       timeAgo = `1 minute ago`
     } else {
-      timeAgo = `${minutes} minutes ago`
+      timeAgo = `${Math.round(minutesSinceFound)} minutes ago`
     }
   } else {
-    const hoursSinceFound = parseInt(minutesSinceFound / 60, 10)
+    const hoursSinceFound = Math.round(minutesSinceFound / 60)
     if (hoursSinceFound === 1) {
       timeAgo = `1 hour ago`
     } else if (hoursSinceFound < 24) {
-      timeAgo = `${parseInt(hoursSinceFound, 10)} hours ago`
+      timeAgo = `${hoursSinceFound} hours ago`
     } else {
-      const daysSinceFound = parseInt(hoursSinceFound / 24, 10)
+      const daysSinceFound = Math.round(hoursSinceFound / 24)
       if (daysSinceFound === 1) {
         timeAgo = `1 day ago`
       } else {
