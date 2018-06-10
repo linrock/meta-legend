@@ -16,6 +16,9 @@
       template(v-if="numLikes")
         .separator &bull;
         .num-likes {{ numLikesText }}
+      .error-message(v-if="showError")
+        a(href="/account/login") Log in with battle.net
+        div to like replays
     .deck
       // .about-deck {{ replay.p1Name }}'s deck
       .deck-card-names
@@ -39,6 +42,12 @@
       }
     },
 
+    data() {
+      return {
+        showError: false
+      }
+    },
+
     methods: {
       likeReplay() {
         api.post(`/replays/like.json`, { replay_id: this.replay.hsreplayId })
@@ -49,6 +58,13 @@
               numLikes: data.likes,
               liked: data.liked,
             })
+          })
+          .catch(error => {
+            if (error.request.status === 401) {
+              this.showError = true
+            } else {
+              throw error
+            }
           })
         trackEvent('like', 'replay', this.replay.hsreplayId)
       },
@@ -101,10 +117,17 @@
       &:hover
         text-decoration underline
 
+  // likes
   .replay-likes
     display flex
     font-size 17px
 
+    .error-message
+      margin-left 15px
+      margin-top -4px
+      line-height 20px
+
+  // card
   .deck
     margin-top 25px
 

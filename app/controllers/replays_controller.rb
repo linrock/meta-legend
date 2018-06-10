@@ -36,7 +36,7 @@ class ReplaysController < ApplicationController
         render json: { hsreplay_id: hsreplay_id, error: "Replay not found" }, status: 404
       end
     else
-      render json: { error: "Not logged in" }, status: 400
+      render json: { error: "Not logged in" }, status: 401
     end
   end
 
