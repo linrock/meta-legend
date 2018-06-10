@@ -5,6 +5,13 @@ class JsonResponseCache
     %w( 1 2 ).each do |page|
       ReplayOutcomeFilter::FILTERS.each do |filter|
         self.new({ path: "/", filter: filter, page: page }).json_response!
+        PlayerClass::NAMES.each do |name|
+          self.new({
+            path: name.downcase,
+            filter: filter,
+            page: page
+          }).json_response!
+        end
         # ReplayStatsCache.new.route_map.keys.each do |path|
         #   self.new({ path: path, filter: filter, page: page }).json_response!
         # end

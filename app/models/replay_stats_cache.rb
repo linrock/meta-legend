@@ -6,7 +6,11 @@ class ReplayStatsCache
   end
 
   def route_map
-    legend_stats[:route_map]
+    legend_stats[:routes]
+  end
+
+  def route_map!
+    legend_stats![:routes]
   end
 
   def legend_stats
