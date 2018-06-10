@@ -39,7 +39,7 @@
     font-size 10px
     position relative
     text-align center
-    width 45px
+    width 47px
 
   .rank-num
     position relative

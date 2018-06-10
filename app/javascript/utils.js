@@ -1,5 +1,16 @@
 const now = new Date()
 
+export function trackEvent(event, category, label) {
+  if (window.gtag) {
+    window.gtag('event', event, {
+      event_category: category,
+      event_label: label
+    })
+  } else {
+    console.log(`event: ${event}, category: ${category}, label: ${label}`)
+  }
+}
+
 export function timeAgo(timestamp) {
   let timeAgo = ``
   const date = new Date(timestamp)

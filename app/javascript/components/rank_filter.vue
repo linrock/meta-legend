@@ -10,6 +10,8 @@
 </template>
 
 <script>
+  import { trackEvent } from '../utils'
+
   export default {
     data() {
       return {
@@ -20,6 +22,7 @@
     watch: {
       selected() {
         this.$store.dispatch(`setFilterOption`, this.selected)
+        trackEvent('filter ranks', 'select', this.selected)
       }
     }
   }

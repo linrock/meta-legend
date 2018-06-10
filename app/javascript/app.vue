@@ -39,6 +39,7 @@
   import RankFilter from './components/rank_filter'
   import ReplayRow from './components/replay_row'
   import Sidebar from './components/sidebar'
+  import { trackEvent } from './utils'
 
   const pageTitleSuffix = `Hearthstone Replay Finder`
   const infScroll = {
@@ -172,12 +173,7 @@
             this.isLoadingPageOne = false
             this.error = true
           })
-        if (window.gtag) {
-          window.gtag('event', 'fetch replays', {
-            event_category: this.path,
-            event_label: page
-          })
-        }
+        trackEvent('fetch replays', this.path, page)
       },
       backToTop() {
         window.scrollTo(0, 0)

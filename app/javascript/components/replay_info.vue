@@ -28,7 +28,7 @@
 <script>
   import axios from 'axios'
 
-  import { timeAgo } from '../utils'
+  import { trackEvent, timeAgo } from '../utils'
 
   export default {
     props: {
@@ -56,6 +56,7 @@
               liked: data.liked,
             })
           })
+        trackEvent('like', 'replay', this.replay.hsreplay_id)
       },
       fetchReplayLikes() {
         if (Object.keys(this.replayLikes).length > 0) {
@@ -85,7 +86,6 @@
 
     computed: {
       replayLikes() {
-        console.log('replay likes changed')
         return this.$store.getters.replayLikes(this.replay.hsreplay_id)
       },
       numLikes() {

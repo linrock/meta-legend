@@ -26,7 +26,8 @@
 
 <script>
   import axios from 'axios'
-  import PlayerRank from "./player_rank"
+  import PlayerRank from './player_rank'
+  import { trackEvent } from '../utils'
 
   export default {
     props: {
@@ -40,6 +41,7 @@
       selectReplay() {
         const replay = this.replay === this.currentReplay ? null : this.replay
         this.$store.dispatch(`selectReplay`, replay)
+        trackEvent('click row', 'replay', replay.hsreplay_id)
       },
     },
 
@@ -72,8 +74,8 @@
     text-decoration none
     justify-content center
     font-size 15px
-    padding 8px 0
-    margin 8px 0
+    padding 10px 0
+    margin 10px 0
     width 510px
     border-radius 2px
 
@@ -122,7 +124,7 @@
   .vs
     font-weight 300
     text-align center
-    width 20px
+    width 18px
     opacity 0.5
 
   .win-indicator
