@@ -10,7 +10,8 @@
           svg.crown(v-if="replay.winner === `p1`")
             use(xlink:href="#crown")
         div {{ replay.p1Name }}
-      .archetype {{ replay.p1.archetype }}
+      .archetype(:class="getClass(replay.p1.archetype)")
+        | {{ replay.p1.archetype }}
     player-rank(:player="replay.p1")
     .vs vs
     player-rank(:player="replay.p2")
@@ -20,7 +21,8 @@
         .win-indicator
           svg.crown(v-if="replay.winner === `p2`")
             use(xlink:href="#crown")
-      .archetype {{ replay.p2.archetype }}
+      .archetype(:class="getClass(replay.p2.archetype)")
+        | {{ replay.p2.archetype }}
 
 </template>
 
@@ -42,6 +44,9 @@
         this.$store.dispatch(`selectReplay`, replay)
         trackEvent('click row', 'replay', replay.hsreplayId)
       },
+      getClass(archetype) {
+        return archetype.split(/\s+/).reverse()[0].toLowerCase()
+      }
     },
 
     computed: {
@@ -112,15 +117,42 @@
       margin-bottom 7px
       flex-direction row
 
-    .archetype
-      font-size 15px
-      font-weight bold
+  .archetype
+    font-size 15px
+    font-weight bold
+
+    &.druid
+      color #944b1a
+
+    &.hunter
+      color #558a53
+
+    &.mage
+      color #6472a2
+
+    &.paladin
+      color #a27c0d
+
+    &.priest
+      color #a1aeb2
+
+    &.rogue
+      color #6c7179
+
+    &.shaman
+      color #636eb7
+
+    &.warlock
+      color #8a3f9e
+
+    &.warrior
+      color #ad3d29
 
   .vs
     font-weight 300
     text-align center
     width 18px
-    opacity 0.5
+    opacity 0.3
 
   .win-indicator
     width 30px
@@ -130,11 +162,11 @@
     justify-content center
 
   .crown
-    width 25px
-    height 16px
+    width 28px
+    height 17px
     fill #ffcd00
-    stroke #737373
-    stroke-width 1px
+    stroke #5f5f5f
+    stroke-width 5px
     z-index 2
 
 </style>

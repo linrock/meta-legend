@@ -18,7 +18,7 @@ export function timeAgo(timestamp): string {
   const secondsSinceFound = (now - date) / 1000
   const minutesSinceFound = secondsSinceFound / 60
   if (minutesSinceFound < 60) {
-    if (minutesSinceFound < 1) {
+    if (minutesSinceFound <= 1) {
       timeAgo = `1 minute ago`
     } else {
       timeAgo = `${Math.round(minutesSinceFound)} minutes ago`
