@@ -9,8 +9,9 @@
       a.watch-link(
         :href="replay.hsreplayLink"
         target="_blank"
+        @click="replayClicked"
       ) Watch on hsreplay.net
-    .replay-likes
+    // .replay-likes
       div(v-if="replayLikes.liked") Liked
       a(v-else @click="likeReplay") Like
       template(v-if="numLikes")
@@ -20,7 +21,7 @@
         a(href="/account/login") Log in with battle.net
         div to like replays
     .deck
-      // .about-deck {{ replay.p1Name }}'s deck
+      .about-deck {{ replay.p1Name }}'s deck
       .deck-card-names
         .card(v-for="card in replay.deckCardNames")
           .cost {{ card.cost }}
@@ -68,6 +69,9 @@
           })
         trackEvent('like', 'replay', this.replay.hsreplayId)
       },
+      replayClicked() {
+        trackEvent('click', 'watch replay', this.replay.hsreplayId)
+      }
     },
 
     computed: {
@@ -110,12 +114,18 @@
       margin-bottom 10px
 
     .watch-link
-      color #45abfe
+      color white
+      background #45abfe
+      border-radius 2px
+      display block
+      padding 10px 0
+      text-align center
       text-decoration none
       font-size 16px
+      transition opacity 0.15s ease
 
       &:hover
-        text-decoration underline
+        opacity 0.8
 
   // likes
   .replay-likes
@@ -140,6 +150,9 @@
 
     .deck-card-names
       margin-top 10px
+
+  .about-deck
+    opacity 0.4
 
   .card
     padding 3px 0
