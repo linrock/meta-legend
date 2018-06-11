@@ -24,6 +24,6 @@ class HearthstoneCard
     card_ids_to_cards(card_ids)
       .group_by {|card| card[:name] }.values
       .map {|cards| cards[0].merge({ n: cards.length }) }
-      .sort_by {|card| card[:cost] }
+      .sort_by {|card| [card[:cost], card[:name]] }
   end
 end
