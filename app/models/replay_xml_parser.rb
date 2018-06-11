@@ -24,11 +24,19 @@ class ReplayXmlParser
   end
 
   def winner_name
-    doc.xpath("//Player[@id=#{winner_entity_id}]").attr("name").value
+    if winner_entity_id
+      doc.xpath("//Player[@id=#{winner_entity_id}]").attr("name").value
+    else
+      nil
+    end
   end
 
   def loser_name
-    doc.xpath("//Player[@id=#{loser_entity_id}]").attr("name").value
+    if loser_entity_id
+      doc.xpath("//Player[@id=#{loser_entity_id}]").attr("name").value
+    else
+      nil
+    end
   end
 
   def pilot_name
@@ -46,10 +54,12 @@ class ReplayXmlParser
   private
 
   def winner_entity_id
-    doc.xpath("//TagChange[@tag=17][@value=4]").attr("entity").value
+    tag = doc.xpath("//TagChange[@tag=17][@value=4]")
+    tag.present? && tag.attr("entity").value
   end
 
   def loser_entity_id
-    doc.xpath("//TagChange[@tag=17][@value=5]").attr("entity").value
+    tag = doc.xpath("//TagChange[@tag=17][@value=5]")
+    tag.present? && tag.attr("entity").value
   end
 end

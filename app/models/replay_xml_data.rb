@@ -37,13 +37,21 @@ class ReplayXmlData < ApplicationRecord
     end
     players.reverse! if players[1][:tag] == pilot_name
     # p1 is always the pilot
-    {
+    data = {
       p1: players[0],
       p2: players[1],
-      winner: players[0][:tag] == winner_name ? 'p1' : 'p2',
       pilot_name: pilot_name,
       deck_card_ids: deck_card_ids,
     }
+    if winner_name.nil?
+      # deal with draws
+      data[:winner] = nil
+    elsif players[0][:tag] == winner_name
+      data[:winner] = 'p1'
+    else
+      data[:winner] = 'p2'
+    end
+    data
   end
 
   def extract_and_save_xml_data
