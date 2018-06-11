@@ -1,7 +1,7 @@
 class ReplayStats
 
   # min number of games for an archetype to be considered
-  MIN_GAMES = 30
+  MIN_GAMES = 50
 
   def initialize(replay_outcomes)
     @replay_outcomes = replay_outcomes
@@ -46,11 +46,12 @@ class ReplayStats
   def winrates
     winrate_stats = wins_and_losses
     winrate_stats.each do |path, stats|
-      winrate = 100.0 * stats[:wins] / (stats[:wins] + stats[:losses])
-      stats[:winrate] = "%0.1f" % winrate
-      stats.delete(:wins)
-      stats.delete(:losses)
-      winrate_stats[path] = stats
+      n_games = stats[:wins] + stats[:losses]
+      winrate = 100.0 * stats[:wins] / n_games
+      winrate_stats[path] = {
+        n: n_games,
+        winrate: "%0.1f" % winrate
+      }
     end
     winrate_stats
   end
