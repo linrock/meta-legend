@@ -11,7 +11,7 @@ class DecksController < ApplicationController
     end
     @class_stats = classes.zip(archetype_stats)
     @count = cache[:about][:count]
-    @days = ((Time.now - cache[:about][:since]) / 86400).to_i
+    @days = ((Time.now - cache[:about][:since]) / 86400).round
     @title = "Decks | Meta Legend"
     @meta_desc = "Top decks and statistics of legend Hearthstone players over the past #{@days} days. Learn from the top players."
   end
