@@ -1,19 +1,19 @@
 <template lang="pug">
   .top-decks
     .header-row
-      h2 Top decks
+      h2 Popular decks
       h3 {{ $store.getters.sinceDaysText }}
     .label-row
       .class-label deck type
-      .winrate-label winrate
+      .winrate-label # games
     .archetype-stats
       router-link.stats-row(
         v-for="([path, deck]) in $store.getters.topArchetypeRows"
         :key="path"
         :to="path"
       )
-        .name {{ deck.archetype }} {{ deck.class }}
-        .winrate {{ deck.winrate }}%
+        .left-value {{ deck.archetype }} {{ deck.class }}
+        .right-value {{ deck.n }}
 
 </template>
 
@@ -64,11 +64,11 @@
       color #45ABFE
       cursor pointer
 
-    .name
+    .left-value
       font-weight bold
 
-    .winrate
-      width 60px
+    .right-value
+      width 45px
       font-weight normal
       margin-left auto
       text-align right

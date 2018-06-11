@@ -1,7 +1,8 @@
 interface Route {
-  class?: string;
-  archetype?: string;
-  winrate?: string;
+  class?: string
+  archetype?: string
+  winrate?: string
+  n?: number
 }
 
 type RouteObj = {
@@ -23,7 +24,7 @@ export default class RouteMap {
   // top 5 archetypes
   get topArchetypeRows(): Array<[string, Route]> {
     return Object.entries(this.routeMap)
-      .sort((a,b) => parseFloat(b[1].winrate) - parseFloat(a[1].winrate))
+      .sort((a,b) => b[1].n - a[1].n)
       .filter(r => r[1].archetype)
       .slice(0, 5)
   }
