@@ -1,5 +1,12 @@
 class ReplayDataCache
 
+  def self.refresh_recent!
+    cache = self.new
+    ReplayOutcome.order('created_at DESC').limit(1000).pluck(:hsreplay_id).each do |id|
+      cache.replay_data_hash!(id) rescue nil
+    end
+  end
+
   def initialize
     @cache = Rails.cache
   end
