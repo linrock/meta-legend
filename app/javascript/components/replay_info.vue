@@ -12,7 +12,7 @@
       ) Watch on hsreplay.net
     .replay-likes
       div(v-if="replayLikes.liked") Liked
-      a(v-else href="javascript:" @click="likeReplay") Like
+      a(v-else @click="likeReplay") Like
       template(v-if="numLikes")
         .separator &bull;
         .num-likes {{ numLikesText }}
@@ -121,6 +121,13 @@
   .replay-likes
     display flex
     font-size 17px
+
+    a
+      color #45abfe
+
+      &:hover
+        cursor pointer
+        text-decoration underline
 
     .error-message
       margin-left 15px

@@ -1,6 +1,5 @@
 <template lang="pug">
   a.replay-link(
-    href="javascript:" target="_blank"
     :class="[{ selected: isSelectedReplay }]"
     @click="selectReplay(replay)"
   )
@@ -71,6 +70,7 @@
 
     &:hover
       opacity 1
+      cursor pointer
 
       .player
         color #45ABFE
