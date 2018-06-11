@@ -18,7 +18,7 @@ class RepeatingTasks
       route_map = RouteMap.new
       route_map.to_hash!
       ReplayStatsCache.new.legend_stats!
-      sleep 3600
+      sleep 60
     end
   end
 
