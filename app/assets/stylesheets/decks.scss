@@ -1,8 +1,13 @@
 // the page at /decks
 
 .decks {
-  $image-size: 50px;
+  $image-size: 60px;
   $left-margin: 40px;
+
+  $left-col-width: 220px;
+  $mid-col-width: 80px;
+  $right-col-width: 100px;
+  $total-col-width: $left-col-width + $mid-col-width + $right-col-width;
 
   margin-bottom: 100px;
 
@@ -17,7 +22,7 @@
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(0,0,0,0.2);
     margin-bottom: 20px;
-    width: 400px;
+    width: $total-col-width;
     opacity: 0.5;
 
     .header-text {
@@ -27,14 +32,14 @@
   }
 
   .left {
-    width: 220px;
+    width: $left-col-width;
   }
   .mid {
-    width: 80px;
+    width: $mid-col-width;
     text-align: right;
   }
   .right {
-    width: 100px;
+    width: $right-col-width;
     text-align: right;
   }
 
@@ -45,18 +50,24 @@
 
     a {
       display: block;
+      color: inherit;
+      text-decoration: none;
 
-      img {
-        border-radius: 2px;
-        width: $image-size;
-        height: $image-size;
-        display: block;
+      &:hover {
+        color: #45ABFE;
       }
+    }
+
+    img {
+      border-radius: 2px;
+      width: $image-size;
+      height: $image-size;
+      display: block;
     }
 
     .archetype-stats {
       margin-left: $left-margin;
-      width: 400px;
+      width: $total-col-width;
       position: relative;
       top: -5px;
     }
@@ -64,14 +75,8 @@
     .archetype-row {
       display: flex;
 
-      a {
+      .left {
         font-weight: bold;
-        color: inherit;
-        text-decoration: none;
-
-        &:hover {
-          color: #45ABFE;
-        }
       }
     }
   }
