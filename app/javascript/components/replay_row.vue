@@ -2,6 +2,7 @@
   a.replay-link(
     :class="[{ selected: isSelectedReplay }]"
     @click="selectReplay(replay)"
+    v-if="hasValidAttributes"
   )
     .player.player1
       .player-name
@@ -47,6 +48,10 @@
       isSelectedReplay() {
         return this.replay === this.$store.getters.currentReplay
       },
+      hasValidAttributes() {
+        const { p1, p2 } = this.replay
+        return p1.archetype && p2.archetype && p1.legend_rank && p2.legend_rank
+      }
     },
 
     components: {
