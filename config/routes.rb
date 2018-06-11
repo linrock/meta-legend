@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   post "/replays/like.json"        => "replay_likes#create"
   post "/replays/get_likes.json"   => "replay_likes#likes_batch"
 
+  # header links
+  get "/decks"                     => "decks#index"
+
   # user account routes
   get "/account"                   => "users#me"
   get "/account/login"             => "users#login"

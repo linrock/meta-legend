@@ -24,7 +24,7 @@
     <%= render partial: "layouts/main_header" %>
 
     <div class="container">
-      <% if request.path !~ /\A\/(account|forum)/ %>
+      <% if params[:controller] == "home" %>
         <h2 class="main-description">
           Find replays of games by
           legend-rank Hearthstone players.

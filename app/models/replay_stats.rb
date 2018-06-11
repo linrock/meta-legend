@@ -1,7 +1,7 @@
 class ReplayStats
 
   # min number of games for an archetype to be considered
-  MIN_GAMES = 30
+  MIN_GAMES = 10
 
   def initialize(replay_outcomes)
     @replay_outcomes = replay_outcomes

@@ -1,0 +1,35 @@
+<article class="decks">
+  <div class="description">
+    Stats calculated from <%= @count %> legend games over the past <%= @days %> days.<br>
+    Deck types with fewer than <%= ReplayStats::MIN_GAMES %> games played not shown.
+  </div>
+
+  <header class="decks-header">
+    <div class="header-text left">Deck type</div>
+    <div class="header-text mid"># games</div>
+    <div class="header-text right">winrate</div>
+  </header>
+
+  <% @class_stats.each do |class_stats, archetype_stats| %>
+    <% class_name = class_stats[:class].downcase %>
+    <div class="class-stats">
+      <a href="/<%= class_name %>">
+        <img src="/assets/classes/<%= class_name %>.png"
+             alt="<%= class_stats[:class] %>"/>
+      </a>
+      <div class="archetype-stats">
+        <% archetype_stats.each do |archetype| %>
+          <div class="archetype-row">
+            <div class="left">
+              <a href="<%= archetype[:path] %>">
+                <%= "#{archetype[:archetype]} #{archetype[:class]}" %>
+              </a>
+            </div>
+            <div class="mid"><%= archetype[:n] %></div>
+            <div class="right"><%= archetype[:winrate] %>%</div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</article>

@@ -16,7 +16,7 @@ class HomeController < ApplicationController
 
   def set_meta_description
     player_type_str = player_type.present? ? "#{player_type} players" : "players"
-    @meta_desc = "Hearthstone replays and winrates by legend-rank #{player_type_str}. Learn how the best players play the top decks."
+    @meta_desc = "Hearthstone replays and statistics by legend-rank #{player_type_str}. Learn how the best players play the top decks."
   end
 
   def route_map
