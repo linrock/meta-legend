@@ -21,9 +21,11 @@
         a(href="/account/login") Log in with battle.net
         div to like replays
     .deck
-      .about-deck {{ replay.p1Name }}'s deck
+      .about-deck
+        .deck-owner {{ replay.p1Name }}'s deck
+        .dust-cost(v-if="replay.deckDustCost > 0") {{ replay.deckDustCost }} dust
       .deck-card-names
-        .card(v-for="card in replay.deckCardNames")
+        .card(v-for="card in replay.deckCards" :class="card.rarity")
           .cost {{ card.cost }}
           .name {{ card.name }}
           .quantity(v-if="card.n > 1") x{{ card.n }}
@@ -153,12 +155,30 @@
 
   .about-deck
     opacity 0.4
+    display flex
+    padding-bottom 5px
+    border-bottom 1px solid rgba(0,0,0,0.1)
+
+    .dust-cost
+      margin-left auto
 
   .card
     padding 3px 0
     display flex
     font-size 15px
     letter-spacing -0.2px
+
+    &.common, &.free
+      opacity 0.8
+
+    &.rare
+      color blue
+
+    &.epic
+      color #8A2BE2
+
+    &.legendary
+      color orange
 
     .cost
       width 25px

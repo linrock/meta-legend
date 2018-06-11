@@ -8,6 +8,7 @@ class HearthstoneCard
       [card['id'], {
         cost: card['cost'],
         name: card['name'],
+        rarity: card['rarity']&.downcase,
       }]
     }]
   end
