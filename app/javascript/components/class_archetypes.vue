@@ -5,7 +5,8 @@
       h3 {{ $store.getters.sinceDaysText }}
     .label-row
       .left-label deck type
-      .right-label winrate
+      .mid-label winrate
+      .right-label # games
     .archetype-selector
       router-link.stats-row(
         v-for="([path, route]) in classArchetypeRows"
@@ -14,7 +15,8 @@
         :to="path"
       )
         .name {{ route.archetype }}
-        .winrate {{ route.winrate }}%
+        .mid-value {{ route.winrate }}%
+        .right-value {{ route.n }}
   // transition(name="fade")
 
 </template>
@@ -69,9 +71,14 @@
     .left-label
       text-align left
 
-    .right-label
-      text-align right
+    .mid-label
+      width 60px
       margin-left auto
+      text-align right
+
+    .right-label
+      width 60px
+      text-align right
 
   .stats-row
     display flex
@@ -88,9 +95,13 @@
     .name
       font-weight bold
 
-    .winrate
+    .mid-value
       width 60px
       margin-left auto
+      text-align right
+
+    .right-value
+      width 60px
       text-align right
 
   .fade-enter-active, .fade-leave-active
