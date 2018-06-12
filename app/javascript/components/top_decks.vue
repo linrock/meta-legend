@@ -11,6 +11,7 @@
         v-for="([path, deck]) in $store.getters.topArchetypeRows"
         :key="path"
         :to="path"
+        @click="clickTopDeck(path)"
       )
         .left-value(:class="classColor(deck.class)") {{ deck.archetype }} {{ deck.class }}
         .right-value {{ deck.n }}
@@ -18,11 +19,16 @@
 </template>
 
 <script>
+  import { trackEvent } from '../utils'
+
   export default {
     methods: {
       classColor(className) {
         return `color-${className.toLowerCase()}`
-      }
+      },
+      clickTopDeck(path) {
+        trackEvent('click', 'popular deck', path)
+      },
     }
   }
 </script>

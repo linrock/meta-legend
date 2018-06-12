@@ -29,10 +29,7 @@
     methods: {
       clickUserName(name) {
         trackEvent('click player', 'name', name)
-      }
-    },
-
-    methods: {
+      },
       twitchUrl(username) {
         return `https://twitch.tv/${username}`
       }
