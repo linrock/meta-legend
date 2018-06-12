@@ -1,7 +1,7 @@
 <template lang="pug">
   .replay-info
     .about-replay
-      .players {{ replay.p1Name }} vs. {{ replay.p2Name }}
+      .players {{ replay.p1.name }} vs. {{ replay.p2.name }}
       .small
         .num-turns {{ replay.numTurns }} turns
         .separator &bull;
@@ -22,7 +22,7 @@
         div to like replays
     .deck
       .about-deck
-        .deck-owner {{ replay.p1Name }}'s deck
+        .deck-owner {{ replay.p1.name }}'s deck
         .dust-cost(v-if="replay.deckDustCost > 0") {{ replay.deckDustCost }} dust
       .deck-card-names
         .card(v-for="card in replay.deckCards" :class="card.rarity")
@@ -107,13 +107,13 @@
 
     .players
       font-weight bold
-      margin 10px 0
+      margin-bottom 10px
 
     .small
       display flex
-      font-size 15px
       opacity 0.7
-      margin-bottom 10px
+      font-size 17px
+      margin-bottom 12px
 
     .watch-link
       color white

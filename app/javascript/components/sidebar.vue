@@ -5,7 +5,6 @@
     template(v-else)
       template(v-if="$store.getters.currentRoute.class")
         class-archetypes
-        about-winrates
       template(v-else)
         top-decks
         top-players
@@ -18,7 +17,8 @@
   import TopDecks from './top_decks'
   import TopPlayers from './top_players'
 
-  const scrollThreshold = 185
+  // this.el.getBoundingClientRect().top - (top padding)
+  const scrollThreshold = 223 - 20
 
   export default {
     data() {
@@ -59,6 +59,7 @@
       position fixed
       left 50%
       margin-left 135px
-      top 30px
+      top: 0
+      padding-top 20px
 
 </style>
