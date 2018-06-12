@@ -1,7 +1,37 @@
 <article class="decks">
-  <div class="description">
-    Stats calculated from <%= @count %> legend games over the past <%= @days %> days.<br>
-    Deck types with fewer than <%= ReplayStats::MIN_GAMES %> games played not shown.
+  <header class="decks-chooser">
+    <div class="header-description">
+      Show decks played by:
+    </div>
+
+    <div class="header-links">
+      <%= link_to_unless_current "All legend players", "/decks" do %>
+        <div class="current">All legend players</div>
+      <% end %>
+      <div class="separator">&mdash;</div>
+      <%= link_to_unless_current "Top 1000", "/decks/top-1000" do %>
+        <div class="current">Top 1000</div>
+      <% end %>
+      <div class="separator">&mdash;</div>
+      <%= link_to_unless_current "Top 100",  "/decks/top-100" do %>
+        <div class="current">Top 100</div>
+      <% end %>
+    </div>
+  </header>
+
+  <div class="about-stats">
+    Stats calculated from <%= @count %> games played between
+    <% if @filter == "top1000" %>
+      top 1000
+    <% elsif @filter == "top100" %>
+      top 100
+    <% else %>
+      legend
+    <% end %>
+    players in the past <%= @days %> days<br>
+    <% if ReplayStats::MIN_GAMES > 0 %>
+      Deck types with fewer than <%= ReplayStats::MIN_GAMES %> games played not shown.
+    <% end %>
   </div>
 
   <header class="decks-header">

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   # header links
   get "/decks"                     => "decks#index"
+  get "/decks/top-1000"            => "decks#index"
+  get "/decks/top-100"             => "decks#index"
 
   # user account routes
   get "/account"                   => "users#me"
