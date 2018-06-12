@@ -16,7 +16,6 @@
         .name {{ route.archetype }}
         .mid-value {{ route.winrate }}%
         .right-value {{ route.n }}
-  // transition(name="fade")
 
 </template>
 
@@ -102,14 +101,5 @@
     .right-value
       width 60px
       text-align right
-
-  .fade-enter-active, .fade-leave-active
-    transition all 0.2s ease
-    transform translate3d(0, 0, 0)
-    opacity 1
-
-  .fade-enter, .fade-leave-to
-    transform translate3d(0, -4px, 0)
-    opacity 0
 
 </style>

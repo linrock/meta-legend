@@ -1,8 +1,8 @@
 interface Route {
-  class?: string
-  archetype?: string
-  winrate?: string
-  n?: number
+  class: string
+  archetype: string
+  winrate: string
+  n: number
 }
 
 type RouteObj = {
@@ -36,7 +36,7 @@ export default class RouteMap {
       .slice(0, 5)
   }
 
-  getRoute(path): Route {
+  getRoute(path): Route|object {
     return this.routeMap[path.replace(/^\//, '')] || {}
   }
 }

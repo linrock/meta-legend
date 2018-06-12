@@ -30,7 +30,6 @@
 </template>
 
 <script>
-  import AboutSelection from './components/about_selection'
   import ClassImageSelector from './components/class_image_selector'
   import ClassWinrates from './components/class_winrates'
   import PopularArchetypes from './components/popular_archetypes'
@@ -206,7 +205,6 @@
     },
 
     components: {
-      AboutSelection,
       ClassImageSelector,
       ClassWinrates,
       PopularArchetypes,
