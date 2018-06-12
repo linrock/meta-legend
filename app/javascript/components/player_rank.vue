@@ -1,23 +1,25 @@
 <template lang="pug">
   .rank
-    .rank-num.legend-rank(:class="legendRank") {{ player.legend_rank }}
+    .rank-num.legend-rank(:class="legendRank") {{ player.legendRank }}
     svg.hexagon.legend-hexagon
       use(xlink:href="#hexagon")
 
 </template>
 
 <script>
+  import { Player } from '../models/player'
+
   export default {
     props: {
       player: {
         required: true,
-        type: Object,
+        type: Player,
       },
     },
 
     computed: {
       legendRank() {
-        const rank = parseInt(this.player.legend_rank, 10)
+        const rank = this.player.legendRank
         if (rank <= 10) {
           return `top-10`
         } else if (rank < 100) {

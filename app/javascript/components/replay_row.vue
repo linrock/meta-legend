@@ -2,27 +2,27 @@
   a.replay-link(
     :class="[{ selected: isSelectedReplay }]"
     @click="selectReplay(replay)"
-    v-if="hasValidAttributes"
+    v-if="replay.p1.isValid && replay.p2.isValid"
   )
     .player.player1
       .player-name
         .win-indicator
           svg.crown(v-if="replay.winner === `p1`")
             use(xlink:href="#crown")
-        div {{ replay.p1Name }}
-      .archetype(:class="getClass(replay.p1.archetype)")
-        | {{ replay.p1.archetype }}
+        div {{ replay.p1.name }}
+      .archetype(:class="[{ [replay.p1.className]: p1Highlight }]")
+        | {{ replay.p1.deckType }}
     player-rank(:player="replay.p1")
     .vs vs
     player-rank(:player="replay.p2")
     .player.player2
       .player-name
-        div {{ replay.p2Name }}
+        div {{ replay.p2.name }}
         .win-indicator
           svg.crown(v-if="replay.winner === `p2`")
             use(xlink:href="#crown")
-      .archetype(:class="getClass(replay.p2.archetype)")
-        | {{ replay.p2.archetype }}
+      .archetype(:class="[{ [replay.p2.className]: p2Highlight }]")
+        | {{ replay.p2.deckType }}
 
 </template>
 
@@ -44,18 +44,32 @@
         this.$store.dispatch(`selectReplay`, replay)
         trackEvent('click row', 'replay', replay.hsreplayId)
       },
-      getClass(archetype) {
-        return archetype.split(/\s+/).reverse()[0].toLowerCase()
-      }
     },
 
     computed: {
+      currentRoute() {
+        return this.$store.getters.currentRoute
+      },
       isSelectedReplay() {
         return this.replay === this.$store.getters.currentReplay
       },
-      hasValidAttributes() {
-        const { p1, p2 } = this.replay
-        return p1.archetype && p2.archetype && p1.legend_rank && p2.legend_rank
+      p1Highlight() {
+        if (this.currentRoute.class) {
+          if (this.currentRoute.archetype) {
+            return this.replay.p1.deckType === `${this.currentRoute.archetype} ${this.currentRoute.class}`
+          } else {
+            return this.replay.p1.className === this.currentRoute.class.toLowerCase()
+          }
+        }
+      },
+      p2Highlight() {
+        if (this.currentRoute.class) {
+          if (this.currentRoute.archetype) {
+            return this.replay.p2.deckType === `${this.currentRoute.archetype} ${this.currentRoute.class}`
+          } else {
+            return this.replay.p2.className === this.currentRoute.class.toLowerCase()
+          }
+        }
       }
     },
 
@@ -84,6 +98,9 @@
 
       .player
         color #45ABFE
+
+        .archetype
+          color #45ABFE
 
     &:visited
       color #999
@@ -120,33 +137,34 @@
   .archetype
     font-size 15px
     font-weight bold
+    transition color 0.2s ease
 
     &.druid
-      color #944b1a
+      color #af561a
 
     &.hunter
-      color #558a53
+      color #499a46
 
     &.mage
-      color #6472a2
+      color #4b68cc
 
     &.paladin
-      color #a27c0d
+      color #dcaa17
 
     &.priest
       color #a1aeb2
 
     &.rogue
-      color #6c7179
+      color #9aa1ad
 
     &.shaman
       color #636eb7
 
     &.warlock
-      color #8a3f9e
+      color #8e33a7
 
     &.warrior
-      color #ad3d29
+      color #ca422a
 
   .vs
     font-weight 300

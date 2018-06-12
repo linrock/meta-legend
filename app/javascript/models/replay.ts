@@ -1,8 +1,5 @@
-interface PlayerOptions {
-  archetype: string
-  legend_rank: string
-  tag: string
-}
+import Card from './card'
+import { PlayerOptions, Player } from './player'
 
 interface ReplayOptions {
   hsreplay_id: string
@@ -14,18 +11,11 @@ interface ReplayOptions {
   found_at: string
 }
 
-interface Card {
-  cost: number
-  name: string
-  n: number
-  rarity: string
-}
-
 export default class Replay {
   public hsreplayId: string
   public numTurns: number 
-  public p1: PlayerOptions
-  public p2: PlayerOptions
+  public p1: Player
+  public p2: Player
   public winner: string
   public deckCards: Array<Card>
   public foundAt: string
@@ -33,8 +23,8 @@ export default class Replay {
   constructor(options: ReplayOptions) {
     this.hsreplayId = options.hsreplay_id
     this.numTurns = options.num_turns
-    this.p1 = options.p1
-    this.p2 = options.p2
+    this.p1 = new Player(options.p1)
+    this.p2 = new Player(options.p2)
     this.winner = options.winner
     this.foundAt = options.found_at
     this.deckCards = options.deck_card_names
@@ -46,14 +36,6 @@ export default class Replay {
 
   get hsreplayLink(): string {
     return `https://hsreplay.net/replay/${this.hsreplayId}`
-  }
-
-  get p1Name(): string {
-    return this.p1.tag.split(`#`)[0]
-  }
-
-  get p2Name(): string {
-    return this.p2.tag.split(`#`)[0]
   }
 
   get deckDustCost(): number {
