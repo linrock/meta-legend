@@ -10,7 +10,7 @@
           svg.crown(v-if="replay.winner === `p1`")
             use(xlink:href="#crown")
         div {{ replay.p1.name }}
-      .archetype(:class="[{ [replay.p1.className]: p1Highlight }]")
+      .archetype(:class="[{ [p1Color]: p1Highlight }]")
         | {{ replay.p1.deckType }}
     player-rank(:player="replay.p1")
     .vs vs
@@ -21,7 +21,7 @@
         .win-indicator
           svg.crown(v-if="replay.winner === `p2`")
             use(xlink:href="#crown")
-      .archetype(:class="[{ [replay.p2.className]: p2Highlight }]")
+      .archetype(:class="[{ [p2Color]: p2Highlight }]")
         | {{ replay.p2.deckType }}
 
 </template>
@@ -53,6 +53,9 @@
       isSelectedReplay() {
         return this.replay === this.$store.getters.currentReplay
       },
+      p1Color() {
+        return `color-${this.replay.p1.className}`
+      },
       p1Highlight() {
         if (this.currentRoute.class) {
           if (this.currentRoute.archetype) {
@@ -61,6 +64,9 @@
             return this.replay.p1.className === this.currentRoute.class.toLowerCase()
           }
         }
+      },
+      p2Color() {
+        return `color-${this.replay.p2.className}`
       },
       p2Highlight() {
         if (this.currentRoute.class) {
@@ -138,33 +144,6 @@
     font-size 15px
     font-weight bold
     transition color 0.2s ease
-
-    &.druid
-      color #af561a
-
-    &.hunter
-      color #499a46
-
-    &.mage
-      color #4b68cc
-
-    &.paladin
-      color #dcaa17
-
-    &.priest
-      color #a1aeb2
-
-    &.rogue
-      color #9aa1ad
-
-    &.shaman
-      color #636eb7
-
-    &.warlock
-      color #8e33a7
-
-    &.warrior
-      color #ca422a
 
   .vs
     font-weight 300

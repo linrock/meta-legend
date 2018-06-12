@@ -12,10 +12,20 @@
         :key="path"
         :to="path"
       )
-        .left-value {{ deck.archetype }} {{ deck.class }}
+        .left-value(:class="classColor(deck.class)") {{ deck.archetype }} {{ deck.class }}
         .right-value {{ deck.n }}
 
 </template>
+
+<script>
+  export default {
+    methods: {
+      classColor(className) {
+        return `color-${className.toLowerCase()}`
+      }
+    }
+  }
+</script>
 
 <style lang="stylus" scoped>
   .top-decks
@@ -81,5 +91,8 @@
 
     &:hover
       color #45ABFE
+
+      .left-value
+        color #45ABFE
 
 </style>

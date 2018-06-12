@@ -2,6 +2,7 @@
   .class-archetypes(v-if="classArchetypeRows.length > 0")
     .header-row
       h2 {{ title }}
+      h3 {{ $store.getters.sinceDaysText }}
     .label-row
       .left-label deck type
       .mid-label winrate
