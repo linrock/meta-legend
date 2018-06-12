@@ -20,15 +20,21 @@
       .error-message(v-if="showError")
         a(href="/account/login") Log in with battle.net
         div to like replays
-    .deck
+    .deck(@mouseleave="showCardImage(false)")
       .about-deck
         .deck-owner {{ replay.p1.name }}'s deck
         .dust-cost(v-if="replay.deckDustCost > 0") {{ replay.deckDustCost }} dust
       .deck-card-names
-        .card(v-for="card in replay.deckCards" :class="card.rarity")
+        .card(
+          v-for="card in replay.deckCards"
+          :class="card.rarity"
+          @mouseenter="showCardImage(card.id)"
+        )
           .cost {{ card.cost }}
           .name {{ card.name }}
           .quantity(v-if="card.n > 1") x{{ card.n }}
+    .card-preview(v-if="cardUrl")
+      img(:src="cardUrl")
 
 </template>
 
@@ -47,7 +53,8 @@
 
     data() {
       return {
-        showError: false
+        showError: false,
+        cardUrl: false,
       }
     },
 
@@ -73,7 +80,17 @@
       },
       replayClicked() {
         trackEvent('click', 'watch replay', this.replay.hsreplayId)
-      }
+      },
+      showCardImage(cardId) {
+        if ('ontouchstart' in document.documentElement) {
+          return
+        }
+        if (cardId) {
+          this.cardUrl = `https://art.hearthstonejson.com/v1/render/latest/enUS/256x/${cardId}.png`
+        } else {
+          this.cardUrl = null
+        }
+      },
     },
 
     computed: {
@@ -163,7 +180,8 @@
       margin-left auto
 
   .card
-    padding 3px 0
+    padding 2px 0
+    margin 2px 0
     display flex
     font-size 15px
     letter-spacing -0.2px
@@ -189,5 +207,11 @@
     .quantity
       opacity 0.4
       width 15px
+
+  .card-preview
+    position fixed
+    top 150px
+    left 50%
+    margin-left -150px
 
 </style>

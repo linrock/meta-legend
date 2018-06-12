@@ -6,6 +6,7 @@ class HearthstoneCard
     json_data = open(DATA_FILE, 'r').read
     @@card_map ||= Hash[JSON.parse(json_data).map {|card|
       [card['id'], {
+        id: card['id'],
         cost: card['cost'],
         name: card['name'],
         rarity: card['rarity']&.downcase,

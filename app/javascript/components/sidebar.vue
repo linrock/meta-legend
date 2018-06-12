@@ -54,12 +54,13 @@
   #sidebar
     padding-left sidebar-margin
     width sidebar-width
+    z-index 5 // needs to be higher than rank diamonds
 
     &.fixed
       position fixed
       left 50%
-      margin-left 135px
       top: 0
+      margin-left 135px
       padding-top 20px
 
 </style>
