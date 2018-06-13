@@ -2,7 +2,7 @@ working_dir = File.expand_path(File.dirname(__FILE__))
 
 procfile_commands = open("#{working_dir}/Procfile", "r") do |f|
   Hash[f.read.strip.split(/\n/).map do |row|
-    row.split(":")
+    row.split(':')
   end.map {|process_name, command| [process_name.to_sym, command] }]
 end
 
@@ -16,43 +16,43 @@ Eye.application 'meta-legend' do
 
   group 'caches' do
     process :json do
-      daemonize true
-      pid_file 'tmp/pids/eye.caches.json.pid'
-      start_command procfile_commands[:cache]
+      daemonize      true
+      pid_file       'tmp/pids/eye.caches.json.pid'
+      start_command  procfile_commands[:cache]
     end
 
     process :stats do
-      daemonize true
-      pid_file 'tmp/pids/eye.caches.stats.pid'
-      start_command procfile_commands[:stats]
+      daemonize      true
+      pid_file       'tmp/pids/eye.caches.stats.pid'
+      start_command  procfile_commands[:stats]
     end
   end
 
   process :importer do
-    daemonize true
-    pid_file 'tmp/pids/eye.importer.pid'
-    stdall 'log/replay_outcome_importer.log'
-    start_command procfile_commands[:importer]
-    stop_signals [:TERM, 1.second, :KILL]
-  end
-
-  process :sidekiq do
-    daemonize true
-    pid_file 'tmp/pids/eye.sidekiq.pid'
-    stdall 'log/sidekiq.log'
-    start_command procfile_commands[:worker]
-    stop_signals [:USR1, 0, :TERM, 10.seconds, :KILL]
+    daemonize        true
+    pid_file         'tmp/pids/eye.importer.pid'
+    stdall           'log/replay_outcome_importer.log'
+    start_command    procfile_commands[:importer]
+    stop_signals     [:TERM, 1.second, :KILL]
   end
 
   process :puma do
-    pid_file 'tmp/pids/eye.puma.pid'
-    stdall   'log/puma.log'
-    daemonize true
+    daemonize        true
+    pid_file         'tmp/pids/eye.puma.pid'
+    stdall           'log/puma.log'
+    start_command    procfile_commands[:web]
+    stop_signals     [:TERM, 5.seconds, :KILL]
+    restart_command  'pumactl phased-restart -p {PID}'
+    restart_grace    5.seconds
+    monitor_children
+  end
 
-    start_command   procfile_commands[:web]
-    stop_signals    [:TERM, 5.seconds, :KILL]
-    restart_command 'pumactl phased-restart -p {PID}'
-    restart_grace   5.seconds
+  process :sidekiq do
+    daemonize        true
+    pid_file         'tmp/pids/eye.sidekiq.pid'
+    stdall           'log/sidekiq.log'
+    start_command    procfile_commands[:worker]
+    stop_signals     [:USR1, 0, :TERM, 10.seconds, :KILL]
   end
 end
 
