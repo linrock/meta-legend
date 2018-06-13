@@ -58,6 +58,27 @@ GEM
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       xpath (~> 3.0)
+    celluloid (0.17.3)
+      celluloid-essentials
+      celluloid-extras
+      celluloid-fsm
+      celluloid-pool
+      celluloid-supervision
+      timers (>= 4.1.1)
+    celluloid-essentials (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-extras (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-fsm (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-io (0.17.3)
+      celluloid (>= 0.17.2)
+      nio4r (>= 1.1)
+      timers (>= 4.1.1)
+    celluloid-pool (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-supervision (0.20.6)
+      timers (>= 4.1.1)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     chromedriver-helper (1.2.0)
@@ -74,16 +95,24 @@ GEM
       railties (>= 3.2, < 6.0)
     erubi (1.7.1)
     execjs (2.7.0)
+    eye (0.10.0)
+      celluloid (~> 0.17.3)
+      celluloid-io (~> 0.17.0)
+      kostya-sigar (~> 2.0.0)
+      state_machines
+      thor
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.23)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     hashie (3.5.7)
+    hitimes (1.2.6)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
     jwt (1.5.6)
+    kostya-sigar (2.0.4)
     libv8 (6.3.292.48.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -195,9 +224,12 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    state_machines (0.5.0)
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
+    timers (4.1.2)
+      hitimes
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (4.1.10)
@@ -226,6 +258,7 @@ DEPENDENCIES
   chromedriver-helper
   dalli (~> 2.7)
   dotenv-rails
+  eye
   listen (>= 3.0.5, < 3.2)
   mini_racer
   nokogiri (>= 1.8)

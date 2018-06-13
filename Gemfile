@@ -5,12 +5,14 @@ ruby '2.5.1'
 
 gem 'rails', '~> 5.2.0'
 gem 'puma', '~> 3.11'
+gem 'eye', require: false
 
 # persistence
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'dalli', '~> 2.7'
 gem 'sidekiq'
 
+# business logic
 gem 'omniauth-bnet'
 gem 'nokogiri', '>= 1.8'
 
