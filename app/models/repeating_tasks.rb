@@ -13,12 +13,14 @@ class RepeatingTasks
 
   def calculate_legend_stats
     loop do
+      t0 = Time.now
       cache = ArchetypeCache.new
       cache.archetypes_map!
       route_map = RouteMap.new
       route_map.to_hash!
       ReplayStatsCache.new.legend_stats!
-      sleep 60
+      logger.info "#{Time.now - t0}s to refresh archetype + legend stats caches"
+      sleep 600
     end
   end
 
@@ -26,8 +28,15 @@ class RepeatingTasks
     loop do
       t0 = Time.now
       JsonResponseCache.warm_all_caches!
-      puts "Refreshing json caches took #{Time.now - t0}s"
+      logger.info "#{Time.now - t0}s to refresh json caches"
       sleep 120
     end
+  end
+
+  private
+
+  def logger
+    STDOUT.sync = true
+    @logger ||= Logger.new(STDOUT)
   end
 end

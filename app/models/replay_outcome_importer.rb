@@ -1,7 +1,6 @@
 require 'open-uri'
 
 class ReplayOutcomeImporter
-
   API_ENDPOINT = "https://hsreplay.net/api/v1/live/replay_feed/"
 
   def keep_fetching
@@ -10,6 +9,7 @@ class ReplayOutcomeImporter
       begin
         fetch!
       rescue => e
+        logger.error "Error while fetching replays"
         puts "#{e.class.name}: #{e.message}"
         puts e.backtrace
         n_consecutive_errors += 1
@@ -62,7 +62,10 @@ class ReplayOutcomeImporter
     true
   end
 
+  private
+
   def logger
-    @logger ||= Logger.new("#{Rails.root}/log/replay_outcome_importer.log")
+    STDOUT.sync = true
+    @logger ||= Logger.new(STDOUT)
   end
 end

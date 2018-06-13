@@ -3,7 +3,7 @@ require 'open-uri'
 class ArchetypeImporter
   API_ENDPOINT = "https://hsreplay.net/api/v1/archetypes/"
 
-  def check_archetype_differences
+  def check!
     hsreplay_archetypes.each do |hsrp_archetype|
       archetype = Archetype.find_by_archetype_id(hsrp_archetype["id"])
       begin
@@ -21,8 +21,12 @@ class ArchetypeImporter
     end
   end
 
+  def fetch!
+    JSON.parse open(API_ENDPOINT).read
+  end
+
   def hsreplay_archetypes
     return @hsreplay_archetypes if defined? @hsreplay_archetypes
-    @hsreplay_archetypes = JSON.parse open(API_ENDPOINT).read
+    @hsreplay_archetypes = fetch!
   end
 end

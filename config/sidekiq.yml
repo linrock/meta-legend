@@ -2,7 +2,6 @@
 :concurrency: 1
 :max_retries: 3
 :pidfile: ./tmp/pids/sidekiq.pid
-:logfile: ./log/sidekiq.log
 :queues:
   - fetcher
   - cacher
