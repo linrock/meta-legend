@@ -1,4 +1,4 @@
-class ReplaysController < ActionController::Base
+class ReplaysController < ActionController::API
 
   def index
     if RouteMap.new.exists? params[:path]
