@@ -9,12 +9,13 @@
   $right-col-width: 100px;
   $total-col-width: $left-col-width + $mid-col-width + $right-col-width;
 
+  padding-top: 50px;
   margin-bottom: 100px;
 
   .decks-chooser {
     display: flex;
     align-items: center;
-    margin: 40px 0 5px;
+    margin-bottom: 5px;
   }
 
   .header-description {

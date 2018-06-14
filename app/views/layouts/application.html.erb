@@ -33,11 +33,16 @@
           </h2>
         </div>
       </div>
-    <% end %>
 
-    <div class="main">
-      <%= yield %>
-    </div>
+      <div class="main">
+        <%= yield %>
+      </div>
+
+    <% else %>
+      <div class="main container">
+        <%= yield %>
+      </div>
+    <% end %>
 
     <% if ENV["GA_ID"] %>
       <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV["GA_ID"] %>"></script>
