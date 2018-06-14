@@ -53,6 +53,7 @@ Eye.application 'meta-legend' do
     stdall           'log/sidekiq.log'
     start_command    procfile_commands[:worker]
     stop_signals     [:USR1, 0, :TERM, 10.seconds, :KILL]
+    monitor_children
   end
 end
 
