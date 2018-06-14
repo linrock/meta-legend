@@ -42,7 +42,7 @@ Eye.application 'meta-legend' do
     stdall           'log/puma.log'
     start_command    procfile_commands[:web]
     stop_signals     [:TERM, 5.seconds, :KILL]
-    restart_command  'pumactl phased-restart -p {PID}'
+    restart_command  'pumactl restart -p {PID}'
     restart_grace    5.seconds
     monitor_children
   end
