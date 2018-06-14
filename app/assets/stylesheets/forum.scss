@@ -17,6 +17,11 @@ $link-color: #45abfe;
     // font-size: 20px;
   }
 
+  .content {
+    line-height: 22px;
+    margin: 10px 0;
+  }
+
   .forum-header {
     font-weight: bold;
     border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -132,10 +137,6 @@ $link-color: #45abfe;
 
   .separator {
     margin: 0 7px;
-  }
-
-  .content {
-    margin: 10px 0;
   }
 }
 
