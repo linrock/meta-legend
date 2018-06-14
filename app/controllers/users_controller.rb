@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   end
 
   def submit_replays
-    params[:replays_list].strip.split(/\n/).each do |replay|
+    params[:replays_list].strip.split(/\s+/).each do |replay|
       replay = @user.user_submitted_replays.new(hsreplay_id: replay)
       if replay.valid?
         replay.save!

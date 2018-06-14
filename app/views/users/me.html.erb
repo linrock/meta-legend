@@ -70,8 +70,8 @@
     <% if @user.submitted_replays_count > 0 %>
       <h4>You've submitted <%= @user.submitted_replays_count %> replays so far. Thanks!</h4>
     <% end %>
-    <h4>Feel free to submit any standard or wild replays to help grow the replay database.</h4>
-    <h4>Enter a list of hsreplay.net replay URLs or ids. One per line. </h4>
+    <h4>Feel free to submit standard or wild replays to help grow the replay database.</h4>
+    <h4>Enter a list of hsreplay.net replay URLs or ids. One per line, or space-separated. </h4>
     <%= form_tag "/submit_replays", method: :post do %>
       <input type="hidden"
              value="<%= request_forgery_protection_token %>"
