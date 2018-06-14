@@ -47,7 +47,11 @@ class ReplayStatsCache
   private
 
   def get_replay_outcomes(filter)
-    replay_outcomes = ReplayOutcome.legend_players.since(SINCE)
+    if filter == "top100"
+      replay_outcomes = ReplayOutcome.legend_players.since(4.days.ago)
+    else
+      replay_outcomes = ReplayOutcome.legend_players.since(SINCE)
+    end
     case filter
       when "top1000" then replay_outcomes = replay_outcomes.top_legend(1000)
       when "top100" then replay_outcomes = replay_outcomes.top_legend(100)

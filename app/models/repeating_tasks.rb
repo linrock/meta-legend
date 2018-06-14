@@ -7,7 +7,7 @@ class RepeatingTasks
   def import_replay_data
     loop do
       ReplayDataImporter.import_missing_data!
-      sleep 60
+      sleep 1.minute
     end
   end
 
@@ -19,8 +19,10 @@ class RepeatingTasks
       route_map = RouteMap.new
       route_map.to_hash!
       ReplayStatsCache.new.legend_stats!
+      ReplayStatsCache.new.legend_stats! "top100"
+      ReplayStatsCache.new.legend_stats! "top1000"
       logger.info "#{Time.now - t0}s to refresh archetype + legend stats caches"
-      sleep 600
+      sleep 15.minutes
     end
   end
 
@@ -29,7 +31,7 @@ class RepeatingTasks
       t0 = Time.now
       JsonResponseCache.warm_all_caches!
       logger.info "#{Time.now - t0}s to refresh json caches"
-      sleep 120
+      sleep 2.minutes
     end
   end
 
