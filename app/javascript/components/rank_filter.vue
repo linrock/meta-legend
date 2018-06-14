@@ -1,6 +1,6 @@
 <template lang="pug">
   .rank-filter
-    div Show:
+    div Show me:
     select(v-model="selected").needsclick
       option(disabled name="") games played by
       option(value="all") all legend players
@@ -33,6 +33,7 @@
     display flex
     align-items center
     font-size 14px
+    padding 20px 0 15px
 
     select
       margin-left 10px

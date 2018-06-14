@@ -23,18 +23,20 @@
   <body>
     <%= render partial: "layouts/main_header" %>
 
-    <div class="container">
-      <% if params[:controller] == "home" %>
-        <h2 class="main-description">
-          Find replays of games by
-          legend-rank Hearthstone players.
-          Choose a class to filter replays and top decks.
-        </h2>
-      <% end %>
-
-      <div class="main">
-        <%= yield %>
+    <% if params[:controller] == "home" %>
+      <div class="main-description">
+        <div class="container sub-header-bg">
+          <h2>
+            Find replays of games by
+            legend-rank Hearthstone players.
+            Choose a class to filter replays and top decks.
+          </h2>
+        </div>
       </div>
+    <% end %>
+
+    <div class="main">
+      <%= yield %>
     </div>
 
     <% if ENV["GA_ID"] %>

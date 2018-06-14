@@ -1,12 +1,12 @@
 <template lang="pug">
   main
-    header
+    header.container.sub-header-bg
       class-image-selector
       class-winrates
-    article
+      rank-filter
+    article.container
       section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
         .top-row
-          rank-filter
           h3.replay-feed-title {{ $store.state.replayFeedTitle }}
         template(v-if="$store.getters.replays.length === 0")
           .loading-text(v-if="isLoading") Loading...
@@ -218,17 +218,17 @@
 <style lang="stylus" scoped>
   replay-feed-width = 510px
   sidebar-width = 240px
-  sidebar-margin = 10px
+  sidebar-margin = 20px
 
   main
-    width replay-feed-width + sidebar-width
+    width replay-feed-width + sidebar-width + 2 * sidebar-margin
     margin 0 auto
-
-  header
-    margin-bottom 30px
 
   article
     display flex
+
+    &.container
+      padding-top 20px
 
   #replays
     position relative
@@ -260,7 +260,7 @@
   .top-row
     display flex
     align-items center
-    padding-bottom 8px
+    padding-bottom 10px
     border-bottom 1px solid rgba(0,0,0,0.1)
     margin-bottom 26px
 
@@ -268,10 +268,10 @@
       font-size 16px
 
     h3.replay-feed-title
-      width replay-feed-width
       font-size 16px
       font-weight bold
-      margin-left 30px
+      text-align center
+      width replay-feed-width
 
   .replay-feed
     display flex

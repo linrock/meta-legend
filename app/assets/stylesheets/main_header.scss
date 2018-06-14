@@ -11,6 +11,7 @@ $link-color: #45abfe;
     display: flex;
     align-items: center;
     height: 100%;
+    background: none;
   }
 
   .title {
@@ -58,6 +59,9 @@ $link-color: #45abfe;
 
 .main-description {
   font-size: 14px;
-  margin: 24px 0 12px;
-  opacity: 0.7;
+  color: rgba(0,0,0,0.7);
+
+  .container {
+    padding: 24px 20px 12px;
+  }
 }

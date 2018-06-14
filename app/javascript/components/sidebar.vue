@@ -17,9 +17,6 @@
   import TopDecks from './top_decks'
   import TopPlayers from './top_players'
 
-  // this.el.getBoundingClientRect().top - (top padding)
-  const scrollThreshold = 223 - 20
-
   export default {
     data() {
       return {
@@ -27,8 +24,8 @@
       }
     },
 
-    created() {
-      // move fixed sidebar component
+    mounted() {
+      const scrollThreshold = this.$el.getBoundingClientRect().top - 20 // top padding
       window.addEventListener('scroll', () => {
         if (window.scrollY >= scrollThreshold && !this.fixedSidebar) {
           this.fixedSidebar = true
