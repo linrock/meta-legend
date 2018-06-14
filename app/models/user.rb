@@ -26,6 +26,10 @@ class User < ApplicationRecord
     end
   end
 
+  def is_legend?
+    is_legend
+  end
+
   # {"provider"=>"bnet",
   # "uid"=>"12345",
   # "info"=>{"battletag"=>"battletag#1337", "id"=>12345},
