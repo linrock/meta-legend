@@ -1,5 +1,5 @@
 class ReplayStatsCache
-  SINCE = 3.days.ago
+  SINCE = 2.days.ago
 
   def initialize
     @cache = Rails.cache
