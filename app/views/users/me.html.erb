@@ -11,6 +11,12 @@
     <div class="field-value"><%= @user.is_legend? ? "Verified" : "not started "%></div>
   </div>
 
+  <% if @user.is_legend? %>
+    <div style="margin-top: 20px">
+      You have access to the private <a href="/forum/legend-lounge">Legend Lounge</a> forum.
+    </div>
+  <% end %>
+
   <br><br>
 
   <% if @user.forum_username.present? %>

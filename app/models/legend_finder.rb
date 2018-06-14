@@ -11,4 +11,11 @@ class LegendFinder
     end
     battletags.select {|tag| seen_legend_tags.include? tag }
   end
+
+  def verify_legends!
+    User.find_by(battletag: find_legends, is_legend: false).each do |u|
+      u.is_legend = true
+      u.save!
+    end
+  end
 end
