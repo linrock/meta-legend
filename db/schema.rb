@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_14_065927) do
+ActiveRecord::Schema.define(version: 2018_06_14_081642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,14 @@ ActiveRecord::Schema.define(version: 2018_06_14_065927) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["hsreplay_id"], name: "index_replay_xml_data_on_hsreplay_id", unique: true
+  end
+
+  create_table "user_submitted_replays", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "hsreplay_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "hsreplay_id"], name: "index_user_submitted_replays_on_user_id_and_hsreplay_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
