@@ -15,22 +15,26 @@ export default class RouteMap {
     this.routeMap = routeMap
   }
 
-  get classArray(): Array<[string, Route]> {
+  get routeMapEntries(): Array<[string, Route]> {
     return Object.entries(this.routeMap)
+  }
+
+  get classArray(): Array<[string, Route]> {
+    return this.routeMapEntries
       .filter(r => !r[1].archetype)
       .sort((a,b) => parseFloat(b[1].winrate) - parseFloat(a[1].winrate))
   }
 
   // top 5 archetypes
   get topArchetypeRows(): Array<[string, Route]> {
-    return Object.entries(this.routeMap)
+    return this.routeMapEntries
       .sort((a,b) => b[1].n - a[1].n)
       .filter(r => r[1].archetype)
       .slice(0, 5)
   }
 
   classArchetypeRows(className): Array<[string, Route]> {
-    return Object.entries(this.routeMap)
+    return this.routeMapEntries
       .filter(r => r[1].class === className && r[1].archetype)
       .sort((a,b) => b[1].n - a[1].n)
       .slice(0, 5)

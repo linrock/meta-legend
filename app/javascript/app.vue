@@ -1,9 +1,9 @@
 <template lang="pug">
   main
     header.container.sub-header-bg
+      rank-filter
       class-image-selector
       class-winrates
-      rank-filter
     article.container
       section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
         .top-row
@@ -223,6 +223,9 @@
   main
     width replay-feed-width + sidebar-width + 2 * sidebar-margin
     margin 0 auto
+
+  header
+    padding-bottom 15px
 
   article
     display flex

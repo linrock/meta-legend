@@ -1,6 +1,6 @@
 <template lang="pug">
   .rank-filter
-    div Show me:
+    .prompt Show me:
     select(v-model="selected").needsclick
       option(disabled name="") games played by
       option(value="all") all legend players
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+  import api from '../api'
   import { trackEvent } from '../utils'
 
   export default {
@@ -23,6 +24,11 @@
       selected() {
         this.$store.dispatch(`setFilterOption`, this.selected)
         trackEvent('filter ranks', 'select', this.selected)
+        api.get(`/popular.json?filter=${this.selected}`)
+          .then(response => response.data)
+          .then(data => {
+            this.$store.dispatch(`setInitialData`, data.replay_stats)
+          })
       }
     }
   }
@@ -32,8 +38,12 @@
   .rank-filter
     display flex
     align-items center
+    justify-content center
     font-size 14px
-    padding 20px 0 15px
+    padding-bottom 15px
+
+    .prompt
+      font-weight bold
 
     select
       margin-left 10px
