@@ -11,6 +11,8 @@ class User < ApplicationRecord
   validate :ensure_format_of_usernames
   validate :forum_username_cannot_change
 
+  scope :legend, -> { where(is_legend: true) }
+
   def self.find_or_create_from_auth_hash(auth_hash)
     user = User.find_by(battletag: auth_hash["info"]["battletag"])
     if user.present?

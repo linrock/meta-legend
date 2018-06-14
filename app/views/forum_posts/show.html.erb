@@ -12,7 +12,6 @@
   </header>
 
   <div class="forum-post show-forum-post">
-
     <div class="content">
       <%= sanitize(@forum_post.content).gsub(/(\r|\n){2,}/, '<br><br>').html_safe %>
     </div>
