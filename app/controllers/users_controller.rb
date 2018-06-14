@@ -30,6 +30,20 @@ class UsersController < ApplicationController
     end
   end
 
+  def submit_replays
+    params[:replays_list].strip.split(/\n/).each do |replay|
+      replay = @user.user_submitted_replays.new(hsreplay_id: replay)
+      if replay.valid?
+        replay.save!
+      end
+    end
+    if Rails.env.development?
+      redirect_to "#{ENV['HTTPS_HOST']}/account"
+    else
+      redirect_to "/account"
+    end
+  end
+
   private
 
   def user_params

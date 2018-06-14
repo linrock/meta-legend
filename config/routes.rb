@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   get "/account/login"             => "users#login"
   patch "/account"                 => "users#update"
 
+  # user submission routes
+  post "/submit_replays"           => "users#submit_replays"
+
   # forum home
   get "/forum"                     => "forum#index"
   get "/forum/general-discussion"  => "forum#general_discussion"

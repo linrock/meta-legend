@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   has_many :liked_replays
   has_many :forum_posts
+  has_many :user_submitted_replays
 
   validates :forum_username, format: { with: /\A[a-zA-Z0-9_]{4,25}\z/ }, allow_blank: true
   validates :twitch_username, format: { with: /\A[a-zA-Z0-9_]{4,25}\z/ }, allow_blank: true
@@ -26,6 +27,10 @@ class User < ApplicationRecord
         auth_hash: auth_hash
       })
     end
+  end
+
+  def submitted_replays_count
+    @submitted_replays_count ||= user_submitted_replays.count
   end
 
   def is_legend?
