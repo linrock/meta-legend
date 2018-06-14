@@ -20,7 +20,8 @@ Rails.application.routes.draw do
 
   # forum home
   get "/forum"                     => "forum#index"
-  get "/forum/general-discussion"  => "forum#show"
+  get "/forum/general-discussion"  => "forum#general_discussion"
+  get "/forum/legend-lounge"       => "forum#legend_lounge"
 
   # forum posts
   get "/forum/posts/new"           => "forum_posts#new"

@@ -4,13 +4,22 @@ class ForumController < ApplicationController
   before_action :set_title_and_meta_desc
 
   def index
-    @forum_posts = ForumPost.all.order('updated_at DESC').limit(FORUM_POST_LIMIT)
+    @general_posts = ForumPost.general_posts.order('updated_at DESC').limit(FORUM_POST_LIMIT)
+    @user_is_legend = @user.present? && @user.is_legend?
+    if @user_is_legend
+      @legend_posts = ForumPost.legend_posts.order('updated_at DESC').limit(FORUM_POST_LIMIT)
+    end
     @has_more = ForumPost.count > FORUM_POST_LIMIT
   end
 
-  def show
-    @forum_posts = ForumPost.all.order('updated_at DESC')
+  def general_discussion
+    @forum_posts = ForumPost.general_posts.order('updated_at DESC')
     @title = "General Discussion | Forum | Meta Legend"
+  end
+
+  def legend_lounge
+    @forum_posts = ForumPost.legend_posts.order('updated_at DESC')
+    @title = "Legend Lounge | Forum | Meta Legend"
   end
 
   private

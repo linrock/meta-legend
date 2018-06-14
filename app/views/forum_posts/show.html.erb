@@ -1,6 +1,12 @@
 <div class="forum">
   <header class="forum-header">
-    <h2><a href="/forum/general-discussion">General Discussion</a></h2>
+    <h2>
+      <% if @forum_post.post_type == "legend" %>
+        <a href="/forum/legend-lounge">Legend Lounge</a>
+      <% else %>
+        <a href="/forum/general-discussion">General Discussion</a>
+      <% end %>
+    </h2>
     <div class="separator">&mdash;</div>
     <h3 class="title"><%= @forum_post.title %></h3>
   </header>

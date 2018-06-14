@@ -8,6 +8,10 @@ class ForumPostsController < ApplicationController
   # creates a forum post
   def create
     forum_post = @user.forum_posts.new(forum_post_params)
+    if forum_post_params[:post_type] == "legend" and !@user.is_legend?
+      redirect_back fallback_location: forum_path
+      return
+    end
     if forum_post.valid?
       forum_post.save!
       redirect_to "/forum"
@@ -22,7 +26,7 @@ class ForumPostsController < ApplicationController
   end
 
   def forum_post_params
-    params.require(:forum_post).permit(:title, :content)
+    params.require(:forum_post).permit(:title, :content, :post_type)
   end
 
   private

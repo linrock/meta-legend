@@ -20,8 +20,11 @@ $link-color: #45abfe;
   .forum-header {
     font-weight: bold;
     border-bottom: 1px solid rgba(0,0,0,0.05);
-    padding-bottom: 10px;
+    padding: 10px;
     margin-bottom: 30px;
+    color: white;
+    background: #333;
+    border-radius: 2px;
 
     .separator {
       margin: 0 15px;

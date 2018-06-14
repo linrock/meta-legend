@@ -1,0 +1,10 @@
+<div class="forum">
+  <header class="forum-header">
+    <h2><a href="/forum/legend-lounge">Legend Lounge</a></h2>
+    <a href="<%= forum_posts_new_path %>?type=legend" class="new-post-link">New post</a>
+  </header>
+
+  <div class="forum-posts">
+    <%= render partial: "forum_posts/forum_post", collection: @forum_posts %>
+  </div>
+</div>

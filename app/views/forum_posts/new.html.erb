@@ -1,7 +1,13 @@
 <div class="forum new-forum-post">
   <% if @user %>
     <header class="forum-header">
-      <h2><a href="/forum/general-discussion">General Discussion</a></h2>
+      <h2>
+        <% if @user.is_legend? and params[:type] == "legend" %>
+          Legend Lounge
+        <% else %>
+          General Discussion
+        <% end %>
+      </h2>
       <div class="separator">&mdash;</div>
       <h3 class="submit-post-header">Submit a post</h3>
     </header>
@@ -10,6 +16,9 @@
       <input type="hidden"
              value="<%= request_forgery_protection_token %>"
              name="csrf_token"/>
+      <% if params[:type] %>
+        <input type="hidden" name="forum_post[post_type]" value="<%= params[:type] %>"/>
+      <% end %>
       <input type="text" placeholder="Title" name="forum_post[title]"/>
       <br>
       <textarea placeholder="Enter your post here..."
