@@ -20,6 +20,19 @@ module HearthstoneCard
     }]
   end
 
+  # map path -> card info
+  def card_path_map
+    return @@card_path_map if defined? @@card_path_map
+    @@card_path_map ||= Hash[card_data.map {|card|
+      [card_name_to_path(card['name']), {
+        id: card['id'],
+        cost: card['cost'],
+        name: card['name'],
+        rarity: card['rarity']&.downcase,
+      }]
+    }]
+  end
+
   def lookup(card_id)
     card_map[card_id]
   end
@@ -30,6 +43,11 @@ module HearthstoneCard
 
   def find_by_name(card_name)
     card_data.find {|c| c["name"] == card_name }
+  end
+
+  def card_name_to_path(card_name)
+    card_name.gsub(/('|!|,|\.|:)/, '').gsub(/\s+/, '-').downcase
+      .gsub(/[^0-9a-z\-]/, '')
   end
 
   def card_ids_to_cards(card_ids)

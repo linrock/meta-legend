@@ -13,14 +13,6 @@ Rails.application.routes.draw do
   get "/decks/top-1000"            => "decks#index"
   get "/decks/top-100"             => "decks#index"
 
-  # user account routes
-  get "/account"                   => "users#me"
-  get "/account/login"             => "users#login"
-  patch "/account"                 => "users#update"
-
-  # user submission routes
-  post "/submit_replays"           => "users#submit_replays"
-
   # forum home
   get "/forum"                     => "forum#index"
   get "/forum/general-discussion"  => "forum#general_discussion"
@@ -31,6 +23,18 @@ Rails.application.routes.draw do
   get "/forum/posts/:id"           => "forum_posts#show", as: "forum_post"
   post "/forum/posts"              => "forum_posts#create"
   post "/forum/posts/:id/comments" => "forum_comments#create", as: "forum_comments"
+
+  # card routes
+  get "/cards"                     => "cards#index"
+  get "/cards/:card"               => "cards#show"
+
+  # user submission routes
+  post "/submit_replays"           => "users#submit_replays"
+
+  # user account routes
+  get "/account"                   => "users#me"
+  get "/account/login"             => "users#login"
+  patch "/account"                 => "users#update"
 
   # login routes
   get "/auth/:provider/callback", to: "sessions#create"
