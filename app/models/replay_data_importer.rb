@@ -95,6 +95,7 @@ class ReplayDataImporter
       else
         errors = replay_xml_data.errors.full_messages
         logger.error "#{@hsreplay_id} is invalid. Skipping. #{errors}"
+        false
       end
     end
   end
