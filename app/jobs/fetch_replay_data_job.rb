@@ -5,8 +5,7 @@ class FetchReplayDataJob
 
   def perform(hsreplay_id)
     importer = ReplayDataImporter.new(hsreplay_id)
-    if importer.import
-      CacheReplayDataJob.perform_async(hsreplay_id)
-    end
+    importer.import
+    # CacheReplayDataJob.perform_async(hsreplay_id)
   end
 end
