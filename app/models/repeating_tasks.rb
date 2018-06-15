@@ -38,7 +38,8 @@ class RepeatingTasks
   private
 
   def logger
+    return @logger if defined? @logger
     STDOUT.sync = true
-    @logger ||= Logger.new(STDOUT)
+    @logger = Logger.new(STDOUT)
   end
 end

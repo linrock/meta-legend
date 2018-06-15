@@ -33,12 +33,8 @@ module HearthstoneCard
     }]
   end
 
-  def lookup(card_id)
-    card_map[card_id]
-  end
-
   def find_by_id(card_id)
-    lookup card_id
+    card_map[card_id]
   end
 
   def find_by_name(card_name)
@@ -51,7 +47,7 @@ module HearthstoneCard
   end
 
   def card_ids_to_cards(card_ids)
-    card_ids.map {|id| lookup(id) }
+    card_ids.map {|card_id| find_by_id(card_id) }
   end
 
   def card_ids_to_deck_list(card_ids)
