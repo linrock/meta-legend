@@ -55,7 +55,7 @@
   }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   .prompt
     font-size 15px
     font-weight bold
