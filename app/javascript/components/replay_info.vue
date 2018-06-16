@@ -31,7 +31,11 @@
           @mouseenter="showCardImage(card.id)"
         )
           .cost {{ card.cost }}
-          a.name(:href="card.href" target="_blank") {{ card.name }}
+          a.name(
+            :href="card.href"
+            target="_blank"
+            @click="cardClicked(card.name)"
+          ) {{ card.name }}
           .quantity(v-if="card.n > 1") x{{ card.n }}
     .card-preview(v-if="cardUrl")
       img(:src="cardUrl")
@@ -80,6 +84,9 @@
       },
       replayClicked() {
         trackEvent('click', 'watch replay', this.replay.hsreplayId)
+      },
+      cardClicked(cardName) {
+        trackEvent('click', 'card name', cardName)
       },
       showCardImage(cardId) {
         if ('ontouchstart' in document.documentElement) {
@@ -203,6 +210,7 @@
       width 25px
 
     .name
+      color inherit
       width 190px
       text-decoration none
 

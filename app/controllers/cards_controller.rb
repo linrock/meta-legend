@@ -9,6 +9,8 @@ class CardsController < ApplicationController
       render status: 404
       return
     end
+    @title = "#{@card[:name]} | Meta Legend"
+    @meta_desc = "Find recent legend replays where #{@card[:name]} was used in a game"
     @hsreplay_ids = ReplayXmlData
       .has_card_id(@card[:id])
       .order("created_at DESC")
