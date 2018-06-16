@@ -8,8 +8,9 @@ class ReplayXmlData < ApplicationRecord
 
   after_validation :log_if_invalid
   after_create :extract_and_save_xml_data
+  after_create :set_played_at
 
-  delegate :doc, :played_at, :player_legend_ranks,
+  delegate :doc, :player_legend_ranks,
            :players, :player_names,
            :pilot_name, :deck_card_ids,
            :winner_name, :loser_name,
@@ -22,6 +23,10 @@ class ReplayXmlData < ApplicationRecord
 
   scope :has_card_id, -> (card_id) do
     where("(extracted_data ->> 'deck_card_ids')::jsonb ? '#{card_id}'")
+  end
+
+  def game_played_at
+    @game_played_at ||= replay_xml_parser.played_at
   end
 
   def to_hash
@@ -43,7 +48,7 @@ class ReplayXmlData < ApplicationRecord
     players.reverse! if players[1][:tag] == pilot_name
     # p1 is always the pilot
     data = {
-      played_at: played_at,
+      played_at: game_played_at,
       p1: players[0],
       p2: players[1],
       pilot_name: pilot_name,
@@ -63,6 +68,11 @@ class ReplayXmlData < ApplicationRecord
   def extract_and_save_xml_data
     self.extracted_data = to_hash!
     self.save!
+  end
+
+  def set_played_at
+    self.played_at = game_played_at
+    self.save!  if self.played_at.present?
   end
 
   def replay_xml_parser
