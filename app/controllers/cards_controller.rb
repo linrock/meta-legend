@@ -13,7 +13,7 @@ class CardsController < ApplicationController
     @meta_desc = "Find recent legend replays where #{@card[:name]} was used in a game"
     @hsreplay_ids = ReplayXmlData
       .has_card_id(@card[:id])
-      .order("created_at DESC")
+      .order("played_at DESC")
       .limit(80)
       .pluck(:hsreplay_id)
     @replay_data = @hsreplay_ids.map do |hsreplay_id|
