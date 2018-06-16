@@ -9,5 +9,10 @@ class CardsController < ApplicationController
       render status: 404
       return
     end
+    @hsreplay_ids = ReplayXmlData
+      .has_card_id(@card[:id])
+      .order("created_at DESC")
+      .limit(100)
+      .pluck(:hsreplay_id)
   end
 end

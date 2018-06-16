@@ -19,6 +19,10 @@ class ReplayXmlData < ApplicationRecord
     where("created_at > ?", timestamp)
   end
 
+  scope :has_card_id, -> (card_id) do
+    where("(extracted_data ->> 'deck_card_ids')::jsonb ? '#{card_id}'")
+  end
+
   def to_hash
     extracted_data&.deep_symbolize_keys || to_hash!
   end

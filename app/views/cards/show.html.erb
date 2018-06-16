@@ -1,3 +1,12 @@
-<img src="https://art.hearthstonejson.com/v1/render/latest/enUS/256x/<%= @card[:id] %>.png"/>
+<section class="card-replays">
+  <div class="replays">
+    <% @hsreplay_ids.each do |hsreplay_id| %>
+      <div><%= hsreplay_id %></div>
+    <% end %>
+  </div>
 
-<%= @card[:name] %> 
+  <div class="card-info">
+    <img src="https://art.hearthstonejson.com/v1/render/latest/enUS/256x/<%= @card[:id] %>.png"
+         alt="<%= @card[:name] %>"/>
+  </div>
+</section>

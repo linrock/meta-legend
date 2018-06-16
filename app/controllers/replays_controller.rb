@@ -12,7 +12,7 @@ class ReplaysController < ActionController::API
     filter = ReplayOutcomeFilter.get_filter(params[:filter])
     replay_stats = ReplayStatsCache.new.legend_stats(filter)
     render json: {
-      replay_stats: replay_stats,
+      replay_stats: replay_stats
     }
   end
 end
