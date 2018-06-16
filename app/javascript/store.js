@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     filter: `all`,
     page: 1,
     aboutWinrates: {},
-    routeMap: {},
+    routeMap: new RouteMap(),
     replays: new Replays(),
     replayFeedTitle: ``,
     replay: null,
@@ -115,7 +115,9 @@ const store = new Vuex.Store({
     classArray: state => state.routeMap.classArray,
     classArchetypeRows: state => className => state.routeMap.classArchetypeRows(className),
     topArchetypeRows: state => state.routeMap.topArchetypeRows,
-    currentRoute: (state, getters) => getters.routeMap(state.path),
+    currentRoute: (state, getters) => {
+      return getters.routeMap ? getters.routeMap(state.path) : {}
+    },
     currentPage: state => state.page,
     currentReplay: state => state.replay,
     routeMap: state => path => state.routeMap.getRoute(path),

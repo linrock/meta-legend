@@ -1,6 +1,13 @@
 .card-replays {
   display: flex;
 
+  h2 {
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin: 20px 0 15px;
+  }
+
   .replays {
     width: 494px;
   }

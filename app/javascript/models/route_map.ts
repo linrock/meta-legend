@@ -12,7 +12,7 @@ type RouteObj = {
 export default class RouteMap {
 
   constructor(public routeMap: RouteObj) {
-    this.routeMap = routeMap
+    this.routeMap = routeMap || {}
   }
 
   get routeMapEntries(): Array<[string, Route]> {

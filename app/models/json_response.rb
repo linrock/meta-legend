@@ -72,8 +72,4 @@ class JsonResponse
     return PAGE_LIMIT if page > PAGE_LIMIT
     page
   end
-
-  def logger
-    @logger ||= Logger.new("#{Rails.root}/log/json_response.log")
-  end
 end

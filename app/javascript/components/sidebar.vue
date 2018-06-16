@@ -6,7 +6,7 @@
       template(v-if="$store.getters.currentRoute.class")
         class-archetypes
       template(v-else)
-        top-decks
+        top-decks(v-if="$store.getters.topArchetypeRows.length > 0")
         top-players
         // popular-archetypes
 </template>

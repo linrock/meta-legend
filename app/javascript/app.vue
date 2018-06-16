@@ -14,12 +14,7 @@
         .error-text(v-if="error") Failed to fetch replays :(
         .replay-feed-container
           .replay-feed
-            .replay-list
-              replay-row(
-                v-for="replay in $store.getters.replays"
-                :key="replay.key"
-                :replay="replay"
-              )
+            replay-list(:replays="$store.getters.replays")
           .bottom(ref="bottom")
             .back-to-top(
               v-if="$store.getters.currentPage > 1 && !infiniteScrollOn"
@@ -34,7 +29,7 @@
   import ClassWinrates from './components/class_winrates'
   import PopularArchetypes from './components/popular_archetypes'
   import RankFilter from './components/rank_filter'
-  import ReplayRow from './components/replay_row'
+  import ReplayList from './components/replay_list'
   import Sidebar from './components/sidebar'
   import { trackEvent } from './utils'
   import api from './api'
@@ -209,7 +204,7 @@
       ClassWinrates,
       PopularArchetypes,
       RankFilter,
-      ReplayRow,
+      ReplayList,
       Sidebar,
     },
   }

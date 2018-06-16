@@ -14,5 +14,8 @@ class CardsController < ApplicationController
       .order("created_at DESC")
       .limit(100)
       .pluck(:hsreplay_id)
+    @replay_data = @hsreplay_ids.map do |hsreplay_id|
+      ReplayJson.new(hsreplay_id).to_hash
+    end.to_json
   end
 end

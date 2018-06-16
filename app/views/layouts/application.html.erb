@@ -7,9 +7,13 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= stylesheet_pack_tag 'application', media: 'all' %>
-    <% if request.path !~ /\A\/(account|forum)/ %>
+    <% if request.path !~ /\A\/(account|forum|cards)/ %>
       <%= javascript_pack_tag 'application' %>
+      <%= stylesheet_pack_tag 'application', media: 'all' %>
+    <% end %>
+    <% if request.path =~ /cards/ %>
+      <%= javascript_pack_tag 'cards' %>
+      <%= stylesheet_pack_tag 'cards', media: 'all' %>
     <% end %>
 
     <% if Rails.env.development? %>
@@ -22,6 +26,7 @@
 
   <body>
     <%= render partial: "layouts/main_header" %>
+    <%= render partial: "layouts/svg_icons" %>
 
     <% if params[:controller] == "home" %>
       <div class="main-description">
@@ -38,6 +43,10 @@
         <%= yield %>
       </div>
 
+    <% elsif request.path =~ /cards/ %>
+      <div class="main">
+        <%= yield %>
+      </div>
     <% else %>
       <div class="main container">
         <%= yield %>

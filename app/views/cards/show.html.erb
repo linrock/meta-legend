@@ -1,11 +1,14 @@
+<script id="replay-data" type="application/json">
+  <%= @replay_data.html_safe %>
+</script>
+
 <section class="card-replays">
-  <div class="replays">
-    <% @hsreplay_ids.each do |hsreplay_id| %>
-      <div><%= hsreplay_id %></div>
-    <% end %>
+  <div class="container">
+    <h2>Legend replays that contain <%= @card[:name] %></h2>
+    <div class="card-replays-list"></div>
   </div>
 
-  <div class="card-info">
+  <div class="card-info" style="display: none">
     <img src="https://art.hearthstonejson.com/v1/render/latest/enUS/256x/<%= @card[:id] %>.png"
          alt="<%= @card[:name] %>"/>
   </div>
