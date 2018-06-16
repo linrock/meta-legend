@@ -31,29 +31,33 @@
       .error-message(v-if="showError")
         a(href="/account/login") Log in with battle.net
         div to like replays
-    .deck(@mouseleave="showCardImage(false)")
-      .about-deck
-        .deck-owner {{ replay.p1.name }}'s deck
-        .dust-cost(v-if="replay.deckDustCost > 0") {{ replay.deckDustCost }} dust
-      .deck-card-names
-        .card(
-          v-for="card in replay.deckCards"
-          :class="card.rarity"
-          @mouseenter="showCardImage(card.id)"
-        )
-          .cost {{ card.cost }}
-          a.name(
-            :href="card.href"
-            target="_blank"
-            @click="cardClicked(card.name)"
-          ) {{ card.name }}
-          .quantity(v-if="card.n > 1") x{{ card.n }}
-    .card-preview(v-if="cardUrl")
-      img(:src="cardUrl")
+    template(v-if="showReplayComment")
+      replay-comment(:replay="replay" :callback="() => { this.showReplayComment = false }")
+    template(v-else)
+      .deck(@mouseleave="showCardImage(false)")
+        .about-deck
+          .deck-owner {{ replay.p1.name }}'s deck
+          .dust-cost(v-if="replay.deckDustCost > 0") {{ replay.deckDustCost }} dust
+        .deck-card-names
+          .card(
+            v-for="card in replay.deckCards"
+            :class="card.rarity"
+            @mouseenter="showCardImage(card.id)"
+          )
+            .cost {{ card.cost }}
+            a.name(
+              :href="card.href"
+              target="_blank"
+              @click="cardClicked(card.name)"
+            ) {{ card.name }}
+            .quantity(v-if="card.n > 1") x{{ card.n }}
+      .card-preview(v-if="cardUrl")
+        img(:src="cardUrl")
 
 </template>
 
 <script>
+  import ReplayComment from './replay_comment'
   import Replay from '../models/replay'
   import api from '../api'
   import { trackEvent, timeAgo } from '../utils'
@@ -70,6 +74,13 @@
       return {
         showError: false,
         cardUrl: false,
+        showReplayComment: false,
+      }
+    },
+
+    watch: {
+      replay() {
+        this.showReplayComment = false
       }
     },
 
@@ -95,6 +106,13 @@
       },
       replayClicked() {
         trackEvent('click', 'watch replay', this.replay.hsreplayId)
+        const replay = this.replay
+        setTimeout(() => {
+          if (this.$store.getters.currentReplay === replay) {
+            this.showReplayComment = true
+            trackEvent('comment box', 'displayed', this.replay.hsreplayId)
+          }
+        }, 3000)
       },
       cardClicked(cardName) {
         trackEvent('click', 'card name', cardName)
@@ -129,6 +147,10 @@
       timeAgo() {
         return timeAgo(this.replay.foundAt)
       },
+    },
+
+    components: {
+      ReplayComment
     }
   }
 </script>
@@ -171,8 +193,11 @@
       font-size 16px
       transition opacity 0.15s ease
 
+      &:visited
+        opacity 0.3
+
       &:hover
-        opacity 0.8
+        opacity 0.65
 
   // likes
   .replay-likes
