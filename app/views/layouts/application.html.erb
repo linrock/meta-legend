@@ -45,7 +45,7 @@
         <%= yield %>
       </div>
 
-    <% elsif request.path =~ /cards/ %>
+    <% elsif request.path =~ /(cards|players)/ %>
       <div class="main">
         <%= yield %>
       </div>
