@@ -25,8 +25,12 @@ Rails.application.routes.draw do
   post "/forum/posts/:id/comments" => "forum_comments#create", as: "forum_comments"
 
   # card routes
-  get "/cards"                     => "cards#index"
+  # get "/cards"                     => "cards#index"
   get "/cards/:card"               => "cards#show"
+
+  # player routes
+  # get "/players"                   => "players#index"
+  get "/players/:name"             => "players#show"
 
   # user submission routes
   post "/submit_replays"           => "users#submit_replays"

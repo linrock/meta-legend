@@ -7,11 +7,11 @@
       .left-label name
       .right-label # games
     .stats
-      div(
-        v-for="([name, playerData]) in $store.state.activePlayers"
-        @click="clickUserName(name)"
-      )
-        .stats-row
+      div(v-for="([name, playerData]) in $store.state.activePlayers")
+        a.stats-row(
+          :href="`/players/${name.split('#')[0]}`"
+          @click="clickUserName(name)"
+        )
           .left-label {{ name.split("#")[0] }}
           .right-label {{ playerData.count }}
         a.twitch-url(
@@ -77,8 +77,12 @@
     text-decoration none
     color #333
 
+    &:hover, &.active
+      color #45ABFE
+      cursor pointer
+
     .left-label
-      font-weight normal
+      font-weight bold
 
     .right-label
       width 60px

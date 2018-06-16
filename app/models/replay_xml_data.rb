@@ -25,6 +25,12 @@ class ReplayXmlData < ApplicationRecord
     where("(extracted_data ->> 'deck_card_ids')::jsonb ? '#{card_id}'")
   end
 
+  scope :has_player_name, -> (player_name) do
+    where("extracted_data #>> '{p1,tag}' ILIKE ?", "#{player_name}#%").or(
+      where("extracted_data #>> '{p2,tag}' ILIKE ?", "#{player_name}#%")
+    )
+  end
+
   def game_played_at
     @game_played_at ||= replay_xml_parser.played_at
   end

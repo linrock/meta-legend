@@ -7,13 +7,15 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
-    <% if request.path !~ /\A\/(account|forum|cards)/ %>
+    <% if request.path !~ /\A\/(account|forum|cards|players)/ %>
       <%= javascript_pack_tag 'application' %>
       <%= stylesheet_pack_tag 'application', media: 'all' %>
-    <% end %>
-    <% if request.path =~ /cards/ %>
+    <% elsif request.path =~ /cards/ %>
       <%= javascript_pack_tag 'cards' %>
       <%= stylesheet_pack_tag 'cards', media: 'all' %>
+    <% elsif request.path =~ /players/ %>
+      <%= javascript_pack_tag 'players' %>
+      <%= stylesheet_pack_tag 'players', media: 'all' %>
     <% end %>
 
     <% if Rails.env.development? %>
