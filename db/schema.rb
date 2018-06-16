@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_16_060237) do
+ActiveRecord::Schema.define(version: 2018_06_16_160007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,15 @@ ActiveRecord::Schema.define(version: 2018_06_16_060237) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "hsreplay_id"], name: "index_liked_replays_on_user_id_and_hsreplay_id", unique: true
+  end
+
+  create_table "replay_comments", force: :cascade do |t|
+    t.string "hsreplay_id", null: false
+    t.integer "user_id"
+    t.text "text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hsreplay_id", "user_id"], name: "index_replay_comments_on_hsreplay_id_and_user_id"
   end
 
   create_table "replay_html_data", force: :cascade do |t|
