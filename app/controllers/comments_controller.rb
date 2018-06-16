@@ -9,7 +9,6 @@ class CommentsController < ApplicationController
     if comment.save
       render json: { success: true }
     else
-    binding.pry
       render json: { error: "failed to save comment" }, status: 400
     end
   end
