@@ -1,5 +1,5 @@
 <template lang="pug">
-  .top-decks
+  .top-decks(v-if="$store.getters.topArchetypeRows.length > 0")
     .header-row
       h2 Popular decks
       h3 {{ $store.getters.sinceDaysText }}

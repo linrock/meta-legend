@@ -13,6 +13,7 @@ const store = new Vuex.Store({
     path: `/`,
     filter: `all`,
     page: 1,
+    currentCard: null,
     aboutWinrates: {},
     routeMap: new RouteMap(),
     replays: new Replays(),
@@ -56,6 +57,9 @@ const store = new Vuex.Store({
     },
     setReplayLikes(state, { replayId, numLikes, liked }) {
       Vue.set(state.likedReplays.likeMap, replayId, { numLikes, liked })
+    },
+    setCurrentCard(state, cardId) {
+      state.currentCard = cardId
     }
   },
 
@@ -105,6 +109,9 @@ const store = new Vuex.Store({
     },
     setReplayLikes({ commit }, { replayId, numLikes, liked }) {
       commit(`setReplayLikes`, { replayId, numLikes, liked })
+    },
+    setCurrentCard({ commit }, cardId) {
+      commit(`setCurrentCard`, cardId)
     }
   },
 

@@ -12,10 +12,15 @@
 
   export default {
     data() {
-      const replayListData = JSON.parse(document.querySelector("#replay-data").text)
+      const replayDataEl = document.querySelector("#replay-data")
       return {
-        replays: replayListData.map(replayData => new Replay(replayData))
+        replays: JSON.parse(replayDataEl.text).map(replayData => new Replay(replayData)),
+        replayDataEl,
       }
+    },
+
+    created() {
+      this.$store.dispatch(`setCurrentCard`, this.replayDataEl.dataset.cardId)
     },
 
     components: {

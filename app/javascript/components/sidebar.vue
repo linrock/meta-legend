@@ -6,9 +6,12 @@
       template(v-if="$store.getters.currentRoute.class")
         class-archetypes
       template(v-else)
-        top-decks(v-if="$store.getters.topArchetypeRows.length > 0")
-        top-players
-        // popular-archetypes
+        template(v-if="$store.state.currentCard")
+          img(:src="cardUrl()")
+        template(v-else)
+          top-decks
+          top-players
+          // popular-archetypes
 </template>
 
 <script>
@@ -21,6 +24,13 @@
     data() {
       return {
         fixedSidebar: false,
+      }
+    },
+
+    methods: {
+      cardUrl() {
+        const cardId = this.$store.state.currentCard
+        return `https://art.hearthstonejson.com/v1/render/latest/enUS/256x/${cardId}.png`
       }
     },
 

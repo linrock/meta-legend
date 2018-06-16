@@ -42,7 +42,9 @@
       selectReplay() {
         const replay = this.isSelectedReplay ? null : this.replay
         this.$store.dispatch(`selectReplay`, replay)
-        trackEvent('click row', 'replay', replay.hsreplayId)
+        if (replay) {
+          trackEvent('click row', 'replay', replay.hsreplayId)
+        }
       },
     },
 
