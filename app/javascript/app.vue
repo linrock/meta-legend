@@ -94,7 +94,7 @@
     methods: {
       setReplays(replays) {
         this.$store.dispatch(`setReplays`, replays)
-        this.fetchReplayLikes(replays)
+        // this.fetchReplayLikes(replays)
       },
       setPageTitle(route) {
         this.$store.dispatch(`setReplayFeedTitle`, route)
@@ -159,7 +159,7 @@
               if (data.page < page || data.replays.length === 0) {
                 this.disableInfiniteScroll()
               }
-              this.fetchReplayLikes(data.replays)
+              // this.fetchReplayLikes(data.replays)
             }
           })
           .catch(error => {
