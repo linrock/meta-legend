@@ -14,7 +14,7 @@ class CardsController < ApplicationController
     @hsreplay_ids = ReplayXmlData
       .has_card_id(@card[:id])
       .order("created_at DESC")
-      .limit(100)
+      .limit(80)
       .pluck(:hsreplay_id)
     @replay_data = @hsreplay_ids.map do |hsreplay_id|
       ReplayJson.new(hsreplay_id).to_hash
