@@ -1,7 +1,18 @@
 <template lang="pug">
   .replay-info
     .about-replay
-      .players {{ replay.p1.name }} vs. {{ replay.p2.name }}
+      .players
+        a(
+          :href="`/players/${replay.p1.name}`"
+          target="_blank"
+          @click="playerNameClicked(replay.p1.name)"
+        ) {{ replay.p1.name }}
+        .vs vs.
+        a(
+          :href="`/players/${replay.p2.name}`"
+          target="_blank"
+          @click="playerNameClicked(replay.p2.name)"
+        ) {{ replay.p2.name }}
       .small
         .num-turns {{ replay.numTurns }} turns
         .separator &bull;
@@ -88,6 +99,9 @@
       cardClicked(cardName) {
         trackEvent('click', 'card name', cardName)
       },
+      playerNameClicked(name) {
+        trackEvent('click player', 'name', name)
+      },
       showCardImage(cardId) {
         if ('ontouchstart' in document.documentElement) {
           return
@@ -130,8 +144,15 @@
     margin-bottom 15px
 
     .players
+      display flex
       font-weight bold
       margin-bottom 10px
+
+      a
+        color #45abfe
+
+      .vs
+        margin 0 5px
 
     .small
       display flex

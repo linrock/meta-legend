@@ -10,7 +10,7 @@
       div(v-for="([name, playerData]) in $store.state.activePlayers")
         a.stats-row(
           :href="`/players/${name.split('#')[0]}`"
-          @click="clickUserName(name)"
+          @click="clickUserName(name.split('#')[0])"
         )
           .left-label {{ name.split("#")[0] }}
           .right-label {{ playerData.count }}
