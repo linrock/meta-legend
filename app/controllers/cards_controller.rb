@@ -18,6 +18,6 @@ class CardsController < ApplicationController
       .pluck(:hsreplay_id)
     @replay_data = @hsreplay_ids.map do |hsreplay_id|
       ReplayDataCache.new.replay_data_hash hsreplay_id
-    end.to_json
+    end.compact.sort_by {|r| -r[:found_at].to_i }.to_json
   end
 end
