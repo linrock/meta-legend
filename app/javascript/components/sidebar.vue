@@ -35,16 +35,14 @@
     },
 
     mounted() {
-      setTimeout(() => {
-        const scrollThreshold = this.$el.getBoundingClientRect().top - 20 // top padding
-        window.addEventListener('scroll', () => {
-          if (window.scrollY >= scrollThreshold && !this.fixedSidebar) {
-            this.fixedSidebar = true
-          } else if (window.scrollY < scrollThreshold && this.fixedSidebar) {
-            this.fixedSidebar = false
-          }
-        })
-      }, 100)
+      const scrollThreshold = window.scrollY + this.$el.getBoundingClientRect().top - 20 // top padding
+      window.addEventListener('scroll', () => {
+        if (window.scrollY >= scrollThreshold && !this.fixedSidebar) {
+          this.fixedSidebar = true
+        } else if (window.scrollY < scrollThreshold && this.fixedSidebar) {
+          this.fixedSidebar = false
+        }
+      })
     },
 
     components: {
