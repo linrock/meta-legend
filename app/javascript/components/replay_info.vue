@@ -31,7 +31,7 @@
           @mouseenter="showCardImage(card.id)"
         )
           .cost {{ card.cost }}
-          .name {{ card.name }}
+          a.name(:href="card.href" target="_blank") {{ card.name }}
           .quantity(v-if="card.n > 1") x{{ card.n }}
     .card-preview(v-if="cardUrl")
       img(:src="cardUrl")
@@ -185,6 +185,7 @@
     display flex
     font-size 15px
     letter-spacing -0.2px
+    text-decoration none
 
     &.common, &.free
       opacity 0.8
@@ -203,6 +204,10 @@
 
     .name
       width 190px
+      text-decoration none
+
+      &:hover
+        text-decoration underline
 
     .quantity
       opacity 0.4

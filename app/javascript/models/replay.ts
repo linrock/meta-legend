@@ -27,7 +27,7 @@ export default class Replay {
     this.p2 = new Player(options.p2)
     this.winner = options.winner
     this.foundAt = options.found_at
-    this.deckCards = options.deck_card_names
+    this.deckCards = options.deck_card_names.map(c => new Card(c))
   }
 
   get key(): string {
