@@ -17,7 +17,7 @@ class CardsController < ApplicationController
       .limit(80)
       .pluck(:hsreplay_id)
     @replay_data = @hsreplay_ids.map do |hsreplay_id|
-      ReplayJson.new(hsreplay_id).to_hash
+      ReplayDataCache.new.replay_data_hash hsreplay_id
     end.to_json
   end
 end

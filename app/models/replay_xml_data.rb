@@ -9,9 +9,10 @@ class ReplayXmlData < ApplicationRecord
   after_validation :log_if_invalid
   after_create :extract_and_save_xml_data
 
-  delegate :doc, :players, :player_names,
-           :player_legend_ranks, :winner_name,
-           :loser_name, :pilot_name, :deck_card_ids,
+  delegate :doc, :played_at, :player_legend_ranks,
+           :players, :player_names,
+           :pilot_name, :deck_card_ids,
+           :winner_name, :loser_name,
            :winner_entity_id, :loser_entity_id,
            to: :replay_xml_parser
 
@@ -42,6 +43,7 @@ class ReplayXmlData < ApplicationRecord
     players.reverse! if players[1][:tag] == pilot_name
     # p1 is always the pilot
     data = {
+      played_at: played_at,
       p1: players[0],
       p2: players[1],
       pilot_name: pilot_name,

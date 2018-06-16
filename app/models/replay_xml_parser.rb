@@ -8,6 +8,10 @@ class ReplayXmlParser
     @doc ||= Nokogiri.parse @xml_data
   end
 
+  def played_at
+    doc.xpath("//Game").attr("ts").value rescue nil
+  end
+
   def players
     doc.xpath("//Player")
   end
