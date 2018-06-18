@@ -22,15 +22,15 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import { trackEvent } from '../utils'
 
   export default {
     methods: {
-      clickUserName(name) {
+      clickUserName(name): void {
         trackEvent('click player', 'name', name)
       },
-      twitchUrl(username) {
+      twitchUrl(username): string {
         return `https://twitch.tv/${username}`
       }
     },
