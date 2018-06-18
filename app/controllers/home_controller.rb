@@ -1,7 +1,10 @@
 class HomeController < ApplicationController
 
   def index
-    @legend_stats = ReplayStatsCache.new.legend_stats
+    @legend_stats = ReplayStatsCache.new.legend_stats(
+      params[:rank],
+      params[:region]
+    )
     @replay_data = JsonResponseCache.new(params).cached_json_response || "{}"
     set_title
     set_meta_description

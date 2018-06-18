@@ -31,6 +31,11 @@ class ReplayOutcomeCache
       when "top-100" then replay_query = replay_query.top_legend(100)
       when "top-1000" then replay_query = replay_query.top_legend(1000)
     end
+    case options[:region]
+      when "americas" then replay_query = replay_query.from_americas
+      when "europe" then replay_query = replay_query.from_europe
+      when "asia" then replay_query = replay_query.from_asia
+    end
     replay_query.pluck(:id)
   end
 
@@ -41,7 +46,13 @@ class ReplayOutcomeCache
   end
 
   def replay_outcome_ids_cache_key(query, options)
-    "replay_outcomes:ids:#{query_key(query)}:#{options[:filter]}:page=#{options[:page]}"
+    [
+      "replay_outcomes:ids",
+      query_key(query),
+      "rank=#{options[:filter]}",
+      "region=#{options[:region]}",
+      "page=#{options[:page]}",
+    ].join(":")
   end
 
   def query_key(query)

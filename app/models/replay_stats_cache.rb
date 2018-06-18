@@ -13,14 +13,14 @@ class ReplayStatsCache
     legend_stats![:routes]
   end
 
-  def legend_stats(filter = nil)
-    @cache.fetch cache_key(filter) do
-      legend_stats!(filter)
+  def legend_stats(rank = nil, region = nil)
+    @cache.fetch cache_key(rank, region) do
+      legend_stats!(rank = rank, region = region)
     end
   end
 
-  def legend_stats!(filter = nil)
-    replay_stats = ReplayStats.new(get_replay_outcomes(filter))
+  def legend_stats!(rank = nil, region = nil)
+    replay_stats = ReplayStats.new(get_replay_outcomes(rank, region))
     players = replay_stats.most_active_players.map do |tag, count|
       [tag, {
         count: count,
@@ -28,7 +28,8 @@ class ReplayStatsCache
       }]
     end
     results = {
-      filter: filter,
+      filter: rank,
+      region: region,
       routes: replay_stats.to_route_map,
       players: players,
       about: {
@@ -36,25 +37,30 @@ class ReplayStatsCache
         since: replay_stats.oldest_replay_timestamp,
       },
     }
-    @cache.write cache_key(filter), results
+    @cache.write cache_key(rank, region), results
     results
   end
 
-  def cache_key(filter)
-    "replay_stats:#{filter}:legend"
+  def cache_key(rank, region)
+    "replay_stats:#{rank}:#{region}:legend"
   end
 
   private
 
-  def get_replay_outcomes(filter)
-    if filter == "top-100"
+  def get_replay_outcomes(rank, region)
+    if rank == "top-100"
       replay_outcomes = ReplayOutcome.legend_players.since(4.days.ago)
     else
       replay_outcomes = ReplayOutcome.legend_players.since(SINCE)
     end
-    case filter
+    case rank
       when "top-1000" then replay_outcomes = replay_outcomes.top_legend(1000)
       when "top-100" then replay_outcomes = replay_outcomes.top_legend(100)
+    end
+    case region
+      when "americas" then replay_outcomes = replay_outcomes.with_xml_data.from_americas
+      when "europe" then replay_outcomes = replay_outcomes.with_xml_data.from_europe
+      when "asia" then replay_outcomes = replay_outcomes.with_xml_data.from_asia
     end
     replay_outcomes
   end

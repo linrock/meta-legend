@@ -52,6 +52,21 @@ class ReplayOutcome < ApplicationRecord
     ")
   end
 
+  scope :from_americas, -> do
+    where("replay_xml_data.utc_offset >= -10")
+      .where("replay_xml_data.utc_offset <= -3")
+  end
+
+  scope :from_europe, -> do
+    where("replay_xml_data.utc_offset >= -2")
+      .where("replay_xml_data.utc_offset <= 4")
+  end
+
+  scope :from_asia, -> do
+    where("replay_xml_data.utc_offset >= 5")
+      .where("replay_xml_data.utc_offset <= 12")
+  end
+
   alias_attribute :found_at, :created_at
 
   def archetype_ids

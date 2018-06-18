@@ -45,15 +45,15 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions#create"
 
   # catch-all routes for homepage
-  get "top-1000"               => "home#index"
-  get "top-100"                => "home#index"
-  get "top-1000/:path"         => "home#index"
-  get "top-100/:path"          => "home#index"
-  get ":region/:path"          => "home#index"
-  get ":region/top-1000"       => "home#index"
-  get ":region/top-100"        => "home#index"
-  get ":region/top-1000/:path" => "home#index"
-  get ":region/top-100/:path"  => "home#index"
+  get ":rank"                  => "home#index", constraints: { rank: /top-1000?/ }
+  get ":rank/:path"            => "home#index", constraints: { rank: /top-1000?/ }
+  get ":rank/:path"            => "home#index", constraints: { rank: /top-1000?/ }
+  get ":region/:rank"          => "home#index",
+    constraints: { region: /(americas|europe|asia)/, rank: /top-1000?/ }
+  get ":region/:path"          => "home#index",
+    constraints: { region: /(americas|europe|asia)/ }
+  get ":region/:rank/:path"    => "home#index",
+    constraints: { region: /(americas|europe|asia)/, rank: /top-1000?/ }
   get ":path" => "home#index"
 
   root to: "home#index"
