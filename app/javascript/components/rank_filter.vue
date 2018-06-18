@@ -8,7 +8,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import api from '../api'
   import { trackEvent } from '../utils'
 

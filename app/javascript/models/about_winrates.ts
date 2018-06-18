@@ -5,7 +5,7 @@ interface About {
 
 export default class AboutWinrates {
 
-  constructor(private about: About) {
+  constructor(private about: About|any) {
     this.about = about
   }
 

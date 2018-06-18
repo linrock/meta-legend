@@ -56,7 +56,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import ReplayComment from './replay_comment'
   import Replay from '../models/replay'
   import api from '../api'

@@ -21,8 +21,9 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import axios from 'axios'
+  import Route from '../models/route'
 
   const titleSuffix = `Frequent decks`
 
@@ -40,7 +41,7 @@
     },
 
     methods: {
-      fetchPopularArchetypes() {
+      fetchPopularArchetypes(): void {
         axios.get(this.apiQuery)
           .then(response => response.data)
           .then(data => {
@@ -61,13 +62,13 @@
     },
 
     computed: {
-      currentRoute() {
+      currentRoute(): Route {
         return this.$store.getters.currentRoute
       },
-      filter() {
+      filter(): string {
         return this.$store.state.filter
       },
-      apiQuery() {
+      apiQuery(): string {
         let path = `popular.json`
         if (this.filter) {
           path = `${path}?filter=${this.filter}`

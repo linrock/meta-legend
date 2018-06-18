@@ -5,16 +5,16 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import Replay from './models/replay'
   import ReplayList from './components/replay_list'
   import Sidebar from './components/sidebar'
 
   export default {
     data() {
-      const replayDataEl = document.querySelector("#replay-data")
+      const replayDataEl: HTMLElement = document.querySelector("#replay-data")
       return {
-        replays: JSON.parse(replayDataEl.text).map(replayData => new Replay(replayData)),
+        replays: JSON.parse(replayDataEl.innerText).map(replayData => new Replay(replayData)),
         replayDataEl,
       }
     },

@@ -10,19 +10,21 @@
 
 </template>
 
-<script>
+<script lang="ts">
+  import Route from '../models/route'
+
   export default {
     computed: {
-      currentRoute() {
+      currentRoute(): Route {
         return this.$store.getters.currentRoute
       },
     },
 
     methods: {
-      imgSrc(path) {
+      imgSrc(path): string {
         return `/assets/classes/${path}.png`
       },
-      imgPath(path) {
+      imgPath(path): string {
         let pathPrefix = this.$store.getters.filterPath
         let imgPath
         if (pathPrefix !== `/`) {

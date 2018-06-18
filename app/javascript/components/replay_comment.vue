@@ -15,7 +15,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import axios from 'axios'
   import Replay from '../models/replay'
   import { trackEvent } from '../utils'

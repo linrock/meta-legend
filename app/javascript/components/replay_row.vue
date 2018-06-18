@@ -26,7 +26,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import PlayerRank from './player_rank'
   import { trackEvent } from '../utils'
 

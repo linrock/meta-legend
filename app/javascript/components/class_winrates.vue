@@ -4,14 +4,8 @@
 
 </template>
 
-<script>
-  export default {
-    computed: {
-      currentRoute() {
-        return this.$store.getters.currentRoute
-      },
-    }
-  }
+<script lang="ts">
+  export default {}
 </script>
 
 <style lang="stylus" scoped>

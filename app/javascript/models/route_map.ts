@@ -1,9 +1,4 @@
-interface Route {
-  class: string
-  archetype: string
-  winrate: string
-  n: number
-}
+import Route from './route'
 
 type RouteObj = {
   [path: string]: Route

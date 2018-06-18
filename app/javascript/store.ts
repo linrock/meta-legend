@@ -15,8 +15,8 @@ const store = new Vuex.Store({
     region: `all`,   // region filter = all, us, eu, sea
     page: 1,
     currentCard: null,
-    aboutWinrates: {},
-    routeMap: new RouteMap(),
+    aboutWinrates: new AboutWinrates({}),
+    routeMap: new RouteMap({}),
     replays: new Replays(),
     replayFeedTitle: ``,
     replay: null,

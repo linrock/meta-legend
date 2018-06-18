@@ -28,7 +28,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import ClassImageSelector from './components/class_image_selector'
   import ClassWinrates from './components/class_winrates'
   import PopularArchetypes from './components/popular_archetypes'
@@ -59,7 +59,7 @@
 
     created() {
       // legendStats - routes, about, players
-      const { legendStats, replayData } = window.hsrpf
+      const { legendStats, replayData } = (<any>window).hsrpf
       this.$store.dispatch(`setInitialData`, legendStats)
 
       let path = this.$route.params.path || `/`

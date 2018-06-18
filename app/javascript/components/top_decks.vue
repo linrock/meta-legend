@@ -18,7 +18,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import { trackEvent } from '../utils'
 
   export default {

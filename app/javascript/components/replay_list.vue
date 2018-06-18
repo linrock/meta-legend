@@ -7,7 +7,7 @@
     )
 </template>
 
-<script>
+<script lang="ts">
   import ReplayRow from './replay_row'
 
   export default {

@@ -14,7 +14,7 @@
           // popular-archetypes
 </template>
 
-<script>
+<script lang="ts">
   import ClassArchetypes from './class_archetypes'
   import ReplayInfo from './replay_info'
   import TopDecks from './top_decks'

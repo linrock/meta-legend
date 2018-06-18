@@ -6,7 +6,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
   import { Player } from '../models/player'
 
   export default {
@@ -18,7 +18,7 @@
     },
 
     computed: {
-      legendRank() {
+      legendRank(): string {
         const rank = this.player.legendRank
         if (rank <= 10) {
           return `top-10`

@@ -20,20 +20,22 @@
 
 </template>
 
-<script>
+<script lang="ts">
+  import Route from '../models/route'
+
   export default {
     computed: {
-      currentRoute() {
+      currentRoute(): Route {
         return this.$store.getters.currentRoute
       },
-      classArchetypeRows() {
+      classArchetypeRows(): Array<Route> {
         if (this.currentRoute.class) {
           return this.$store.getters.classArchetypeRows(this.currentRoute.class)
         } else {
           return []
         }
       },
-      title() {
+      title(): string {
         if (this.currentRoute) {
           return `Top ${this.currentRoute.class} decks`
         }
