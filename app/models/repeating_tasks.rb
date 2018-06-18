@@ -19,8 +19,8 @@ class RepeatingTasks
       route_map = RouteMap.new
       route_map.to_hash!
       ReplayStatsCache.new.legend_stats!
-      ReplayStatsCache.new.legend_stats! "top100"
-      ReplayStatsCache.new.legend_stats! "top1000"
+      ReplayStatsCache.new.legend_stats! "top-100"
+      ReplayStatsCache.new.legend_stats! "top-1000"
       logger.info "#{Time.now - t0}s to refresh archetype + legend stats caches"
       sleep 15.minutes
     end

@@ -21,9 +21,9 @@ class DecksController < ApplicationController
 
   def get_filter(path)
     if path =~ /top-1000/
-      "top1000"
+      "top-1000"
     elsif path =~ /top-100/
-      "top100"
+      "top-100"
     end
   end
 

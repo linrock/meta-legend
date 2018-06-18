@@ -28,8 +28,8 @@ class ReplayOutcomeCache
       .replay_outcomes(page = options[:page])
       .with_xml_data
     case options[:filter]
-      when "top100" then replay_query = replay_query.top_legend(100)
-      when "top1000" then replay_query = replay_query.top_legend(1000)
+      when "top-100" then replay_query = replay_query.top_legend(100)
+      when "top-1000" then replay_query = replay_query.top_legend(1000)
     end
     replay_query.pluck(:id)
   end

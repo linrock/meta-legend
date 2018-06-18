@@ -61,13 +61,30 @@
       // legendStats - routes, about, players
       const { legendStats, replayData } = window.hsrpf
       this.$store.dispatch(`setInitialData`, legendStats)
-      const path = this.$route.params.path || `/`
-      // if (this.$route.params.filter) {
-      //   this.$store.dispatch(
-      //     `setFilterOption`,
-      //     this.$route.params.filter.replace(/-/, '')
-      //   )
-      // }
+
+      let path = this.$route.params.path || `/`
+      if ([`top-100`, `top-1000`].includes(path)) {
+        this.$store.dispatch(`setFilterOption`, path)
+        path = `/`
+      } else if ([`americas`, `europe`, `asia`].includes(path)) {
+        this.$store.dispatch(`setRegionOption`, path)
+        path = `/`
+      }
+
+      // set initial filters for nested routes
+      const filter = this.$route.params.filter
+      const filter2 = this.$route.params.filter2
+      if (filter && filter2) {   // filter = region, filter2 = rank
+         this.$store.dispatch(`setFilterOption`, filter2)
+         this.$store.dispatch(`setRegionOption`, filter)
+      } else if (filter) {
+        if ([`top-100`, `top-1000`].includes(filter)) {
+         this.$store.dispatch(`setFilterOption`, filter)
+        } else if ([`americas`, `europe`, `asia`].includes(filter)) {
+         this.$store.dispatch(`setRegionOption`, filter)
+        }
+      }
+
       this.$store.dispatch(`setPath`, path)
       const replays = replayData.replays
       if (replays && replays.length > 0 && replayData.path === path) {

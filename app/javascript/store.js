@@ -11,7 +11,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     path: `/`,
-    filter: `all`,   // rank filter   = all, top100, top1000
+    filter: `all`,   // rank filter   = all, top-100, top-1000
     region: `all`,   // region filter = all, us, eu, sea
     page: 1,
     currentCard: null,
@@ -98,10 +98,14 @@ const store = new Vuex.Store({
       } else {
         replayFeedTitle = `${route.archetype} ${route.class}`
       }
-      if (state.filter === `top100`) {
+      if (state.filter === `top-100`) {
         replayFeedTitle = `Top 100 - ${replayFeedTitle}`
-      } else if (state.filter === `top1000`) {
+      } else if (state.filter === `top-1000`) {
         replayFeedTitle = `Top 1000 - ${replayFeedTitle}`
+      }
+      if (state.region !== `all`) {
+        const r = state.region
+        replayFeedTitle = `${r[0].toUpperCase()}${r.slice(1)} - ${replayFeedTitle}`
       }
       commit(`setReplayFeedTitle`, replayFeedTitle)
     },
@@ -147,6 +151,19 @@ const store = new Vuex.Store({
         queryStr = `?region=${state.region}`
       }
       return queryStr
+    },
+    filterPath: (state, getters) => {
+      let path = ``
+      if (state.region && state.region !== `all`) {
+        path = `${path}/${state.region}`
+      }
+      if (state.filter && state.filter !== `all`) {
+        path = `${path}/${state.filter}`
+      }
+      if (getters.currentRoute.path) {
+        path = `${path}/${state.filter}/${getters.currentRoute.path}`
+      }
+      return path
     }
   }
 })

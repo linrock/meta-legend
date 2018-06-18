@@ -3,8 +3,8 @@
     select(v-model="selected").needsclick
       option(disabled name="") games played by
       option(value="all") all legend players
-      option(value="top1000") top 1000 players
-      option(value="top100") top 100 players
+      option(value="top-1000") top 1000 players
+      option(value="top-100") top 100 players
 
 </template>
 
@@ -15,7 +15,7 @@
   export default {
     data() {
       return {
-        selected: `all`
+        selected: this.$store.state.filter || `all`
       }
     },
 
@@ -23,11 +23,7 @@
       selected() {
         this.$store.dispatch(`setFilterOption`, this.selected)
         trackEvent('filter ranks', 'select', this.selected)
-        api.get(`/popular.json${this.$store.getters.filterQueryString}`)
-          .then(response => response.data)
-          .then(data => {
-            this.$store.dispatch(`setInitialData`, data.replay_stats)
-          })
+        window.location.pathname = this.$store.getters.filterPath
       }
     }
   }

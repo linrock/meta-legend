@@ -20,12 +20,17 @@ const router = new VueRouter({
       path: '/:filter/:path',
       component: App,
     },
+    {
+      path: '/:filter/:filter2::path',
+      component: App,
+    },
   ]
 })
 
 document.addEventListener('DOMContentLoaded', () => {
+  const appContainerEl = document.querySelector(".app-container")
   new Vue({
-    el: document.querySelector(".app-container").appendChild(document.createElement('main')),
+    el: appContainerEl.appendChild(document.createElement('main')),
     render: h => h(App),
     router,
     store,

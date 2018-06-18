@@ -12,8 +12,8 @@ class ReplayOutcome < ApplicationRecord
 
   scope :filter, -> (filter) do
     case filter
-      when "top100" then self.top_legend(100)
-      when "top1000" then self.top_legend(1000)
+      when "top-100" then self.top_legend(100)
+      when "top-1000" then self.top_legend(1000)
     end
   end
 
