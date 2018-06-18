@@ -9,6 +9,7 @@ class ReplayXmlData < ApplicationRecord
   after_validation :log_if_invalid
   after_create :extract_and_save_xml_data
   after_create :set_played_at
+  after_create :set_utc_offset
 
   delegate :doc, :player_legend_ranks,
            :players, :player_names,
@@ -76,9 +77,15 @@ class ReplayXmlData < ApplicationRecord
     self.save!
   end
 
-  def set_played_at
+  def set_played_at_and_utc_offset
     self.played_at = game_played_at
-    self.save!  if self.played_at.present?
+    self.save! if self.played_at.present?
+    self.set_utc_offset
+  end
+
+  def set_utc_offset
+    self.utc_offset = game_played_at.to_datetime.utc_offset / 3600
+    self.save!
   end
 
   def replay_xml_parser
