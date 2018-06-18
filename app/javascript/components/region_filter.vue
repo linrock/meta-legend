@@ -1,10 +1,11 @@
 <template lang="pug">
-  .rank-filter
+  .region-filter
     select(v-model="selected").needsclick
-      option(disabled name="") games played by
-      option(value="all") all legend players
-      option(value="top1000") top 1000 players
-      option(value="top100") top 100 players
+      option(disabled name="") choose a region
+      option(value="all") all regions
+      option(value="us") Americas
+      option(value="eu") Europe
+      option(value="sea") Asia
 
 </template>
 
@@ -21,8 +22,8 @@
 
     watch: {
       selected() {
-        this.$store.dispatch(`setFilterOption`, this.selected)
-        trackEvent('filter ranks', 'select', this.selected)
+        this.$store.dispatch(`setRegionOption`, this.selected)
+        trackEvent('filter region', 'select', this.selected)
         api.get(`/popular.json${this.$store.getters.filterQueryString}`)
           .then(response => response.data)
           .then(data => {
@@ -34,7 +35,7 @@
 </script>
 
 <style lang="stylus" scoped>
-  .rank-filter select
+  .region-filter select
     margin 0 10px
 
 </style>

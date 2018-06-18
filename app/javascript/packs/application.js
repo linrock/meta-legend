@@ -15,7 +15,11 @@ const router = new VueRouter({
     {
       path: '/:path',
       component: App,
-    }
+    },
+    {
+      path: '/:filter/:path',
+      component: App,
+    },
   ]
 })
 

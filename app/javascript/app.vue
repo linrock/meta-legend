@@ -1,7 +1,11 @@
 <template lang="pug">
   main
     header.container.sub-header-bg
-      rank-filter
+      .filters
+        .prompt Show me
+        rank-filter
+        .prompt from
+        region-filter
       class-image-selector
       class-winrates
     article.container
@@ -29,6 +33,7 @@
   import ClassWinrates from './components/class_winrates'
   import PopularArchetypes from './components/popular_archetypes'
   import RankFilter from './components/rank_filter'
+  import RegionFilter from './components/region_filter'
   import ReplayList from './components/replay_list'
   import Sidebar from './components/sidebar'
   import { trackEvent } from './utils'
@@ -57,6 +62,12 @@
       const { legendStats, replayData } = window.hsrpf
       this.$store.dispatch(`setInitialData`, legendStats)
       const path = this.$route.params.path || `/`
+      // if (this.$route.params.filter) {
+      //   this.$store.dispatch(
+      //     `setFilterOption`,
+      //     this.$route.params.filter.replace(/-/, '')
+      //   )
+      // }
       this.$store.dispatch(`setPath`, path)
       const replays = replayData.replays
       if (replays && replays.length > 0 && replayData.path === path) {
@@ -84,6 +95,9 @@
       filter() {
         return this.$store.state.filter
       },
+      region() {
+        return this.$store.state.region
+      }
     },
 
     methods: {
@@ -115,9 +129,13 @@
         }
       },
       apiQuery(page) {
-        let query = `replays.json?path=${this.path || `/`}`
-        if (this.filter) {
+        let query = `/replays.json?path=${this.path || `/`}`
+        if (this.filter !== `all` && this.region !== `all`) {
+          query = `${query}&filter=${this.filter}&region=${this.region}`
+        } else if (this.filter !== `all`) {
           query = `${query}&filter=${this.filter}`
+        } else if (this.region !== `all`) {
+          query = `${query}&region=${this.region}`
         }
         if (page) {
           query = `${query}&page=${page}`
@@ -204,6 +222,7 @@
       ClassWinrates,
       PopularArchetypes,
       RankFilter,
+      RegionFilter,
       ReplayList,
       Sidebar,
     },
@@ -227,6 +246,16 @@
 
     &.container
       padding-top 20px
+
+  .filters
+    display flex
+    align-items center
+    justify-content center
+    font-size 14px
+    padding-bottom 15px
+
+    .prompt
+      font-weight bold
 
   #replays
     position relative

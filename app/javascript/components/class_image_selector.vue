@@ -20,7 +20,7 @@
 
     methods: {
       imgSrc(path) {
-        return `assets/classes/${path}.png`
+        return `/assets/classes/${path}.png`
       },
     },
   }

@@ -11,7 +11,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     path: `/`,
-    filter: `all`,
+    filter: `all`,   // rank filter   = all, top100, top1000
+    region: `all`,   // region filter = all, us, eu, sea
     page: 1,
     currentCard: null,
     aboutWinrates: {},
@@ -33,8 +34,11 @@ const store = new Vuex.Store({
     setPath(state, path) {
       state.path = path
     },
-    setFilterOption(state, filter) {
-      state.filter = filter
+    setFilterOption(state, rankFilter) {
+      state.filter = rankFilter
+    },
+    setRegionOption(state, regionFilter) {
+      state.region = regionFilter
     },
     setReplays(state, replays) {
       state.replays = new Replays()
@@ -78,8 +82,11 @@ const store = new Vuex.Store({
       }
       commit(`setPath`, path || `/`)
     },
-    setFilterOption({ commit }, filter) {
-      commit(`setFilterOption`, filter)
+    setFilterOption({ commit }, rankFilter) {
+      commit(`setFilterOption`, rankFilter)
+    },
+    setRegionOption({ commit }, regionFilter) {
+      commit(`setRegionOption`, regionFilter)
     },
     setReplays({ commit, getters, state }, replays) {
       commit(`setReplays`, replays)
@@ -130,6 +137,17 @@ const store = new Vuex.Store({
     routeMap: state => path => state.routeMap.getRoute(path),
     replays: state => state.replays.replayList,
     replayLikes: state => replayId => state.likedReplays.getReplayLikes(replayId),
+    filterQueryString: state => {
+      let queryStr = ``
+      if (state.filter !== `all` && state.region !== `all`) {
+        queryStr = `?filter=${state.filter}&region=${state.region}`
+      } else if (state.filter !== `all`) {
+        queryStr = `?filter=${state.filter}`
+      } else if (state.region !== `all`) {
+        queryStr = `?region=${state.region}`
+      }
+      return queryStr
+    }
   }
 })
 
