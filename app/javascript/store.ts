@@ -176,10 +176,10 @@ const store = new Vuex.Store({
       return `${path}`
     },
     fullPath: (state, getters) => {
-      if (getters.filterPath && getters.currentRoute.path) {
-        return `${getters.filterPath}${getters.currentRoute.path}`
-      } else if (getters.currentRoute.path) {
-        return getters.currentRoute.path
+      if (getters.filterPath && state.path !== `/`) {
+        return `${getters.filterPath}/${state.path}`
+      } else if (state.path !== `/`) {
+        return state.path
       } else {
         return getters.filterPath
       }
