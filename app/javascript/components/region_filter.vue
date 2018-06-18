@@ -24,7 +24,7 @@
       selected() {
         this.$store.dispatch(`setRegionOption`, this.selected)
         trackEvent('filter region', 'select', this.selected)
-        window.location.pathname = this.$store.getters.filterPath
+        window.location.pathname = this.$store.getters.fullPath
       }
     }
   }

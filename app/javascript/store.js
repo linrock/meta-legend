@@ -10,7 +10,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    path: `/`,
+    path: `/`,       // class path    = rogue, paladin, etc.
     filter: `all`,   // rank filter   = all, top-100, top-1000
     region: `all`,   // region filter = all, us, eu, sea
     page: 1,
@@ -163,7 +163,16 @@ const store = new Vuex.Store({
       if (getters.currentRoute.path) {
         path = `${path}/${state.filter}/${getters.currentRoute.path}`
       }
-      return path
+      return `${path}`
+    },
+    fullPath: (state, getters) => {
+      if (getters.filterPath && getters.currentRoute.path) {
+        return `${getters.filterPath}${getters.currentRoute.path}`
+      } else if (getters.currentRoute.path) {
+        return getters.currentRoute.path
+      } else {
+        return getters.filterPath
+      }
     }
   }
 })

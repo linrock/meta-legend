@@ -21,7 +21,7 @@ const router = new VueRouter({
       component: App,
     },
     {
-      path: '/:filter/:filter2::path',
+      path: '/:filter/:filter2/:path',
       component: App,
     },
   ]

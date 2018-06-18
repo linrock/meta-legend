@@ -4,7 +4,7 @@
       v-for="([path, route]) in $store.getters.classArray"
       :class="[{ active: !currentRoute.class || currentRoute.class === route.class }]"
       :key="path"
-      :to="$store.state.path === path ? `/` : path"
+      :to="imgPath(path)"
     )
       img(:src="imgSrc(path)" :alt="path")
 
@@ -15,13 +15,23 @@
     computed: {
       currentRoute() {
         return this.$store.getters.currentRoute
-      }
+      },
     },
 
     methods: {
       imgSrc(path) {
         return `/assets/classes/${path}.png`
       },
+      imgPath(path) {
+        let pathPrefix = this.$store.getters.filterPath
+        let imgPath
+        if (pathPrefix !== `/`) {
+          imgPath = `${pathPrefix}/${this.$store.state.path === path ? `/` : path}`
+        } else {
+          imgPath = `${this.$store.state.path === path ? `/` : path}`
+        }
+        return imgPath
+      }
     },
   }
 </script>

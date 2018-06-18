@@ -65,10 +65,10 @@
       let path = this.$route.params.path || `/`
       if ([`top-100`, `top-1000`].includes(path)) {
         this.$store.dispatch(`setFilterOption`, path)
-        path = `/`
+        path = path.replace(/(top-1000|top-100)\/?/, '')
       } else if ([`americas`, `europe`, `asia`].includes(path)) {
         this.$store.dispatch(`setRegionOption`, path)
-        path = `/`
+        path = path.replace(/(americas|europe|asia)\/?/, '')
       }
 
       // set initial filters for nested routes
@@ -79,9 +79,11 @@
          this.$store.dispatch(`setRegionOption`, filter)
       } else if (filter) {
         if ([`top-100`, `top-1000`].includes(filter)) {
-         this.$store.dispatch(`setFilterOption`, filter)
+          this.$store.dispatch(`setFilterOption`, filter)
+          path = path.replace(/(top-1000|top-100)\/?/, '')
         } else if ([`americas`, `europe`, `asia`].includes(filter)) {
-         this.$store.dispatch(`setRegionOption`, filter)
+          this.$store.dispatch(`setRegionOption`, filter)
+          path = path.replace(/(americas|europe|asia)\/?/, '')
         }
       }
 

@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   get "top-100"                => "home#index"
   get "top-1000/:path"         => "home#index"
   get "top-100/:path"          => "home#index"
+  get ":region/:path"          => "home#index"
   get ":region/top-1000"       => "home#index"
   get ":region/top-100"        => "home#index"
   get ":region/top-1000/:path" => "home#index"

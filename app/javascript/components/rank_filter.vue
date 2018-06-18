@@ -23,7 +23,7 @@
       selected() {
         this.$store.dispatch(`setFilterOption`, this.selected)
         trackEvent('filter ranks', 'select', this.selected)
-        window.location.pathname = this.$store.getters.filterPath
+        window.location.pathname = this.$store.getters.fullPath
       }
     }
   }
