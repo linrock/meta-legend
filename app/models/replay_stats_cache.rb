@@ -15,7 +15,7 @@ class ReplayStatsCache
 
   def legend_stats(rank = nil, region = nil)
     @cache.fetch cache_key(rank, region) do
-      legend_stats!(rank = rank, region = region)
+      legend_stats!(rank, region)
     end
   end
 
@@ -42,7 +42,7 @@ class ReplayStatsCache
   end
 
   def cache_key(rank, region)
-    "replay_stats:#{rank}:#{region}:legend"
+    "replay_stats:rank=#{rank}:region=#{region}:legend"
   end
 
   private

@@ -46,8 +46,9 @@ Rails.application.routes.draw do
 
   # catch-all routes for homepage
   get ":rank"                  => "home#index", constraints: { rank: /top-1000?/ }
+  get ":region"                => "home#index", constraints: { region: /(americas|europe|asia)/ }
   get ":rank/:path"            => "home#index", constraints: { rank: /top-1000?/ }
-  get ":rank/:path"            => "home#index", constraints: { rank: /top-1000?/ }
+  get ":region/:path"          => "home#index", constraints: { region: /(americas|europe|asia)/ }
   get ":region/:rank"          => "home#index",
     constraints: { region: /(americas|europe|asia)/, rank: /top-1000?/ }
   get ":region/:path"          => "home#index",
