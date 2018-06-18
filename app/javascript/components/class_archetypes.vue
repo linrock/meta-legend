@@ -12,7 +12,7 @@
         v-for="([path, route]) in classArchetypeRows"
         :class="[{ active: currentRoute.archetype === route.archetype }]"
         :key="path"
-        :to="path"
+        :to="fullPath(path)"
       )
         .name {{ route.archetype }}
         .mid-value {{ route.winrate }}%
@@ -24,6 +24,13 @@
   import Route from '../models/route'
 
   export default {
+    methods: {
+      fullPath(path) {
+        const prefix = this.$store.getters.filterPrefix
+        return `${prefix}/${path}`
+      }
+    },
+
     computed: {
       currentRoute(): Route {
         return this.$store.getters.currentRoute

@@ -10,7 +10,7 @@
       router-link.stats-row(
         v-for="([path, deck]) in $store.getters.topArchetypeRows"
         :key="path"
-        :to="path"
+        :to="fullPath(path)"
         @click="clickTopDeck(path)"
       )
         .left-value(:class="classColor(deck.class)") {{ deck.archetype }} {{ deck.class }}
@@ -23,6 +23,10 @@
 
   export default {
     methods: {
+      fullPath(path) {
+        const prefix = this.$store.getters.filterPrefix
+        return `${prefix}/${path}`
+      },
       classColor(className) {
         return `color-${className.toLowerCase()}`
       },

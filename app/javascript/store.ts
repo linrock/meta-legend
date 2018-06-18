@@ -152,6 +152,16 @@ const store = new Vuex.Store({
       }
       return queryStr
     },
+    filterPrefix: state => {
+      let path = ``
+      if (state.region && state.region !== `all`) {
+        path = `${path}/${state.region}`
+      }
+      if (state.filter && state.filter !== `all`) {
+        path = `${path}/${state.filter}`
+      }
+      return path
+    },
     filterPath: (state, getters) => {
       let path = ``
       if (state.region && state.region !== `all`) {
