@@ -8,7 +8,7 @@ class ReplayXmlData < ApplicationRecord
 
   after_validation :log_if_invalid
   after_create :extract_and_save_xml_data
-  after_create :set_played_at
+  after_create :set_played_at_and_utc_offset
   after_create :set_utc_offset
 
   delegate :doc, :player_legend_ranks,
