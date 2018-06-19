@@ -95,9 +95,6 @@
         this.fetchReplays()
       }
       const route = replayData.route || this.$store.getters.currentRoute
-      if (route) {
-        this.setPageTitle(route)
-      }
       this.enableInfiniteScroll()
       this.scrollPoller = setInterval(() => {
         const d = this.distanceFromBottom()

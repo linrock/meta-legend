@@ -28,5 +28,7 @@ module HsReplayFinder
     # the framework and any gems in your application.
     config.active_job.queue_adapter = :sidekiq
     config.active_job.queue_name_prefix = "metalegend-#{Rails.env}"
+
+    config.autoload_paths << Rails.root.join('app/view-models')
   end
 end
