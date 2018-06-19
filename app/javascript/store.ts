@@ -11,7 +11,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     path: `/`,       // class path    = rogue, paladin, etc.
-    filter: `all`,   // rank filter   = all, top-100, top-1000
+    rank: `all`,     // rank filter   = all, top-100, top-1000
     region: `all`,   // region filter = all, us, eu, sea
     page: 1,
     currentCard: null,
@@ -34,8 +34,8 @@ const store = new Vuex.Store({
     setPath(state, path) {
       state.path = path
     },
-    setFilterOption(state, rankFilter) {
-      state.filter = rankFilter
+    setRankFilter(state, rankFilter) {
+      state.rank = rankFilter
     },
     setRegionOption(state, regionFilter) {
       state.region = regionFilter
@@ -82,8 +82,8 @@ const store = new Vuex.Store({
       }
       commit(`setPath`, path || `/`)
     },
-    setFilterOption({ commit }, rankFilter) {
-      commit(`setFilterOption`, rankFilter)
+    setRankFilter({ commit }, rankFilter) {
+      commit(`setRankFilter`, rankFilter)
     },
     setRegionOption({ commit }, regionFilter) {
       commit(`setRegionOption`, regionFilter)
@@ -98,9 +98,9 @@ const store = new Vuex.Store({
       } else {
         replayFeedTitle = `${route.archetype} ${route.class}`
       }
-      if (state.filter === `top-100`) {
+      if (state.rank === `top-100`) {
         replayFeedTitle = `Top 100 - ${replayFeedTitle}`
-      } else if (state.filter === `top-1000`) {
+      } else if (state.rank === `top-1000`) {
         replayFeedTitle = `Top 1000 - ${replayFeedTitle}`
       }
       if (state.region !== `all`) {
@@ -143,10 +143,10 @@ const store = new Vuex.Store({
     replayLikes: state => replayId => state.likedReplays.getReplayLikes(replayId),
     filterQueryString: state => {
       let queryStr = ``
-      if (state.filter !== `all` && state.region !== `all`) {
-        queryStr = `?filter=${state.filter}&region=${state.region}`
-      } else if (state.filter !== `all`) {
-        queryStr = `?filter=${state.filter}`
+      if (state.rank !== `all` && state.region !== `all`) {
+        queryStr = `?filter=${state.rank}&region=${state.region}`
+      } else if (state.rank !== `all`) {
+        queryStr = `?filter=${state.rank}`
       } else if (state.region !== `all`) {
         queryStr = `?region=${state.region}`
       }
@@ -157,8 +157,8 @@ const store = new Vuex.Store({
       if (state.region && state.region !== `all`) {
         path = `${path}/${state.region}`
       }
-      if (state.filter && state.filter !== `all`) {
-        path = `${path}/${state.filter}`
+      if (state.rank && state.rank !== `all`) {
+        path = `${path}/${state.rank}`
       }
       return path
     },
@@ -167,11 +167,11 @@ const store = new Vuex.Store({
       if (state.region && state.region !== `all`) {
         path = `${path}/${state.region}`
       }
-      if (state.filter && state.filter !== `all`) {
-        path = `${path}/${state.filter}`
+      if (state.rank && state.rank !== `all`) {
+        path = `${path}/${state.rank}`
       }
       if (getters.currentRoute.path) {
-        path = `${path}/${state.filter}/${getters.currentRoute.path}`
+        path = `${path}/${state.rank}/${getters.currentRoute.path}`
       }
       return `${path}`
     },

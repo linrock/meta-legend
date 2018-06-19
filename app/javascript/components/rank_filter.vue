@@ -15,13 +15,13 @@
   export default {
     data() {
       return {
-        selected: this.$store.state.filter || `all`
+        selected: this.$store.state.rank || `all`
       }
     },
 
     watch: {
       selected() {
-        this.$store.dispatch(`setFilterOption`, this.selected)
+        this.$store.dispatch(`setRankFilter`, this.selected)
         trackEvent('filter ranks', 'select', this.selected)
         window.location.pathname = this.$store.getters.fullPath
       }

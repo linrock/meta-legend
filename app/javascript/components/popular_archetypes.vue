@@ -65,13 +65,13 @@
       currentRoute(): Route {
         return this.$store.getters.currentRoute
       },
-      filter(): string {
-        return this.$store.state.filter
+      rankFilter(): string {
+        return this.$store.state.rank
       },
       apiQuery(): string {
         let path = `popular.json`
-        if (this.filter) {
-          path = `${path}?filter=${this.filter}`
+        if (this.rankFilter) {
+          path = `${path}?filter=${this.rankFilter}`
         }
         return path
       },

@@ -64,7 +64,7 @@
 
       let path = this.$route.params.path || `/`
       if ([`top-100`, `top-1000`].includes(path)) {
-        this.$store.dispatch(`setFilterOption`, path)
+        this.$store.dispatch(`setRankFilter`, path)
         path = path.replace(/(top-1000|top-100)\/?/, '')
       } else if ([`americas`, `europe`, `asia`].includes(path)) {
         this.$store.dispatch(`setRegionOption`, path)
@@ -75,11 +75,11 @@
       const filter = this.$route.params.filter
       const filter2 = this.$route.params.filter2
       if (filter && filter2) {   // filter = region, filter2 = rank
-         this.$store.dispatch(`setFilterOption`, filter2)
+         this.$store.dispatch(`setRankFilter`, filter2)
          this.$store.dispatch(`setRegionOption`, filter)
       } else if (filter) {
         if ([`top-100`, `top-1000`].includes(filter)) {
-          this.$store.dispatch(`setFilterOption`, filter)
+          this.$store.dispatch(`setRankFilter`, filter)
           path = path.replace(/(top-1000|top-100)\/?/, '')
         } else if ([`americas`, `europe`, `asia`].includes(filter)) {
           this.$store.dispatch(`setRegionOption`, filter)
@@ -111,8 +111,8 @@
       path() {
         return this.$store.state.path
       },
-      filter() {
-        return this.$store.state.filter
+      rankFilter() {
+        return this.$store.state.rank
       },
       region() {
         return this.$store.state.region
@@ -149,10 +149,10 @@
       },
       apiQuery(page) {
         let query = `/replays.json?path=${this.path || `/`}`
-        if (this.filter !== `all` && this.region !== `all`) {
-          query = `${query}&filter=${this.filter}&region=${this.region}`
-        } else if (this.filter !== `all`) {
-          query = `${query}&filter=${this.filter}`
+        if (this.rankFilter !== `all` && this.region !== `all`) {
+          query = `${query}&filter=${this.rankFilter}&region=${this.region}`
+        } else if (this.rankFilter !== `all`) {
+          query = `${query}&filter=${this.rankFilter}`
         } else if (this.region !== `all`) {
           query = `${query}&region=${this.region}`
         }
