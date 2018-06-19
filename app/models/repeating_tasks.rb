@@ -18,9 +18,11 @@ class RepeatingTasks
       cache.archetypes_map!
       route_map = RouteMap.new
       route_map.to_hash!
-      ReplayStatsCache.new.legend_stats!
-      ReplayStatsCache.new.legend_stats! "top-100"
-      ReplayStatsCache.new.legend_stats! "top-1000"
+      [nil, "top-100", "top-1000"].each do |rank|
+        [nil, "americas", "europe", "asia"].each do |region|
+          ReplayStatsCache.new.legend_stats! rank, region
+        end
+      end
       logger.info "#{Time.now - t0}s to refresh archetype + legend stats caches"
       sleep 15.minutes
     end
