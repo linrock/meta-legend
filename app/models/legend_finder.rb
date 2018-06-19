@@ -13,7 +13,7 @@ class LegendFinder
   end
 
   def verify_legends!
-    User.find_by(battletag: find_legends).each do |u|
+    User.where(battletag: find_legends).each do |u|
       next if u.is_legend
       u.is_legend = true
       u.save!
