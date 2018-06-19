@@ -150,9 +150,9 @@
       apiQuery(page) {
         let query = `/replays.json?path=${this.path || `/`}`
         if (this.rankFilter !== `all` && this.region !== `all`) {
-          query = `${query}&filter=${this.rankFilter}&region=${this.region}`
+          query = `${query}&rank=${this.rankFilter}&region=${this.region}`
         } else if (this.rankFilter !== `all`) {
-          query = `${query}&filter=${this.rankFilter}`
+          query = `${query}&rank=${this.rankFilter}`
         } else if (this.region !== `all`) {
           query = `${query}&region=${this.region}`
         }

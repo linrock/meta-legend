@@ -9,8 +9,9 @@ class ReplaysController < ActionController::API
   end
 
   def popular
-    filter = ReplayOutcomeFilter.get_filter(params[:filter])
-    replay_stats = ReplayStatsCache.new.legend_stats(filter)
+    rank_filter = ReplayOutcomeFilter.get_rank_filter(params[:rank])
+    region_filter = ReplayOutcomeFilter.get_region_filter(params[:region])
+    replay_stats = ReplayStatsCache.new.legend_stats(rank_filter, region_filter)
     render json: {
       replay_stats: replay_stats
     }

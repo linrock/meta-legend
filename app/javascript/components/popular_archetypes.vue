@@ -51,9 +51,9 @@
           .then(response => response.data)
           .then(data => {
             this.archetypeStats = data
-            if (data.filter === `top-1000`) {
+            if (data.rank === `top-1000`) {
               this.title = `Top 1000 - ${titleSuffix}`
-            } else if (data.filter === `top-100`) {
+            } else if (data.rank === `top-100`) {
               this.title = `Top 100 - ${titleSuffix}`
             } else {
               this.title = titleSuffix

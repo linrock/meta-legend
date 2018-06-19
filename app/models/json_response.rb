@@ -3,7 +3,7 @@ class JsonResponse
 
   def initialize(options = {})
     @path = options[:path] || "/"
-    @filter = ReplayOutcomeFilter.get_rank_filter(options[:filter])
+    @rank = ReplayOutcomeFilter.get_rank_filter(options[:rank])
     @region = ReplayOutcomeFilter.get_region_filter(options[:region])
     @page = get_page options[:page].to_i
   end
@@ -14,7 +14,7 @@ class JsonResponse
       .pluck(:hsreplay_id)
     {
       path: @path,
-      filter: @filter,
+      rank: @rank,
       region: @region,
       page: @page,
       route: route,
@@ -52,7 +52,7 @@ class JsonResponse
   end
 
   def cache_key
-    "replay_outcomes:json_responses:#{@path}:#{@filter}:#{@region}:page=#{@page}"
+    "replay_outcomes:json_responses:#{@path}:#{@rank}:#{@region}:page=#{@page}"
   end
 
   private
@@ -60,7 +60,7 @@ class JsonResponse
   def replay_outcome_ids
     class_query = route || { class: 'any', archetype: 'any' }
     ReplayOutcomeCache.new.replay_outcome_ids(class_query, {
-      filter: @filter,
+      rank: @rank,
       region: @region,
       page: @page
     })

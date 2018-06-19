@@ -53,10 +53,10 @@ Rails.application.routes.draw do
   %w(
     :rank
     :region
-    :rank/:path
     :region/:path
     :rank/:region
     :region/:path
+    :rank/:path
     :rank/:region/:path
     :path
   ).each do |route|
