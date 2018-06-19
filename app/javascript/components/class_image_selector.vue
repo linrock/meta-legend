@@ -28,9 +28,15 @@
         let pathPrefix = this.$store.getters.filterPath
         let imgPath
         if (pathPrefix !== `/`) {
-          imgPath = `${pathPrefix}/${this.$store.state.path === path ? `/` : path}`
+          imgPath = `${pathPrefix}/${this.$store.state.path === path ? `` : path}`
         } else {
-          imgPath = `${this.$store.state.path === path ? `/` : path}`
+          imgPath = `${this.$store.state.path === path ? `` : path}`
+        }
+        if (imgPath === this.$store.state.path) {
+          imgPath = ``
+        }
+        if (imgPath[0] !== `/`) {
+          imgPath = `/${imgPath}`
         }
         return imgPath
       }

@@ -13,7 +13,7 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
     {
-      path: '/:path',
+      path: '/:filter/:filter2/:path',
       component: App,
     },
     {
@@ -21,7 +21,7 @@ const router = new VueRouter({
       component: App,
     },
     {
-      path: '/:filter/:filter2/:path',
+      path: '/:path',
       component: App,
     },
   ]

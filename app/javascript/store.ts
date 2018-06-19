@@ -98,14 +98,14 @@ const store = new Vuex.Store({
       } else {
         replayFeedTitle = `${route.archetype} ${route.class}`
       }
+      if (state.region !== `all`) {
+        const r = state.region
+        replayFeedTitle = `${r[0].toUpperCase()}${r.slice(1)} - ${replayFeedTitle}`
+      }
       if (state.rank === `top-100`) {
         replayFeedTitle = `Top 100 - ${replayFeedTitle}`
       } else if (state.rank === `top-1000`) {
         replayFeedTitle = `Top 1000 - ${replayFeedTitle}`
-      }
-      if (state.region !== `all`) {
-        const r = state.region
-        replayFeedTitle = `${r[0].toUpperCase()}${r.slice(1)} - ${replayFeedTitle}`
       }
       commit(`setReplayFeedTitle`, replayFeedTitle)
     },
@@ -153,36 +153,27 @@ const store = new Vuex.Store({
       return queryStr
     },
     filterPrefix: state => {
-      let path = ``
-      if (state.region && state.region !== `all`) {
-        path = `${path}/${state.region}`
-      }
-      if (state.rank && state.rank !== `all`) {
-        path = `${path}/${state.rank}`
-      }
-      return path
+      const { rank, region } = state
+      return [rank, region].filter(x => x && x !== `all`).join(`/`)
     },
     filterPath: (state, getters) => {
-      let path = ``
-      if (state.region && state.region !== `all`) {
-        path = `${path}/${state.region}`
-      }
-      if (state.rank && state.rank !== `all`) {
-        path = `${path}/${state.rank}`
-      }
-      if (getters.currentRoute.path) {
-        path = `${path}/${state.rank}/${getters.currentRoute.path}`
-      }
-      return `${path}`
+      const { rank, region } = state
+      const classPath = getters.currentRoute.path
+      return [rank, region, classPath].filter(x => x && x !== `all`).join(`/`)
     },
     fullPath: (state, getters) => {
+      let path = ``
       if (getters.filterPath && state.path !== `/`) {
-        return `${getters.filterPath}/${state.path}`
+        path = `${getters.filterPath}/${state.path}`
       } else if (state.path !== `/`) {
-        return state.path
+        path = state.path
       } else {
-        return getters.filterPath
+        path = getters.filterPath
       }
+      if (path[0] !== `/`) {
+        path = `/${path}`
+      }
+      return path
     }
   }
 })

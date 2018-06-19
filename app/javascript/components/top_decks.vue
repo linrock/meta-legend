@@ -9,11 +9,12 @@
     .archetype-stats
       router-link.stats-row(
         v-for="([path, deck]) in $store.getters.topArchetypeRows"
-        :key="path"
+        :key="fullPath(path)"
         :to="fullPath(path)"
         @click="clickTopDeck(path)"
       )
-        .left-value(:class="classColor(deck.class)") {{ deck.archetype }} {{ deck.class }}
+        .left-value(:class="classColor(deck.class)")
+          | {{ deck.archetype }} {{ deck.class }}
         .right-value {{ deck.n }}
 
 </template>
@@ -25,7 +26,8 @@
     methods: {
       fullPath(path) {
         const prefix = this.$store.getters.filterPrefix
-        return `${prefix}/${path}`
+        const route = `/${[prefix, path].filter(x => x).join(`/`)}`
+        return route
       },
       classColor(className) {
         return `color-${className.toLowerCase()}`

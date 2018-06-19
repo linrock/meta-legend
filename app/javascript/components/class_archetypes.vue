@@ -11,7 +11,7 @@
       router-link.stats-row(
         v-for="([path, route]) in classArchetypeRows"
         :class="[{ active: currentRoute.archetype === route.archetype }]"
-        :key="path"
+        :key="fullPath(path)"
         :to="fullPath(path)"
       )
         .name {{ route.archetype }}
@@ -27,7 +27,8 @@
     methods: {
       fullPath(path) {
         const prefix = this.$store.getters.filterPrefix
-        return `${prefix}/${path}`
+        const route = `/${[prefix, path].filter(x => x).join(`/`)}`
+        return route
       }
     },
 

@@ -75,8 +75,8 @@
       const filter = this.$route.params.filter
       const filter2 = this.$route.params.filter2
       if (filter && filter2) {   // filter = region, filter2 = rank
-         this.$store.dispatch(`setRankFilter`, filter2)
-         this.$store.dispatch(`setRegionOption`, filter)
+         this.$store.dispatch(`setRankFilter`, filter)
+         this.$store.dispatch(`setRegionOption`, filter2)
       } else if (filter) {
         if ([`top-100`, `top-1000`].includes(filter)) {
           this.$store.dispatch(`setRankFilter`, filter)
@@ -228,7 +228,11 @@
 
     watch: {
       $route(to, from) {
-        this.$store.dispatch(`setPath`, to.params.path || `/`)
+        let path = to.params.path || `/`
+        if ([`top-100`, `top-1000`, `americas`, `europe`, `asia`].includes(path)) {
+          path = `/`
+        }
+        this.$store.dispatch(`setPath`, path)
         this.fetchReplays()
       },
       filter() {

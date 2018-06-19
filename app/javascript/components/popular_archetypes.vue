@@ -9,8 +9,8 @@
         .archetype-stats
           router-link.stats-row(
             v-for="archetype in archetypeStats.frequencies"
-            :key="archetype.path"
-            :to="archetype.path"
+            :key="fullPath(archetype.path)"
+            :to="fullPath(archetype.path)"
           )
             .name {{ archetype.name }}
             .n-games {{ archetype.n_games }}
@@ -41,6 +41,11 @@
     },
 
     methods: {
+      fullPath(path): string {
+        const prefix = this.$store.getters.filterPrefix
+        const route = `/${[prefix, path].filter(x => x).join(`/`)}`
+        return route
+      },
       fetchPopularArchetypes(): void {
         axios.get(this.apiQuery)
           .then(response => response.data)
