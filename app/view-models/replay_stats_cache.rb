@@ -1,4 +1,5 @@
 class ReplayStatsCache
+  EXPIRES_IN = 1.hour
   SINCE = 2.days.ago
 
   def initialize
@@ -37,7 +38,7 @@ class ReplayStatsCache
         since: replay_stats.oldest_replay_timestamp,
       },
     }
-    @cache.write cache_key(rank, region), results
+    @cache.write cache_key(rank, region), results, expires_in: EXPIRES_IN
     results
   end
 
