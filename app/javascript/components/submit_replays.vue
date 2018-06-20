@@ -11,9 +11,19 @@
         name="replays"
         placeholder="ex. https://hsreplay.net/replay/zwaG2JCQLBogUdminRUuQQ"
       )
-      .bottom-row
+      .submit-row
         input(type="submit" value="Submit replays")
         .thanks(v-if="thanks") Thanks, keep it up!
+      .under-submit
+        .webhook-prompt
+          span Or
+          a.hsreplay-link(
+            href="https://hsreplay.net/account/api/hooks/new/"
+            target="_blank"
+          )
+            | set up a webhook on hsreplay.net
+          span with this Payload URL:
+        .url https://metalegend.com/webhook
 
 </template>
 
@@ -70,13 +80,6 @@
     height 100px
     margin-bottom 3px
 
-  .bottom-row
-    display flex
-    align-items center
-
-    .thanks
-      margin-left 20px
-
   input[type="submit"]
     border 0
     border-radius 3px
@@ -88,5 +91,24 @@
     &:hover
       cursor pointer
       opacity 0.7
+
+  .submit-row
+    display flex
+    align-items center
+
+    .thanks
+      margin-left 20px
+
+  .under-submit
+    margin 20px 0
+
+    .webhook-prompt
+      margin 10px 0
+
+    .hsreplay-link
+      margin 0 6px 0 2px
+
+    .url
+      font-weight bold
 
 </style>
