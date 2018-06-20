@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   post "/submit_replays"           => "users#submit_replays"
   post "/replay_comments.json"     => "comments#create"
   post "/replays.json"             => "submissions#create"
+  post "/webhook"                  => "submissions#webhook"
 
   # user account routes
   get "/account"                   => "users#me"

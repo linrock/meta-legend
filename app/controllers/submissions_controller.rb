@@ -12,4 +12,9 @@ class SubmissionsController < ApplicationController
     end
     render json: { success: true }
   end
+
+  def webhook
+    WebhookBlob.create(blob: request.raw_post)
+    render json: { success: true }
+  end
 end
