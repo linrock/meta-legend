@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_20_101405) do
+ActiveRecord::Schema.define(version: 2018_06_20_110329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,12 @@ ActiveRecord::Schema.define(version: 2018_06_20_101405) do
     t.boolean "is_legend"
     t.index "lower((forum_username)::text)", name: "index_users_on_lowercase_forum_username", unique: true
     t.index ["battletag"], name: "index_users_on_battletag", unique: true
+  end
+
+  create_table "webhook_blobs", force: :cascade do |t|
+    t.text "blob", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
