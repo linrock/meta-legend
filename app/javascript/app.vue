@@ -10,6 +10,7 @@
       class-winrates
     article.container
       section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
+        submit-replays
         .top-row
           h3.replay-feed-title {{ $store.state.replayFeedTitle }}
         template(v-if="$store.getters.replays.length === 0")
@@ -36,6 +37,7 @@
   import RegionFilter from './components/region_filter'
   import ReplayList from './components/replay_list'
   import Sidebar from './components/sidebar'
+  import SubmitReplays from './components/submit_replays'
   import { trackEvent } from './utils'
   import api from './api'
 
@@ -245,6 +247,7 @@
       RegionFilter,
       ReplayList,
       Sidebar,
+      SubmitReplays,
     },
   }
 </script>
