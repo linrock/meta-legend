@@ -7,6 +7,7 @@ class WebhookBlob < ApplicationRecord
            :p1_rank, :p1_legend_rank,
            :p2_rank, :p2_legend_rank,
            :to_replay_data,
+           :valid_blob?,
            to: :webhook_blob_parser
 
   def create_replay_outcome!
@@ -15,6 +16,7 @@ class WebhookBlob < ApplicationRecord
       hsreplay_id: data[:id],
       data: data
     })
+    logger.info "#{data[:id]} - creating replay outcome (webhook #{id})"
     replay_outcome.save!
   end
 
@@ -62,5 +64,9 @@ class WebhookBlob < ApplicationRecord
 
   def webhook_blob_parser
     WebhookBlobParser.new(blob)
+  end
+
+  def logger
+    @logger ||= Logger.new("#{Rails.root}/log/webhook_blob.log")
   end
 end

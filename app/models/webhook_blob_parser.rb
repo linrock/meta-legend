@@ -4,6 +4,17 @@ class WebhookBlobParser
     @data = webhook_blob_data
   end
 
+  def valid_blob?
+    begin
+      json_data
+      hsreplay_id
+    rescue
+      false
+    else
+      true
+    end
+  end
+
   def to_replay_data
     {
       p1: {
