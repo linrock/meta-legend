@@ -22,18 +22,18 @@ class ArchetypeImporter
   end
 
   def import!
-    data = hsreplay_archetypes
+    data = fetch!
     open("data/archetypes.json", 'w') do |f|
       f.write data
     end
   end
 
   def fetch!
-    JSON.parse open(API_ENDPOINT).read
+    open(API_ENDPOINT).read
   end
 
   def hsreplay_archetypes
     return @hsreplay_archetypes if defined? @hsreplay_archetypes
-    @hsreplay_archetypes = fetch!
+    @hsreplay_archetypes = JSON.parse(fetch!)
   end
 end

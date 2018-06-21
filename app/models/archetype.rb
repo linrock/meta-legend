@@ -4,6 +4,17 @@ class Archetype < ApplicationRecord
   validate :check_data_format
   validate :check_data_scsc_format
 
+  def self.update_from_archetypes_json!
+    json_archetypes = open("data/archetypes.json", "r") do |f|
+      JSON.parse(f.read)
+    end
+    json_archetypes.each do |arch_data|
+      archetype = Archetype.find_by_archetype_id arch_data["id"]
+      archetype.data = arch_data
+      archetype.save!
+    end
+  end
+
   def self.find_by_archetype_id(id)
     find_by("data ->> 'id' = ?", id.to_s)
   end
