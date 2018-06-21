@@ -32,6 +32,6 @@ yarn-debug.log*
 
 # Ignore data
 /scripts/data/
-/data/
+/replay_data/
 
 .env.development
