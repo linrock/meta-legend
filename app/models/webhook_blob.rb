@@ -34,47 +34,31 @@ class WebhookBlob < ApplicationRecord
   end
 
   def p1_archetype_id
-    Archetype.id_by_archetype_name(friendly_archetype[0][:name])
+    friendly_archetype_matches[0][:id]
   end
 
   def p2_archetype_id
-    Archetype.id_by_archetype_name(opposing_archetype[0][:name])
+    opposing_archetype_matches[0][:id]
   end
 
   # need to merge this with the data feed somehow
   def replay_data
     parsed_replay_data = to_replay_data
-    parsed_replay_data[:p1][:archetype] = friendly_archetype[0][:name]
-    parsed_replay_data[:p2][:archetype] = opposing_archetype[0][:name]
+    parsed_replay_data[:p1][:archetype] = friendly_archetype_matches[0][:id]
+    parsed_replay_data[:p2][:archetype] = opposing_archetype_matches[0][:id]
     parsed_replay_data
   end
 
-  def friendly_archetype
-    ArchetypeMatcher.new(friendly_deck_hsreplay_card_ids).top_matches
+  def friendly_archetype_matches
+    ArchetypeMatcher.new(friendly_deck_card_ids).top_matches
   end
 
-  def opposing_archetype
-    ArchetypeMatcher.new(opposing_deck_hsreplay_card_ids).top_matches
+  def opposing_archetype_matches
+    card_ids = (opposing_deck_predicted_card_ids || opposing_deck_card_ids)
+    ArchetypeMatcher.new(card_ids).top_matches
   end
 
   private
-
-  def friendly_deck_hsreplay_card_ids
-    friendly_deck_card_ids.map do |card_id|
-      archetype_card_map[card_id]
-    end
-  end
-
-  def opposing_deck_hsreplay_card_ids
-    ids = (opposing_deck_predicted_card_ids || opposing_deck_card_ids)
-    ids.map do |card_id|
-      archetype_card_map[card_id]
-    end
-  end
-
-  def archetype_card_map
-    @archetype_card_map ||= ArchetypeCardMap.new.card_map
-  end
 
   def webhook_blob_parser
     WebhookBlobParser.new(blob)
