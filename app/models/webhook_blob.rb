@@ -2,6 +2,7 @@ class WebhookBlob < ApplicationRecord
   delegate :hsreplay_id,
            :friendly_deck_card_ids,
            :opposing_deck_predicted_card_ids,
+           :opposing_deck_card_ids,
            :winner,
            :p1_rank, :p1_legend_rank,
            :p2_rank, :p2_legend_rank,
@@ -53,7 +54,7 @@ class WebhookBlob < ApplicationRecord
   end
 
   def opposing_archetype
-    ArchetypeMatcher.new(opposing_deck_predicted_hsreplay_card_ids).top_matches
+    ArchetypeMatcher.new(opposing_deck_hsreplay_card_ids).top_matches
   end
 
   private
@@ -64,8 +65,9 @@ class WebhookBlob < ApplicationRecord
     end
   end
 
-  def opposing_deck_predicted_hsreplay_card_ids
-    opposing_deck_predicted_card_ids.map do |card_id|
+  def opposing_deck_hsreplay_card_ids
+    ids = (opposing_deck_predicted_card_ids || opposing_deck_card_ids)
+    ids.map do |card_id|
       archetype_card_map[card_id]
     end
   end

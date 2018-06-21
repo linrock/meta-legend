@@ -76,6 +76,10 @@ class WebhookBlobParser
     json_data["friendly_deck"]["cards"]
   end
 
+  def opposing_deck_card_ids
+    json_data["opposing_deck"]["cards"]
+  end
+
   def opposing_deck_predicted_card_ids
     json_data["opposing_deck"]["predicted_cards"]
   end
