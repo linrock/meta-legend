@@ -9,6 +9,15 @@ class WebhookBlob < ApplicationRecord
            :to_replay_data,
            to: :webhook_blob_parser
 
+  def create_replay_outcome!
+    data = to_replay_outcome_data
+    replay_outcome = ReplayOutcome.new({
+      hsreplay_id: data[:id],
+      data: data
+    })
+    replay_outcome.save!
+  end
+
   def to_replay_outcome_data
     {
       id: hsreplay_id,
@@ -22,15 +31,6 @@ class WebhookBlob < ApplicationRecord
       player2_legend_rank: p2_legend_rank ? p2_legend_rank.to_s : "None",
       source: "webhook #{id}",
     }
-  end
-
-  def create_replay_outcome!
-    data = to_replay_outcome_data
-    replay_outcome = ReplayOutcome.new({
-      hsreplay_id: data[:id],
-      data: data
-    })
-    replay_outcome.save!
   end
 
   def p1_archetype_id

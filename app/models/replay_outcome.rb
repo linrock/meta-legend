@@ -179,6 +179,16 @@ class ReplayOutcome < ApplicationRecord
 
   def check_data_format
     errors.add(:data, "id is invalid") unless data["id"].to_s =~ /\A[0-9a-z]+\z/i
+    unless data["player1_archetype"].to_i > 0 and data["player2_archetype"].to_i > 0
+      errors.add(:data, "player archetypes are invalid")
+    end
+    unless %w( True False ).include? data["player2_won"]
+      errors.add(:data, "player2_won is invalid")
+    end
+    # check_rank_consistency
+  end
+
+  def check_rank_consistency
     p1_rank, p1_legend_rank, p2_rank, p2_legend_rank = ranks = [
       data["player1_rank"], data["player1_legend_rank"],
       data["player2_rank"], data["player2_legend_rank"]
@@ -191,12 +201,6 @@ class ReplayOutcome < ApplicationRecord
         (p2_rank == "None" && p2_legend_rank == "None") ||
         (p2_rank.to_i > 0 && p2_legend_rank.to_i > 0))
       errors.add(:data, "player ranks are invalid")
-    end
-    unless data["player1_archetype"].to_i > 0 and data["player2_archetype"].to_i > 0
-      errors.add(:data, "player archetypes are invalid")
-    end
-    unless %w( True False ).include? data["player2_won"]
-      errors.add(:data, "player2_won is invalid")
     end
   end
 end
