@@ -33,5 +33,6 @@ yarn-debug.log*
 # Ignore data
 /scripts/data/
 /replay_data/
+/data/hsreplay-cards/
 
 .env.development
