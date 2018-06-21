@@ -13,12 +13,12 @@ class WebhookBlob < ApplicationRecord
       id: hsreplay_id,
       player1_won: winner == 'p1' ? "True" : "False",
       player2_won: winner == 'p2' ? "True" : "False",
-      player1_rank: p1_rank ? p1_rank : "None",
-      player2_rank: p2_rank ? p1_rank : "None",
+      player1_rank: p1_rank ? p1_rank.to_s : "None",
+      player2_rank: p2_rank ? p1_rank.to_s : "None",
       player1_archetype: p1_archetype_id,
       player2_archetype: p2_archetype_id,
-      player1_legend_rank: p1_legend_rank ? p1_legend_rank : "None",
-      player2_legend_rank: p2_legend_rank ? p1_legend_rank : "None",
+      player1_legend_rank: p1_legend_rank ? p1_legend_rank.to_s : "None",
+      player2_legend_rank: p2_legend_rank ? p2_legend_rank.to_s : "None",
       source: "webhook #{id}",
     }
   end
