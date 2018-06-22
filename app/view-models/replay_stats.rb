@@ -98,13 +98,13 @@ class ReplayStats
   # counts the number of games submitted via webhooks
   def top_webhook_submitters
     names = WebhookBlob.select(&:valid?).map { |blob| blob.p1_name }
-    names.group_by(&:to_s).map {|k,v| [k,v.length] }.sort_by {|_, v| -v }.take(5)
+    names.group_by(&:to_s).map {|k,v| [k,v.length] }.sort_by {|_, v| -v }
   end
 
   # counts the number of games submitted via the user form
   def top_form_submitters
     battletags = UserSubmittedReplay.all.map {|r| r.user.battletag }
-    battletags.group_by(&:to_s).map {|k,v| [k,v.length] }.sort_by {|_, v| -v }.take(5)
+    battletags.group_by(&:to_s).map {|k,v| [k,v.length] }.sort_by {|_, v| -v }
   end
 
   def replays_count
