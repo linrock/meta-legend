@@ -40,7 +40,7 @@ class ReplayStatsCache
         twitch_username: User.find_by(battletag: battletag)&.twitch_username
       }]
     end
-    players = (webhook_players + form_players).sort_by {|_, stats| -stats[:count] }.take(10)
+    players = (webhook_players + form_players).sort_by {|_, stats| -stats[:count] }.take(9)
     results = {
       filter: rank,
       region: region,
