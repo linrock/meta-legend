@@ -28,12 +28,19 @@ class ReplayStatsCache
     #     twitch_username: User.find_by_battletag(tag)&.twitch_username
     #   }]
     # end
-    players = replay_stats.top_webhook_submitters.map do |name, count|
+    webhook_players = replay_stats.top_webhook_submitters.map do |name, count|
       [name, {
         count: count,
         twitch_username: User.where("battletag ILIKE ?", "#{name}#%").first&.twitch_username
       }]
     end
+    form_players = replay_stats.top_form_submitters.map do |battletag, count|
+      [battletag, {
+        count: count,
+        twitch_username: User.find_by(battletag: battletag)&.twitch_username
+      }]
+    end
+    players = (webhook_players + form_players).sort_by {|_, stats| -stats[:count] }.take(10)
     results = {
       filter: rank,
       region: region,

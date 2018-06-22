@@ -1,8 +1,7 @@
 <template lang="pug">
   .top-players(v-if="$store.state.activePlayers.length > 0")
     .header-row
-      h2 Replay submitters
-      h3 {{ $store.getters.sinceDaysText }}
+      h2 Top replay submitters
     .label-row
       .left-label name
       .right-label # games

@@ -90,12 +90,20 @@ class ReplayStats
       .where(hsreplay_id: @replay_outcomes.pluck(:hsreplay_id))
       .pluck(:extracted_data).compact.map do |data|
       data ? data['p1']['tag'] : nil
-    end.compact.flatten.group_by(&:to_s).map {|k,v| [k, v.length ] }.sort_by {|_, v| -v }.take(5)
+    end.compact.flatten.group_by(&:to_s).map do |k,v|
+      [k, v.length ]
+    end.sort_by {|_, v| -v }.take(5)
   end
 
   # counts the number of games submitted via webhooks
   def top_webhook_submitters
-    battletags = WebhookBlob.select(&:valid?).map { |blob| blob.p1_name }
+    names = WebhookBlob.select(&:valid?).map { |blob| blob.p1_name }
+    names.group_by(&:to_s).map {|k,v| [k,v.length] }.sort_by {|_, v| -v }.take(5)
+  end
+
+  # counts the number of games submitted via the user form
+  def top_form_submitters
+    battletags = UserSubmittedReplay.all.map {|r| r.user.battletag }
     battletags.group_by(&:to_s).map {|k,v| [k,v.length] }.sort_by {|_, v| -v }.take(5)
   end
 
