@@ -12,7 +12,7 @@ class WebhookBlobConverter
   end
 
   def convert_first_blob_for_each_user(delay = 0)
-    first_blob_for_each_user.values.each do |blob|
+    first_blob_for_each_user.map {|row| row[1] }.each do |blob|
       blob.convert!
       sleep delay
     end
