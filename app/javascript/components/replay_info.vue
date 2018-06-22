@@ -31,33 +31,29 @@
       .error-message(v-if="showError")
         a(href="/account/login") Log in with battle.net
         div to like replays
-    template(v-if="showReplayComment")
-      replay-comment(:replay="replay" :callback="() => { this.showReplayComment = false }")
-    template(v-else)
-      .deck(@mouseleave="showCardImage(false)")
-        .about-deck
-          .deck-owner {{ replay.p1.name }}'s deck
-          .dust-cost(v-if="replay.deckDustCost > 0") {{ replay.deckDustCost }} dust
-        .deck-card-names
-          .card(
-            v-for="card in replay.deckCards"
-            :class="card.rarity"
-            @mouseenter="showCardImage(card.id)"
-          )
-            .cost {{ card.cost }}
-            a.name(
-              :href="card.href"
-              target="_blank"
-              @click="cardClicked(card.name)"
-            ) {{ card.name }}
-            .quantity(v-if="card.n > 1") x{{ card.n }}
-      .card-preview(v-if="cardUrl")
-        img(:src="cardUrl")
+    .deck(@mouseleave="showCardImage(false)")
+      .about-deck
+        .deck-owner {{ replay.p1.name }}'s deck
+        .dust-cost(v-if="replay.deckDustCost > 0") {{ replay.deckDustCost }} dust
+      .deck-card-names
+        .card(
+          v-for="card in replay.deckCards"
+          :class="card.rarity"
+          @mouseenter="showCardImage(card.id)"
+        )
+          .cost {{ card.cost }}
+          a.name(
+            :href="card.href"
+            target="_blank"
+            @click="cardClicked(card.name)"
+          ) {{ card.name }}
+          .quantity(v-if="card.n > 1") x{{ card.n }}
+    .card-preview(v-if="cardUrl")
+      img(:src="cardUrl")
 
 </template>
 
 <script lang="ts">
-  import ReplayComment from './replay_comment'
   import Replay from '../models/replay'
   import api from '../api'
   import { trackEvent, timeAgo } from '../utils'
@@ -148,10 +144,6 @@
         return timeAgo(this.replay.foundAt)
       },
     },
-
-    components: {
-      ReplayComment
-    }
   }
 </script>
 
