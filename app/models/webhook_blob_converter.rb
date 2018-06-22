@@ -12,7 +12,12 @@ class WebhookBlobConverter
   end
 
   def convert_first_blob_for_each_user(delay = 0)
-    first_blob_for_each_user.map {|row| row[1] }.each do |blob|
+    blobs = first_blob_for_each_user
+    logger.info "Converting first blob for each user. #{blobs.length} total."
+    blobs.map {|row| row[0] }.each do |name|
+      logger.info name
+    end
+    blobs.map {|row| row[1] }.shuffle.each do |blob|
       blob.convert!
       sleep delay
     end
@@ -26,6 +31,6 @@ class WebhookBlobConverter
   end
 
   def logger
-    @logger ||= Logger.new("#{Rails.root}/log/webhook_blob_converter.log")
+    @logger ||= Logger.new("#{Rails.root}/log/webhook_blob.log")
   end
 end
