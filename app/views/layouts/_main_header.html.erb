@@ -3,11 +3,15 @@
     <h1 class="title">
       <a href="/">Meta Legend</a><small>beta</small>
     </h1>
-    <div class="header-links">
+
+    <div class="header-links left">
       <a href="/forum">Forum</a>
       <a href="/decks">Decks</a>
     </div>
-    <div class="user-info">
+
+    <div class="header-links right">
+      <a href="https://discord.gg/mtx6yyB" target="_blank">Discord</a>
+
       <% if @user %>
         <a href="/account"><%= @user.forum_name %></a>
       <% else %>
