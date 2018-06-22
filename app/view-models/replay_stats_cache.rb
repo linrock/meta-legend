@@ -22,10 +22,16 @@ class ReplayStatsCache
 
   def legend_stats!(rank = nil, region = nil)
     replay_stats = ReplayStats.new(get_replay_outcomes(rank, region))
-    players = replay_stats.most_active_players.map do |tag, count|
-      [tag, {
+    # players = replay_stats.most_active_players.map do |tag, count|
+    #   [tag, {
+    #     count: count,
+    #     twitch_username: User.find_by_battletag(tag)&.twitch_username
+    #   }]
+    # end
+    players = replay_stats.top_webhook_submitters.map do |name, count|
+      [name, {
         count: count,
-        twitch_username: User.find_by_battletag(tag)&.twitch_username
+        twitch_username: User.where("battletag ILIKE ?", "#{name}").first&.twitch_username
       }]
     end
     results = {
