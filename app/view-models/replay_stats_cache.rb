@@ -31,7 +31,7 @@ class ReplayStatsCache
     players = replay_stats.top_webhook_submitters.map do |name, count|
       [name, {
         count: count,
-        twitch_username: User.where("battletag ILIKE ?", "#{name}").first&.twitch_username
+        twitch_username: User.where("battletag ILIKE ?", "#{name}#%").first&.twitch_username
       }]
     end
     results = {
