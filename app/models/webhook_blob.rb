@@ -3,11 +3,10 @@ class WebhookBlob < ApplicationRecord
            :friendly_deck_card_ids,
            :opposing_deck_predicted_card_ids,
            :opposing_deck_card_ids,
-           :winner,
-           :p1_rank, :p1_legend_rank,
-           :p2_rank, :p2_legend_rank,
+           :p1_name, :p1_rank, :p1_legend_rank,
+           :p2_name, :p2_rank, :p2_legend_rank,
+           :num_turns, :winner, :valid_blob?,
            :to_replay_data,
-           :valid_blob?,
            to: :webhook_blob_parser
 
   def create_replay_outcome!
