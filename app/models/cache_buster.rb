@@ -5,6 +5,8 @@ class CacheBuster
     ReplayOutcomeCache.new.replay_outcome_ids!({
       class: 'any',
       archetype: 'any'
+    }, {
+      page: 1
     })
     JsonResponseCache.new.json_response!
   end
