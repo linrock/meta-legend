@@ -20,7 +20,7 @@ export default class RouteMap {
       .sort((a,b) => parseFloat(b[1].winrate) - parseFloat(a[1].winrate))
   }
 
-  // top 5 archetypes
+  // top 5 archetypes on homepage
   get topArchetypeRows(): Array<[string, Route]> {
     return this.routeMapEntries
       .sort((a,b) => b[1].n - a[1].n)
@@ -32,7 +32,6 @@ export default class RouteMap {
     return this.routeMapEntries
       .filter(r => r[1].class === className && r[1].archetype)
       .sort((a,b) => b[1].n - a[1].n)
-      .slice(0, 5)
   }
 
   getRoute(path): Route|object {
