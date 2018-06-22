@@ -10,14 +10,33 @@ class WebhookBlob < ApplicationRecord
            to: :webhook_blob_parser
 
   def create_replay_outcome!
+    if converted_at.present?
+      logger.info "webhook #{id} already converted. Exiting."
+      return
+    end
+    if !valid_blob?
+      logger.error "webhook #{id} does not seem to be a valid blob. Exiting."
+      return
+    end
     data = to_replay_outcome_data
-    replay_outcome = ReplayOutcome.new({
-      hsreplay_id: data[:id],
-      data: data
-    })
     logger.info "#{data[:id]} - creating replay outcome (webhook #{id})"
-    replay_outcome.save!
+    begin
+      ActiveRecord::Base.transaction do
+        replay_outcome = ReplayOutcome.new({
+          hsreplay_id: data[:id],
+          data: data
+        })
+        replay_outcome.save!
+        self.converted_at = Time.now
+        self.save!
+      end
+    rescue ActiveRecord::RecordNotUnique
+      logger.info "#{data[:id]} already converted. Setting converted_at (webhook #{id})"
+      self.converted_at = Time.now
+      self.save!
+    end
   end
+  alias convert! create_replay_outcome!
 
   def to_replay_outcome_data
     {
