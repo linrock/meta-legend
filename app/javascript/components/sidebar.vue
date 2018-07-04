@@ -1,17 +1,18 @@
 <template lang="pug">
   section#sidebar(:class="[{ fixed: fixedSidebar }]")
-    template(v-if="$store.getters.currentReplay")
-      replay-info(:replay="$store.getters.currentReplay")
-    template(v-else)
-      template(v-if="$store.getters.currentRoute.class")
-        class-archetypes
+    .sidebar-container
+      template(v-if="$store.getters.currentReplay")
+        replay-info(:replay="$store.getters.currentReplay")
       template(v-else)
-        template(v-if="$store.state.currentCard")
-          img(:src="cardUrl()")
+        template(v-if="$store.getters.currentRoute.class")
+          class-archetypes
         template(v-else)
-          top-decks
-          top-players
-          // popular-archetypes
+          template(v-if="$store.state.currentCard")
+            img(:src="cardUrl()")
+          template(v-else)
+            top-decks
+            top-players
+            // popular-archetypes
 </template>
 
 <script lang="ts">
@@ -66,6 +67,8 @@
   #sidebar
     padding-left sidebar-margin
     width sidebar-width
+    max-height 100%
+    overflow-y scroll
     z-index 5 // needs to be higher than rank diamonds
 
     &.fixed
@@ -74,5 +77,8 @@
       top: 0
       margin-left 135px
       padding-top 20px
+
+  .sidebar-container
+    max-height 100%
 
 </style>
