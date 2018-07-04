@@ -113,7 +113,7 @@ class ReplayStats
   end
 
   def oldest_replay_timestamp
-    @replay_outcomes.order("created_at DESC").last.created_at
+    @replay_outcomes.order("created_at DESC").last&.created_at
   end
 
   private
