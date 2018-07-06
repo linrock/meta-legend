@@ -1,5 +1,7 @@
 class ReplayStatsCache
   EXPIRES_IN = 1.hour
+  LEGEND_TIME_AGO = -> { 7.days.ago }
+  TOP_100_TIME_AGO = -> { 10.days.ago }
 
   def initialize
     @cache = Rails.cache
@@ -62,9 +64,9 @@ class ReplayStatsCache
 
   def get_replay_outcomes(rank, region)
     if rank == "top-100"
-      replay_outcomes = ReplayOutcome.legend_players.since(7.days.ago)
+      replay_outcomes = ReplayOutcome.legend_players.since(TOP_100_TIME_AGO.call)
     else
-      replay_outcomes = ReplayOutcome.legend_players.since(4.days.ago)
+      replay_outcomes = ReplayOutcome.legend_players.since(LEGEND_TIME_AGO.call)
     end
     case rank
       when "top-1000" then replay_outcomes = replay_outcomes.top_legend(1000)
