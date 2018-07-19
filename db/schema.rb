@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_22_013952) do
+ActiveRecord::Schema.define(version: 2018_07_07_080638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,14 @@ ActiveRecord::Schema.define(version: 2018_06_22_013952) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["hsreplay_id", "user_id"], name: "index_replay_comments_on_hsreplay_id_and_user_id"
+  end
+
+  create_table "replay_game_api_responses", force: :cascade do |t|
+    t.string "hsreplay_id", null: false
+    t.jsonb "data", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hsreplay_id"], name: "index_replay_game_api_responses_on_hsreplay_id", unique: true
   end
 
   create_table "replay_html_data", force: :cascade do |t|
