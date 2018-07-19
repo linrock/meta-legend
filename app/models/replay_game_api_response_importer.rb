@@ -17,7 +17,11 @@ class ReplayGameApiResponseImporter
   end
 
   def import
-    replay_game_api_response = ReplayGameApiResponse.find_by(hsreplay_id: @hsreplay_id)
+    return if replay_game_api_response.present?
+    import!
+  end
+
+  def import!
     if replay_game_api_response
       replay_game_api_response.data = json_data
       replay_game_api_response.save!
@@ -27,5 +31,11 @@ class ReplayGameApiResponseImporter
         data: json_data
       })
     end
+  end
+
+  private
+
+  def replay_game_api_response
+    @replay_game_api_response ||= ReplayGameApiResponse.find_by(hsreplay_id: @hsreplay_id)
   end
 end
