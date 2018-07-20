@@ -22,15 +22,6 @@
         target="_blank"
         @click="replayClicked"
       ) Watch on hsreplay.net
-    // .replay-likes
-      div(v-if="replayLikes.liked") Liked
-      a(v-else @click="likeReplay") Like
-      template(v-if="numLikes")
-        .separator &bull;
-        .num-likes {{ numLikesText }}
-      .error-message(v-if="showError")
-        a(href="/account/login") Log in with battle.net
-        div to like replays
     deck-cards(
       :player="replay.p1"
       :dustCost="replay.deckDustCost"
@@ -67,25 +58,6 @@
     },
 
     methods: {
-      likeReplay() {
-        api.post(`/replays/like.json`, { replay_id: this.replay.hsreplayId })
-          .then(response => response.data)
-          .then(data => {
-            this.$store.dispatch(`setReplayLikes`, {
-              replayId: data.hsreplay_id,
-              numLikes: data.likes,
-              liked: data.liked,
-            })
-          })
-          .catch(error => {
-            if (error.request.status === 401) {
-              this.showError = true
-            } else {
-              throw error
-            }
-          })
-        trackEvent('like', 'replay', this.replay.hsreplayId)
-      },
       replayClicked() {
         trackEvent('click', 'watch replay', this.replay.hsreplayId)
         const replay = this.replay
@@ -115,17 +87,6 @@
     },
 
     computed: {
-      replayLikes() {
-        return this.$store.getters.replayLikes(this.replay.hsreplayId)
-      },
-      numLikes() {
-        return this.replayLikes.numLikes
-      },
-      numLikesText() {
-        if (this.numLikes) {
-          return this.numLikes === 1 ? `1 like` : `${this.numLikes} likes`
-        }
-      },
       timeAgo() {
         return timeAgo(this.replay.foundAt)
       },
@@ -180,22 +141,5 @@
 
       &:hover
         opacity 0.65
-
-  // likes
-  .replay-likes
-    display flex
-    font-size 17px
-
-    a
-      color #45abfe
-
-      &:hover
-        cursor pointer
-        text-decoration underline
-
-    .error-message
-      margin-left 15px
-      margin-top -4px
-      line-height 20px
 
 </style>
