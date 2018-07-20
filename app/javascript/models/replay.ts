@@ -1,6 +1,11 @@
 import Card from './card'
 import { PlayerOptions, Player } from './player'
 
+interface OpposingDeckOptions {
+  cards: Array<Card>
+  predicted_cards: Array<Card>
+}
+
 interface ReplayOptions {
   hsreplay_id: string
   winner: string
@@ -8,6 +13,7 @@ interface ReplayOptions {
   p1: PlayerOptions
   p2: PlayerOptions
   deck_card_names: Array<Card>
+  opposing_deck?: OpposingDeckOptions
   found_at: string
 }
 
@@ -18,6 +24,8 @@ export default class Replay {
   public p2: Player
   public winner: string
   public deckCards: Array<Card>
+  public opposingDeckCards: Array<Card>
+  public opposingDeckPredictedCards: Array<Card>
   public foundAt: string
 
   constructor(options: ReplayOptions) {
@@ -28,6 +36,11 @@ export default class Replay {
     this.winner = options.winner
     this.foundAt = options.found_at
     this.deckCards = options.deck_card_names.map(c => new Card(c))
+    const opposingDeck = options.opposing_deck
+    if (options.opposing_deck) {
+      this.opposingDeckCards = opposingDeck.cards.map(c => new Card(c))
+      this.opposingDeckPredictedCards = opposingDeck.predicted_cards.map(c => new Card(c))
+    }
   }
 
   get key(): string {

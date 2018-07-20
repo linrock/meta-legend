@@ -31,30 +31,16 @@
       .error-message(v-if="showError")
         a(href="/account/login") Log in with battle.net
         div to like replays
-    .deck(@mouseleave="showCardImage(false)")
-      .about-deck
-        .deck-owner {{ replay.p1.name }}'s deck
-        .dust-cost(v-if="replay.deckDustCost > 0") {{ replay.deckDustCost }} dust
-      .deck-card-names
-        .card(
-          v-for="card in replay.deckCards"
-          :class="card.rarity"
-          @mouseenter="showCardImage(card.id)"
-        )
-          .cost {{ card.cost }}
-          a.name(
-            :href="card.href"
-            target="_blank"
-            @click="cardClicked(card.name)"
-          ) {{ card.name }}
-          .quantity(v-if="card.n > 1") x{{ card.n }}
-    .card-preview(v-if="cardUrl")
-      img(:src="cardUrl")
-
+    deck-cards(
+      :player="replay.p1"
+      :dustCost="replay.deckDustCost"
+      :cards="replay.deckCards"
+    )
 </template>
 
 <script lang="ts">
   import Replay from '../models/replay'
+  import DeckCards from './deck_cards'
   import api from '../api'
   import { trackEvent, timeAgo } from '../utils'
 
@@ -144,6 +130,10 @@
         return timeAgo(this.replay.foundAt)
       },
     },
+
+    components: {
+      DeckCards
+    }
   }
 </script>
 
@@ -207,62 +197,5 @@
       margin-left 15px
       margin-top -4px
       line-height 20px
-
-  // card
-  .deck
-    margin-top 25px
-
-    .deck-card-names
-      margin-top 10px
-
-  .about-deck
-    opacity 0.4
-    display flex
-    padding-bottom 5px
-    border-bottom 1px solid rgba(0,0,0,0.1)
-
-    .dust-cost
-      margin-left auto
-
-  .card
-    padding 2px 0
-    margin 2px 0
-    display flex
-    font-size 15px
-    letter-spacing -0.2px
-    text-decoration none
-
-    &.common, &.free
-      opacity 0.8
-
-    &.rare
-      color blue
-
-    &.epic
-      color #8A2BE2
-
-    &.legendary
-      color orange
-
-    .cost
-      width 25px
-
-    .name
-      color inherit
-      width 190px
-      text-decoration none
-
-      &:hover
-        text-decoration underline
-
-    .quantity
-      opacity 0.4
-      width 15px
-
-  .card-preview
-    position fixed
-    top 150px
-    left 50%
-    margin-left -150px
 
 </style>
