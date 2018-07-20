@@ -27,6 +27,12 @@
       :dustCost="replay.deckDustCost"
       :cards="replay.deckCards"
     )
+    // template(v-if="replay.opposingDeckPredictedCards")
+      deck-cards(
+        :player="replay.p2"
+        :predicted="true"
+        :cards="replay.opposingDeckPredictedCards"
+      )
 </template>
 
 <script lang="ts">

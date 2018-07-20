@@ -2,7 +2,7 @@
   .deck-cards
     .deck(@mouseleave="showCardImage(false)")
       .about-deck
-        .deck-owner {{ player.name }}'s deck
+        .deck-owner {{ title }}
         .dust-cost(v-if="dustCost && dustCost > 0") {{ dustCost }} dust
       .deck-card-names
         .card(
@@ -35,6 +35,9 @@
       dustCost: {
         type: Number,
       },
+      predicted: {
+        type: Boolean,
+      },
       cards: {
         type: Array,
         required: true
@@ -61,6 +64,16 @@
           this.cardUrl = null
         }
       },
+    },
+
+    computed: {
+      title() {
+        let title = `${this.player.name}'s`
+        if (this.predicted) {
+          title = `${title} predicted`
+        }
+        return `${title} deck`
+      }
     }
   }
 </script>
@@ -68,7 +81,7 @@
 <style lang="stylus" scoped>
   // card
   .deck
-    margin-top 25px
+    margin 25px 0
 
     .deck-card-names
       margin-top 10px

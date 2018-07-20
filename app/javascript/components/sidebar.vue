@@ -68,6 +68,7 @@
     padding-left sidebar-margin
     width sidebar-width
     max-height 100%
+    overflow-x hidden
     overflow-y scroll
     z-index 5 // needs to be higher than rank diamonds
 

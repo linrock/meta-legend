@@ -53,7 +53,7 @@ class ReplayData
     if replay_game_api_response
       opposing_deck = replay_game_api_response.opposing_deck
       if opposing_deck
-        card_idss = opposing_deck["cards"]
+        card_ids = opposing_deck["cards"]
         predicted_card_ids = opposing_deck["predicted_cards"]
         merged_hash = merged_hash.merge({
           opposing_deck: {
