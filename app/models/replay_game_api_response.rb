@@ -4,19 +4,11 @@ class ReplayGameApiResponse < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
   validate :check_data_format
 
-  def opponent_partial_deck_ids
-    opposing_deck["cards"]
-  end
-
-  def opponent_predicted_deck_ids
-    opposing_deck["predicted_cards"]
-  end
-
-  private
-
   def opposing_deck
     data["opposing_deck"]
   end
+
+  private
 
   def check_data_format
     %w(

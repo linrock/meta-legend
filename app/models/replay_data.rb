@@ -1,3 +1,6 @@
+# Replay data from all available replay data sources
+# html data, xml data, game api response
+
 class ReplayData
   delegate :found_at,
            to: :replay_outcome
@@ -15,24 +18,6 @@ class ReplayData
   def exists?
     ReplayHtmlData.exists?(hsreplay_id: @hsreplay_id) and
     ReplayXmlData.exists?(hsreplay_id: @hsreplay_id)
-  end
-
-  def import_html_from_file!
-    return false if replay_outcome.nil?
-    return true if ReplayHtmlData.exists?(hsreplay_id: @hsreplay_id)
-    ReplayHtmlData.create!({
-      hsreplay_id: @hsreplay_id,
-      data: open("data/#{@hsreplay_id}.html").read
-    })
-  end
-
-  def import_xml_from_file!
-    return false if replay_outcome.nil?
-    return true if ReplayXmlData.exists?(hsreplay_id: @hsreplay_id)
-    ReplayXmlData.create!({
-      hsreplay_id: @hsreplay_id,
-      data: open("data/#{@hsreplay_id}.xml").read
-    })
   end
 
   # merge data from the replay outcome and xml replay data together
@@ -59,12 +44,26 @@ class ReplayData
     end
     deck_card_ids = xml[:deck_card_ids] || replay_xml_data.deck_card_ids
     merged_hash.delete(:deck_card_ids)
-    merged_hash.merge({
+    merged_hash = merged_hash.merge({
       hsreplay_id: @hsreplay_id,
       num_turns: num_turns,
       found_at: found_at,
       deck_card_names: HearthstoneCard.card_ids_to_deck_list(deck_card_ids)
     })
+    if replay_game_api_response
+      opposing_deck = replay_game_api_response.opposing_deck
+      if opposing_deck
+        card_idss = opposing_deck["cards"]
+        predicted_card_ids = opposing_deck["predicted_cards"]
+        merged_hash = merged_hash.merge({
+          opposing_deck: {
+            cards: HearthstoneCard.card_ids_to_deck_list(card_ids),
+            predicted_cards: HearthstoneCard.card_ids_to_deck_list(predicted_card_ids)
+          }
+        })
+      end
+    end
+    merged_hash
   end
 
   def replay_html_data
@@ -75,7 +74,9 @@ class ReplayData
     @replay_xml_data ||= ReplayXmlData.find_by(hsreplay_id: @hsreplay_id)
   end
 
-  private
+  def replay_game_api_response
+    @replay_game_api_response ||= ReplayGameApiResponse.find_by(hsreplay_id: @hsreplay_id)
+  end
 
   def replay_outcome
     @replay_outcome ||= ReplayOutcome.find_by(hsreplay_id: @hsreplay_id)
