@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   # get "/players"                   => "players#index"
   get "/players/:name"             => "players#show"
 
+  # other game modes
+  get "/wild"                      => "wild#index"
+
   # user submission routes
   post "/submit_replays"           => "users#submit_replays"
   post "/replays.json"             => "submissions#create"

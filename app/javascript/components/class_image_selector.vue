@@ -1,7 +1,7 @@
 <template lang="pug">
   .class-image-selector
     router-link(
-      v-for="([path, route]) in $store.getters.classArray"
+      v-for="([path, route]) in classArray"
       :class="[{ active: !currentRoute.class || currentRoute.class === route.class }]"
       :key="path"
       :to="imgPath(path)"
@@ -18,6 +18,9 @@
       currentRoute(): Route {
         return this.$store.getters.currentRoute
       },
+      classArray(): Array<any> {
+        return this.$store.getters.classArray
+      }
     },
 
     methods: {
