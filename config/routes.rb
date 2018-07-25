@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get "/players/:name"             => "players#show"
 
   # other game modes
+  get "/arena"                     => "arena#index"
   get "/wild"                      => "wild#index"
 
   # user submission routes
