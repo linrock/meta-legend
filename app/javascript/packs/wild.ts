@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import FastClick from 'fastclick'
 
-import Wild from '../wild.vue'
+import Wild from '../layouts/wild'
 import store from '../store'
 
 Vue.use(VueRouter)

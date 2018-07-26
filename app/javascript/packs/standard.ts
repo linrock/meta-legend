@@ -4,7 +4,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import FastClick from 'fastclick'
 
-import App from '../app.vue'
+import Standard from '../layouts/standard'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -14,15 +14,15 @@ const router = new VueRouter({
   routes: [
     {
       path: '/:filter/:filter2/:path',
-      component: App,
+      component: Standard,
     },
     {
       path: '/:filter/:path',
-      component: App,
+      component: Standard,
     },
     {
       path: '/:path',
-      component: App,
+      component: Standard,
     },
   ]
 })
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const appContainerEl = document.querySelector(".app-container")
   new Vue({
     el: appContainerEl.appendChild(document.createElement('main')),
-    render: h => h(App),
+    render: h => h(Standard),
     router,
     store,
   })

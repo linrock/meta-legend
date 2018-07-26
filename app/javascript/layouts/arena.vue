@@ -28,15 +28,15 @@
 </template>
 
 <script lang="ts">
-  import ClassImageSelector from './components/class_image_selector'
-  import ClassWinrates from './components/class_winrates'
-  import PopularArchetypes from './components/popular_archetypes'
-  import RankFilter from './components/rank_filter'
-  import ReplayRow from './components/arena/replay_row'
-  import Sidebar from './components/sidebar'
-  import SubmitReplays from './components/submit_replays'
-  import { trackEvent } from './utils'
-  import api from './api'
+  import ClassImageSelector from '../components/class_image_selector'
+  import ClassWinrates from '../components/class_winrates'
+  import PopularArchetypes from '../components/popular_archetypes'
+  import RankFilter from '../components/rank_filter'
+  import ReplayRow from '../components/arena/replay_row'
+  import Sidebar from '../components/sidebar'
+  import SubmitReplays from '../components/submit_replays'
+  import { trackEvent } from '../utils'
+  import api from '../api'
 
   const pageTitleSuffix = `Meta Legend`
   const infScroll = {

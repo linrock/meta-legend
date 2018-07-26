@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-  import Replay from './models/replay'
-  import ReplayList from './components/replay_list'
-  import Sidebar from './components/sidebar'
+  import Replay from '../models/replay'
+  import ReplayList from '../components/replay_list'
+  import Sidebar from '../components/sidebar'
 
   export default {
     data() {
@@ -17,10 +17,6 @@
         replays: JSON.parse(replayDataEl.innerText).map(replayData => new Replay(replayData)),
         replayDataEl,
       }
-    },
-
-    created() {
-      this.$store.dispatch(`setCurrentCard`, this.replayDataEl.dataset.cardId)
     },
 
     components: {

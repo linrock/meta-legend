@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import FastClick from 'fastclick'
 
-import Arena from '../arena.vue'
+import Arena from '../layouts/arena'
 import store from '../store'
 
 Vue.use(VueRouter)

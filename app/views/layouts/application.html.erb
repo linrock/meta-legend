@@ -20,8 +20,8 @@
       <%= javascript_pack_tag 'wild' %>
       <%= stylesheet_pack_tag 'wild', media: 'all' %>
     <% elsif request.path !~ /\A\/(account|forum)/ %>
-      <%= javascript_pack_tag 'application' %>
-      <%= stylesheet_pack_tag 'application', media: 'all' %>
+      <%= javascript_pack_tag 'standard' %>
+      <%= stylesheet_pack_tag 'standard', media: 'all' %>
     <% end %>
 
     <% if Rails.env.development? %>

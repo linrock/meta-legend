@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import FastClick from 'fastclick'
 
-import Card from '../card'
+import Card from '../layouts/card'
 import store from '../store'
 
 document.addEventListener('DOMContentLoaded', () => {

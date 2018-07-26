@@ -1,9 +1,16 @@
 <template lang="pug">
   main
     header.container.sub-header-bg
+      .filters
+        .prompt Show me
+        rank-filter
+        .prompt from
+        region-filter
       class-image-selector
+      class-winrates
     article.container
       section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
+        submit-replays
         .top-row
           h3.replay-feed-title {{ $store.state.replayFeedTitle }}
         template(v-if="$store.getters.replays.length === 0")
@@ -23,16 +30,16 @@
 </template>
 
 <script lang="ts">
-  import ClassImageSelector from './components/class_image_selector'
-  import ClassWinrates from './components/class_winrates'
-  import PopularArchetypes from './components/popular_archetypes'
-  import RankFilter from './components/rank_filter'
-  import RegionFilter from './components/region_filter'
-  import ReplayList from './components/replay_list'
-  import Sidebar from './components/sidebar'
-  import SubmitReplays from './components/submit_replays'
-  import { trackEvent } from './utils'
-  import api from './api'
+  import ClassImageSelector from '../components/class_image_selector'
+  import ClassWinrates from '../components/class_winrates'
+  import PopularArchetypes from '../components/popular_archetypes'
+  import RankFilter from '../components/rank_filter'
+  import RegionFilter from '../components/region_filter'
+  import ReplayList from '../components/replay_list'
+  import Sidebar from '../components/sidebar'
+  import SubmitReplays from '../components/submit_replays'
+  import { trackEvent } from '../utils'
+  import api from '../api'
 
   const pageTitleSuffix = `Meta Legend`
   const infScroll = {
@@ -54,8 +61,34 @@
 
     created() {
       // legendStats - routes, about, players
-      const { replayData } = (<any>window).hsrpf
-      const path = `/`
+      const { legendStats, replayData } = (<any>window).hsrpf
+      this.$store.dispatch(`setInitialData`, legendStats)
+
+      let path = this.$route.params.path || `/`
+      if ([`top-100`, `top-1000`].includes(path)) {
+        this.$store.dispatch(`setRankFilter`, path)
+        path = path.replace(/(top-1000|top-100)\/?/, '')
+      } else if ([`americas`, `europe`, `asia`].includes(path)) {
+        this.$store.dispatch(`setRegionOption`, path)
+        path = path.replace(/(americas|europe|asia)\/?/, '')
+      }
+
+      // set initial filters for nested routes
+      const filter = this.$route.params.filter
+      const filter2 = this.$route.params.filter2
+      if (filter && filter2) {   // filter = region, filter2 = rank
+         this.$store.dispatch(`setRankFilter`, filter)
+         this.$store.dispatch(`setRegionOption`, filter2)
+      } else if (filter) {
+        if ([`top-100`, `top-1000`].includes(filter)) {
+          this.$store.dispatch(`setRankFilter`, filter)
+          path = path.replace(/(top-1000|top-100)\/?/, '')
+        } else if ([`americas`, `europe`, `asia`].includes(filter)) {
+          this.$store.dispatch(`setRegionOption`, filter)
+          path = path.replace(/(americas|europe|asia)\/?/, '')
+        }
+      }
+
       this.$store.dispatch(`setPath`, path)
       const replays = replayData.replays
       if (replays && replays.length > 0 && replayData.path === path) {

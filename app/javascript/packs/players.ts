@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import FastClick from 'fastclick'
 
-import Player from '../player'
+import Player from '../layouts/player'
 import store from '../store'
 
 document.addEventListener('DOMContentLoaded', () => {
