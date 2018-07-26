@@ -11,7 +11,9 @@
         div {{ replay.p1.name }}
       .archetype(:class="[{ [p1Color]: p1Highlight }]")
         | {{ replay.p1.deckType }}
-    .vs vs
+    .middle
+      .vs vs
+      .stats {{ winsAndLosses }}
     .player.player2
       .player-name
         div {{ replay.p2.name }}
@@ -47,6 +49,12 @@
     computed: {
       currentRoute() {
         return this.$store.getters.currentRoute
+      },
+      winsAndLosses() {
+        if (this.replay.metadata) {
+          const { wins, losses } = this.replay.metadata
+          return `${wins} - ${losses}`
+        }
       },
       isSelectedReplay() {
         return this.replay === this.$store.getters.currentReplay
@@ -139,11 +147,17 @@
     font-weight bold
     transition color 0.2s ease
 
-  .vs
-    font-weight 300
+  .middle
     text-align center
-    width 18px
-    opacity 0.3
+    width 100px
+
+    .vs
+      font-weight 300
+      opacity 0.3
+
+    .stats
+      font-size 12px
+      margin-top 10px
 
   .win-indicator
     width 30px

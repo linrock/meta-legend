@@ -16,6 +16,19 @@ class ReplayGameApiResponse < ApplicationRecord
     data["opposing_player"]["hero_class_name"].capitalize
   end
 
+  def arena?
+    data["global_game"]["game_type"] == 3
+  end
+
+  def metadata
+    if arena?
+      {
+        wins: data["friendly_player"]["wins"] || 0,
+        losses: data["friendly_player"]["losses"] || 0,
+      }
+    end
+  end
+
   private
 
   def check_data_format

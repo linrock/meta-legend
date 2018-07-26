@@ -14,6 +14,7 @@ interface ReplayOptions {
   p2: PlayerOptions
   deck_card_names: Array<Card>
   opposing_deck?: OpposingDeckOptions
+  metadata?: any
   found_at: string
 }
 
@@ -26,6 +27,7 @@ export default class Replay {
   public deckCards: Array<Card>
   public opposingDeckCards: Array<Card>
   public opposingDeckPredictedCards: Array<Card>
+  public metadata: any
   public foundAt: string
 
   constructor(options: ReplayOptions) {
@@ -40,6 +42,9 @@ export default class Replay {
     if (options.opposing_deck) {
       this.opposingDeckCards = opposingDeck.cards.map(c => new Card(c))
       this.opposingDeckPredictedCards = opposingDeck.predicted_cards.map(c => new Card(c))
+    }
+    if (options.metadata) {
+      this.metadata = options.metadata
     }
   }
 

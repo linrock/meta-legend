@@ -71,6 +71,12 @@ class ReplayData
       if !merged_hash[:p2][:archetype]
         merged_hash[:p2][:archetype] = replay_game_api_response.opposing_class_name
       end
+      if !merged_hash[:found_at]
+        merged_hash[:found_at] = replay_game_api_response.data["global_game"]["match_start"]
+      end
+      if replay_game_api_response.arena?
+        merged_hash[:metadata] = replay_game_api_response.metadata
+      end
     end
     merged_hash
   end
