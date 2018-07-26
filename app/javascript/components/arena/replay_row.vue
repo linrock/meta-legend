@@ -52,7 +52,12 @@
       },
       winsAndLosses() {
         if (this.replay.metadata) {
-          const { wins, losses } = this.replay.metadata
+          let { wins, losses } = this.replay.metadata
+          if (this.replay.winner === `p1`) {
+            wins += 1
+          } else if (this.replay.winner === `p2`) {
+            losses += 1
+          }
           return `${wins} - ${losses}`
         }
       },
