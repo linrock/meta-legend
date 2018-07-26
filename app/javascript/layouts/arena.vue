@@ -1,9 +1,8 @@
 <template lang="pug">
   main
-    header.container.sub-header-bg
-      class-image-selector
     article.container
       section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
+        submit-replays
         .top-row
           h3.replay-feed-title Arena replays
         template(v-if="$store.getters.replays.length === 0")
@@ -117,16 +116,9 @@
         }
       },
       apiQuery(page) {
-        let query = `/replays.json?path=${this.path || `/`}`
-        if (this.rankFilter !== `all` && this.region !== `all`) {
-          query = `${query}&rank=${this.rankFilter}&region=${this.region}`
-        } else if (this.rankFilter !== `all`) {
-          query = `${query}&rank=${this.rankFilter}`
-        } else if (this.region !== `all`) {
-          query = `${query}&region=${this.region}`
-        }
+        let query = `/arena/replays.json`
         if (page) {
-          query = `${query}&page=${page}`
+          query = `${query}?page=${page}`
         }
         return query
       },
@@ -140,9 +132,6 @@
         api.get(this.apiQuery(page))
           .then(response => response.data)
           .then(data => {
-            if (this.path !== data.path) {
-              return
-            }
             this.isLoading = false
             this.isLoadingPageOne = false
             this.$store.dispatch(`setPage`, data.page)
@@ -160,7 +149,6 @@
               if (data.page < page || data.replays.length === 0) {
                 this.disableInfiniteScroll()
               }
-              // this.fetchReplayLikes(data.replays)
             }
           })
           .catch(error => {
