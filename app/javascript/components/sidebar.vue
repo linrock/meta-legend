@@ -12,7 +12,7 @@
           template(v-else)
             top-decks
             top-players
-            // popular-archetypes
+
 </template>
 
 <script lang="ts">

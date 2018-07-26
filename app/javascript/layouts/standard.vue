@@ -32,7 +32,6 @@
 <script lang="ts">
   import ClassImageSelector from '../components/class_image_selector'
   import ClassWinrates from '../components/class_winrates'
-  import PopularArchetypes from '../components/popular_archetypes'
   import RankFilter from '../components/rank_filter'
   import RegionFilter from '../components/region_filter'
   import ReplayList from '../components/replay_list'
@@ -242,7 +241,6 @@
     components: {
       ClassImageSelector,
       ClassWinrates,
-      PopularArchetypes,
       RankFilter,
       RegionFilter,
       ReplayList,
