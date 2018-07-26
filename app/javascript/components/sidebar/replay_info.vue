@@ -36,10 +36,10 @@
 </template>
 
 <script lang="ts">
-  import Replay from '../models/replay'
-  import DeckCards from './deck_cards'
-  import api from '../api'
-  import { trackEvent, timeAgo } from '../utils'
+  import Replay from '../../models/replay'
+  import DeckCards from '../deck_cards'
+  import api from '../../api'
+  import { trackEvent, timeAgo } from '../../utils'
 
   export default {
     props: {

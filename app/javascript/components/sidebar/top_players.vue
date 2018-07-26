@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-  import { trackEvent } from '../utils'
+  import { trackEvent } from '../../utils'
 
   export default {
     methods: {

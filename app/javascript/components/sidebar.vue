@@ -16,10 +16,10 @@
 </template>
 
 <script lang="ts">
-  import ClassArchetypes from './class_archetypes'
-  import ReplayInfo from './replay_info'
-  import TopDecks from './top_decks'
-  import TopPlayers from './top_players'
+  import ClassArchetypes from './sidebar/class_archetypes'
+  import ReplayInfo from './sidebar/replay_info'
+  import TopDecks from './sidebar/top_decks'
+  import TopPlayers from './sidebar/top_players'
 
   export default {
     data() {

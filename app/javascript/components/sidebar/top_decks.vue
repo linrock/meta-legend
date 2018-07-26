@@ -1,27 +1,26 @@
 <template lang="pug">
-  .class-archetypes(v-if="classArchetypeRows.length > 0")
+  .top-decks(v-if="$store.getters.topArchetypeRows.length > 0")
     .header-row
-      h2 {{ title }}
+      h2 Popular decks
       h3 {{ $store.getters.sinceDaysText }}
     .label-row
-      .left-label deck type
-      .mid-label winrate
-      .right-label # games
-    .archetype-selector
+      .class-label deck type
+      .winrate-label # games
+    .archetype-stats
       router-link.stats-row(
-        v-for="([path, route]) in classArchetypeRows"
-        :class="[{ active: currentRoute.archetype === route.archetype }]"
+        v-for="([path, deck]) in $store.getters.topArchetypeRows"
         :key="fullPath(path)"
         :to="fullPath(path)"
+        @click="clickTopDeck(path)"
       )
-        .name {{ route.archetype }}
-        .mid-value {{ route.winrate }}%
-        .right-value {{ route.n }}
+        .left-value(:class="classColor(deck.class)")
+          | {{ deck.archetype }} {{ deck.class }}
+        .right-value {{ deck.n }}
 
 </template>
 
 <script lang="ts">
-  import Route from '../models/route'
+  import { trackEvent } from '../../utils'
 
   export default {
     methods: {
@@ -29,32 +28,21 @@
         const prefix = this.$store.getters.filterPrefix
         const route = `/${[prefix, path].filter(x => x).join(`/`)}`
         return route
-      }
-    },
-
-    computed: {
-      currentRoute(): Route {
-        return this.$store.getters.currentRoute
       },
-      classArchetypeRows(): Array<Route> {
-        if (this.currentRoute.class) {
-          return this.$store.getters.classArchetypeRows(this.currentRoute.class)
-        } else {
-          return []
-        }
+      classColor(className) {
+        return `color-${className.toLowerCase()}`
       },
-      title(): string {
-        if (this.currentRoute) {
-          return `Top ${this.currentRoute.class} decks`
-        }
-      }
+      clickTopDeck(path) {
+        trackEvent('click', 'popular deck', path)
+      },
     }
   }
 </script>
 
 <style lang="stylus" scoped>
-  .class-archetypes
+  .top-decks
     width 230px
+    margin-bottom 40px
 
   .header-row
     padding-bottom 10px
@@ -80,17 +68,12 @@
     opacity 0.5
     margin-bottom 8px
 
-    .left-label
+    .class-label
       text-align left
 
-    .mid-label
-      width 60px
+    .winrate-label
+      text-align right
       margin-left auto
-      text-align right
-
-    .right-label
-      width 60px
-      text-align right
 
   .stats-row
     display flex
@@ -104,16 +87,25 @@
       color #45ABFE
       cursor pointer
 
-    .name
+    .left-value
       font-weight bold
 
-    .mid-value
-      width 60px
+    .right-value
+      width 45px
+      font-weight normal
       margin-left auto
       text-align right
 
-    .right-value
-      width 60px
-      text-align right
+  a
+    display block
+    color inherit
+    font-weight bold
+    text-decoration none
+
+    &:hover
+      color #45ABFE
+
+      .left-value
+        color #45ABFE
 
 </style>
