@@ -61,12 +61,9 @@
 </script>
 
 <style lang="stylus" scoped>
-  sidebar-width = 240px
-  sidebar-margin = 10px
-
   #sidebar
-    padding-left sidebar-margin
-    width sidebar-width
+    padding-left 10px
+    width 260px
     max-height 100%
     overflow-x hidden
     overflow-y auto

@@ -41,6 +41,7 @@
 
 <style lang="stylus" scoped>
   .top-decks
+    width 230px
     margin-bottom 40px
 
   .header-row

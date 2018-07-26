@@ -107,6 +107,7 @@
 <style lang="stylus" scoped>
   .replay-info
     font-size 14px
+    width 230px
 
   .separator
     margin 0 5px

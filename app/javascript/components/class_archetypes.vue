@@ -53,6 +53,9 @@
 </script>
 
 <style lang="stylus" scoped>
+  .class-archetypes
+    width 230px
+
   .header-row
     padding-bottom 10px
     border-bottom 1px solid rgba(0,0,0,0.1)
