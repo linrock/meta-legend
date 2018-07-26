@@ -69,7 +69,7 @@
     width sidebar-width
     max-height 100%
     overflow-x hidden
-    overflow-y scroll
+    overflow-y auto
     z-index 5 // needs to be higher than rank diamonds
 
     &.fixed
