@@ -4,6 +4,11 @@ class ReplayGameApiResponse < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
   validate :check_data_format
 
+  scope :arena, -> do
+    where("data -> 'global_game' -> 'game_type' = '3'")
+    .order("data -> 'global_game' -> 'match_end' DESC")
+  end
+
   def opposing_deck
     data["opposing_deck"]
   end

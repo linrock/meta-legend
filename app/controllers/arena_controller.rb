@@ -1,7 +1,9 @@
 class ArenaController < ApplicationController
 
   def index
-    hsreplay_ids = JSON.parse(open("arena_games.txt", 'r').read)
+    hsreplay_ids = ReplayGameApiResponse.arena.pluck(
+      Arel.sql("data -> 'shortid'")
+    )
     replays = hsreplay_ids.map do |hsreplay_id|
       ReplayDataCache.new.replay_data_hash(hsreplay_id) rescue nil
     end.compact
