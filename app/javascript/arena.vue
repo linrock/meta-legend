@@ -5,14 +5,19 @@
     article.container
       section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
         .top-row
-          h3.replay-feed-title {{ $store.state.replayFeedTitle }}
+          h3.replay-feed-title Arena replays
         template(v-if="$store.getters.replays.length === 0")
           .loading-text(v-if="isLoading") Loading...
           .loading-text(v-else) No replays found
         .error-text(v-if="error") Failed to fetch replays :(
         .replay-feed-container
           .replay-feed
-            replay-list(:replays="$store.getters.replays")
+            .replay-list
+              replay-row(
+                v-for="replay in $store.getters.replays"
+                :key="replay.key"
+                :replay="replay"
+              )
           .bottom(ref="bottom")
             .back-to-top(
               v-if="$store.getters.currentPage > 1 && !infiniteScrollOn"
@@ -27,8 +32,7 @@
   import ClassWinrates from './components/class_winrates'
   import PopularArchetypes from './components/popular_archetypes'
   import RankFilter from './components/rank_filter'
-  import RegionFilter from './components/region_filter'
-  import ReplayList from './components/replay_list'
+  import ReplayRow from './components/arena/replay_row'
   import Sidebar from './components/sidebar'
   import SubmitReplays from './components/submit_replays'
   import { trackEvent } from './utils'
@@ -58,10 +62,9 @@
       const path = `/`
       this.$store.dispatch(`setPath`, path)
       const replays = replayData.replays
-      if (replays && replays.length > 0 && replayData.path === path) {
+      if (replays && replays.length > 0) {
+        console.log(`setting replays: ${replays.length}`)
         this.setReplays(replays)
-      } else {
-        this.fetchReplays()
       }
       const route = replayData.route || this.$store.getters.currentRoute
       this.enableInfiniteScroll()
@@ -211,8 +214,7 @@
       ClassWinrates,
       PopularArchetypes,
       RankFilter,
-      RegionFilter,
-      ReplayList,
+      ReplayRow,
       Sidebar,
       SubmitReplays,
     },

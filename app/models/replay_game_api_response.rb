@@ -8,6 +8,14 @@ class ReplayGameApiResponse < ApplicationRecord
     data["opposing_deck"]
   end
 
+  def friendly_class_name
+    data["friendly_player"]["hero_class_name"].capitalize
+  end
+
+  def opposing_class_name
+    data["opposing_player"]["hero_class_name"].capitalize
+  end
+
   private
 
   def check_data_format

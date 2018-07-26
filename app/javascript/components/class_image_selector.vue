@@ -13,13 +13,26 @@
 <script lang="ts">
   import Route from '../models/route'
 
+  const defaultClassArray = [
+    `Druid`,
+    `Hunter`,
+    `Mage`,
+    `Paladin`,
+    `Priest`,
+    `Rogue`,
+    `Shaman`,
+    `Warlock`,
+    `Warrior`,
+  ].map(c => ([ c.toLowerCase(), c ]))
+
   export default {
     computed: {
       currentRoute(): Route {
         return this.$store.getters.currentRoute
       },
       classArray(): Array<any> {
-        return this.$store.getters.classArray
+        const classArray = this.$store.getters.classArray
+        return classArray.length > 0 ? classArray : defaultClassArray
       }
     },
 

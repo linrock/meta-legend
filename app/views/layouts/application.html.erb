@@ -13,6 +13,9 @@
     <% elsif request.path =~ /players/ %>
       <%= javascript_pack_tag 'players' %>
       <%= stylesheet_pack_tag 'players', media: 'all' %>
+    <% elsif request.path =~ /arena/ %>
+      <%= javascript_pack_tag 'arena' %>
+      <%= stylesheet_pack_tag 'arena', media: 'all' %>
     <% elsif request.path =~ /wild/ %>
       <%= javascript_pack_tag 'wild' %>
       <%= stylesheet_pack_tag 'wild', media: 'all' %>

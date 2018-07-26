@@ -1,7 +1,7 @@
 # hearthstone card data from hearthstonejson.com api
 
 module HearthstoneCard
-  DATA_FILE = "data/cards.collectible.json"
+  DATA_FILE = "data/cards.json"
 
   # list of cards
   def card_json_data
