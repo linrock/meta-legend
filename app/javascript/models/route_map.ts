@@ -31,6 +31,7 @@ export default class RouteMap {
   classArchetypeRows(className): Array<[string, Route]> {
     return this.routeMapEntries
       .filter(r => r[1].class === className && r[1].archetype)
+      .filter(r => r[1].n > 3)
       .sort((a,b) => b[1].n - a[1].n)
   }
 
