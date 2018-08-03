@@ -4,8 +4,8 @@ class WebhookBlobConverter
 
   def convert_slowly!
     loop do
-      convert_first_blob_for_each_user((rand * 3).minutes)
-      duration = (40 + rand*30).minutes
+      convert_first_blob_for_each_user(rand.minutes)
+      duration = (5 + rand*5).minutes
       puts "Sleeping for #{duration/60} minutes"
       sleep duration
     end
@@ -24,7 +24,7 @@ class WebhookBlobConverter
   end
 
   def first_blob_for_each_user
-    blobs_to_convert = WebhookBlob.where(converted_at: nil).select(&:valid_blob?)
+    blobs_to_convert = WebhookBlob.where(converted_at: nil).select(&:valid_blob?).shuffle
     blobs_to_convert.group_by {|w| w.p1_name }.map do |name, blobs|
       [name, blobs.first]
     end
