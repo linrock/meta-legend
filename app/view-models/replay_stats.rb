@@ -20,7 +20,7 @@ class ReplayStats
       if outcome.player1_won?
         stats[p1_arch_id][:wins] += 1
         stats[p2_arch_id][:losses] += 1
-      else
+      elsif outcome.player2_won?
         stats[p1_arch_id][:losses] += 1
         stats[p2_arch_id][:wins] += 1
       end

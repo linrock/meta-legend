@@ -9,6 +9,12 @@ class WebhookBlob < ApplicationRecord
            :to_replay_data,
            to: :webhook_blob_parser
 
+  def self.arena
+    all.select do |b|
+      JSON.parse(b.blob)["data"]["global_game"]["game_type"] == 3
+    end
+  end
+
   def create_replay_outcome!
     if converted_at.present?
       logger.info "webhook #{id} already converted. Exiting."

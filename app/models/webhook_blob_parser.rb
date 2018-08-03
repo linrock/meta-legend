@@ -70,6 +70,8 @@ class WebhookBlobParser
       'p1'
     elsif json_data.dig("opposing_player", "final_state") == 5
       'p2'
+    elsif !json_data["won"].nil?
+      json_data["won"] ? 'p1' : 'p2'
     else
       nil
     end
