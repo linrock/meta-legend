@@ -178,11 +178,7 @@
             if (data.page === 1) {
               this.setReplays(data.replays)
               this.setPageTitle(data.route || {})
-              if (data.replays_count === data.page_size) {
-                this.enableInfiniteScroll()
-              } else {
-                this.disableInfiniteScroll()
-              }
+              this.enableInfiniteScroll()
               this.backToTop()
             } else {
               this.$store.dispatch(`addReplays`, data.replays)
