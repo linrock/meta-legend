@@ -15,6 +15,19 @@ class Archetype < ApplicationRecord
     end
   end
 
+  def self.create_from_archetypes_json!
+    json_archetypes = open("data/archetypes.json", "r") do |f|
+      JSON.parse(f.read)
+    end
+    json_archetypes.each do |arch_data|
+      arch_id = arch_data["id"]
+      archetype = Archetype.find_by_archetype_id arch_id
+      next if archetype.present?
+      archetype = Archetype.new(data: arch_data)
+      archetype.save!
+    end
+  end
+
   def self.find_by_archetype_id(id)
     find_by("data ->> 'id' = ?", id.to_s)
   end
