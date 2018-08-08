@@ -1,15 +1,20 @@
 # Given a set of hsreplay_card_ids, find the most-likely archetype matches
 
+require 'set'
+
 class ArchetypeMatcher
+  IGNORED_ARCHETYPES = Set.new([177])
 
   def initialize(card_ids)
     @card_ids = card_ids
   end
 
   def top_matches
-    all_matches.sort_by do |data|
-      -data[:percent_match]
-    end.take(5)
+    all_matches
+      .select {|data| !IGNORED_ARCHETYPES.include?(data[:id]) }
+      .sort_by do |data|
+        -data[:percent_match]
+      end.take(5)
   end
 
   def all_matches
