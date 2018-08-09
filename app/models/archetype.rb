@@ -28,6 +28,10 @@ class Archetype < ApplicationRecord
     end
   end
 
+  def self.find_by_name(archetype_name)
+    find_by("LOWER(data ->> 'name') = ?", archetype_name.downcase)
+  end
+
   def self.find_by_archetype_id(id)
     find_by("data ->> 'id' = ?", id.to_s)
   end
@@ -41,7 +45,7 @@ class Archetype < ApplicationRecord
   end
 
   def self.id_by_archetype_name(archetype_name)
-    find_by("LOWER(data ->> 'name') = ?", archetype_name.downcase).data["id"]
+    find_by_name(archetype_name).data["id"]
   end
 
   def self.ids_by_class_name(class_name)

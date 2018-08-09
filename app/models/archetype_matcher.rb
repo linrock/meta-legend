@@ -8,6 +8,7 @@ class ArchetypeMatcher
   def initialize(card_ids, class_name)
     @card_ids = card_ids
     @class_name = class_name
+    @archetype_match = ArchetypeDefinitions.new(card_ids, class_name).archetype_match
   end
 
   def top_match
@@ -15,6 +16,12 @@ class ArchetypeMatcher
   end
 
   def top_matches
+    [
+      @archetype_match && {
+        id: @archetype_match.data["id"],
+        name: @archetype_match.data["name"]
+      }
+    ].compact +
     all_matches
       .select {|data| !IGNORED_ARCHETYPES.include?(data[:id]) }
       .sort_by do |data|
