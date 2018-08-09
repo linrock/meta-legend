@@ -22,7 +22,7 @@ class ArchetypeImporter
   end
 
   def import!
-    data = fetch!
+    data = JSON.pretty_generate(json_data).to_s
     open("data/archetypes.json", 'w') do |f|
       f.write data
     end
@@ -32,8 +32,12 @@ class ArchetypeImporter
     open(API_ENDPOINT).read
   end
 
+  def json_data
+    JSON.parse(fetch!).sort_by {|arch| arch["id"] }
+  end
+
   def hsreplay_archetypes
     return @hsreplay_archetypes if defined? @hsreplay_archetypes
-    @hsreplay_archetypes = JSON.parse(fetch!).sort_by {|arch| arch["id"] }
+    @hsreplay_archetypes = json_data
   end
 end
