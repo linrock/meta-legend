@@ -34,6 +34,6 @@ class ArchetypeImporter
 
   def hsreplay_archetypes
     return @hsreplay_archetypes if defined? @hsreplay_archetypes
-    @hsreplay_archetypes = JSON.parse(fetch!)
+    @hsreplay_archetypes = JSON.parse(fetch!).sort_by {|arch| arch["id"] }
   end
 end

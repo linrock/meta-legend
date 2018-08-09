@@ -5,8 +5,9 @@ require 'set'
 class ArchetypeMatcher
   IGNORED_ARCHETYPES = Set.new([177])
 
-  def initialize(card_ids)
+  def initialize(card_ids, class_name)
     @card_ids = card_ids
+    @class_name = class_name
   end
 
   def top_matches
@@ -19,6 +20,7 @@ class ArchetypeMatcher
 
   def all_matches
     Archetype.all.map do |archetype|
+      next unless @class_name.present? && archetype.class_name == @class_name
       components = archetype.data.dig(
         "standard_ccp_signature_core",
         "components"

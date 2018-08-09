@@ -3,8 +3,8 @@ class WebhookBlob < ApplicationRecord
            :friendly_deck_card_ids,
            :opposing_deck_predicted_card_ids,
            :opposing_deck_card_ids,
-           :p1_name, :p1_rank, :p1_legend_rank,
-           :p2_name, :p2_rank, :p2_legend_rank,
+           :p1_name, :p1_class_name, :p1_rank, :p1_legend_rank,
+           :p2_name, :p2_class_name, :p2_rank, :p2_legend_rank,
            :num_turns, :winner, :valid_blob?,
            :to_replay_data,
            to: :webhook_blob_parser
@@ -76,12 +76,12 @@ class WebhookBlob < ApplicationRecord
   end
 
   def friendly_archetype_matches
-    ArchetypeMatcher.new(friendly_deck_card_ids).top_matches
+    ArchetypeMatcher.new(friendly_deck_card_ids, p1_class_name).top_matches
   end
 
   def opposing_archetype_matches
     card_ids = (opposing_deck_predicted_card_ids || opposing_deck_card_ids)
-    ArchetypeMatcher.new(card_ids).top_matches
+    ArchetypeMatcher.new(card_ids, p2_class_name).top_matches
   end
 
   private

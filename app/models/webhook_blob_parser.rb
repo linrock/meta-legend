@@ -41,6 +41,10 @@ class WebhookBlobParser
     json_data.dig("friendly_player", "name")
   end
 
+  def p1_class_name
+    json_data.dig("friendly_player", "hero_class_name")&.capitalize
+  end
+
   def p1_rank
     json_data.dig("friendly_player", "rank")
   end
@@ -51,6 +55,10 @@ class WebhookBlobParser
 
   def p2_name
     json_data.dig("opposing_player", "name")
+  end
+
+  def p2_class_name
+    json_data.dig("opposing_player", "hero_class_name")&.capitalize
   end
 
   def p2_rank
