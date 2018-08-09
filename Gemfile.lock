@@ -42,10 +42,6 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.5.2)
-      public_suffix (>= 2.0.2, < 4.0)
-    archive-zip (0.11.0)
-      io-like (~> 0.3.0)
     arel (9.0.0)
     bindex (0.5.0)
     bootsnap (1.3.0)
@@ -53,13 +49,6 @@ GEM
     bugsnag (6.7.3)
       concurrent-ruby (~> 1.0)
     builder (3.2.3)
-    capybara (3.1.0)
-      addressable
-      mini_mime (>= 0.1.3)
-      nokogiri (~> 1.8)
-      rack (>= 1.6.0)
-      rack-test (>= 0.6.3)
-      xpath (~> 3.0)
     celluloid (0.17.3)
       celluloid-essentials
       celluloid-extras
@@ -81,16 +70,12 @@ GEM
       timers (>= 4.1.1)
     celluloid-supervision (0.20.6)
       timers (>= 4.1.1)
-    childprocess (0.9.0)
-      ffi (~> 1.0, >= 1.0.11)
-    chromedriver-helper (1.2.0)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.2)
     crass (1.0.4)
     dalli (2.7.8)
+    diff-lcs (1.3)
     dotenv (2.4.0)
     dotenv-rails (2.4.0)
       dotenv (= 2.4.0)
@@ -112,7 +97,6 @@ GEM
     hitimes (1.2.6)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
-    io-like (0.3.0)
     jwt (1.5.6)
     kostya-sigar (2.0.4)
     libv8 (6.3.292.48.1)
@@ -160,7 +144,6 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    public_suffix (3.0.2)
     puma (3.11.4)
     rack (2.0.5)
     rack-protection (2.0.2)
@@ -198,8 +181,24 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     redis (4.0.1)
+    rspec-core (3.8.0)
+      rspec-support (~> 3.8.0)
+    rspec-expectations (3.8.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.8.0)
+    rspec-mocks (3.8.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.8.0)
+    rspec-rails (3.8.0)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 3.8.0)
+      rspec-expectations (~> 3.8.0)
+      rspec-mocks (~> 3.8.0)
+      rspec-support (~> 3.8.0)
+    rspec-support (3.8.0)
     ruby_dep (1.5.0)
-    rubyzip (1.2.1)
     sass (3.5.6)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -211,9 +210,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.12.0)
-      childprocess (~> 0.5)
-      rubyzip (~> 1.2)
     sidekiq (5.1.3)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -248,8 +244,6 @@ GEM
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
-    xpath (3.0.0)
-      nokogiri (~> 1.8)
 
 PLATFORMS
   ruby
@@ -257,8 +251,6 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.1.0)
   bugsnag
-  capybara (>= 2.15, < 4.0)
-  chromedriver-helper
   dalli (~> 2.7)
   dotenv-rails
   eye
@@ -270,8 +262,8 @@ DEPENDENCIES
   pry
   puma (~> 3.11)
   rails (~> 5.2.0)
+  rspec-rails
   sass-rails (~> 5.0)
-  selenium-webdriver
   sidekiq
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
