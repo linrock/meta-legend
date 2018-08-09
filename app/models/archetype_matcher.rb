@@ -10,6 +10,10 @@ class ArchetypeMatcher
     @class_name = class_name
   end
 
+  def top_match
+    top_matches.first
+  end
+
   def top_matches
     all_matches
       .select {|data| !IGNORED_ARCHETYPES.include?(data[:id]) }
