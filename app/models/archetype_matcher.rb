@@ -3,7 +3,13 @@
 require 'set'
 
 class ArchetypeMatcher
-  IGNORED_ARCHETYPES = Set.new([177])
+  IGNORED_ARCHETYPES = Set.new([
+    "Barnes Hunter",
+    "C'Thun Druid",
+    "C'Thun Warrior",
+    "Prince Warlock",
+    "Handlock",
+  ])
 
   def initialize(card_ids, class_name)
     @card_ids = card_ids
@@ -23,7 +29,7 @@ class ArchetypeMatcher
       }
     ].compact +
     all_matches
-      .select {|data| !IGNORED_ARCHETYPES.include?(data[:id]) }
+      .select {|data| !IGNORED_ARCHETYPES.include?(data[:name]) }
       .sort_by do |data|
         -data[:percent_match]
       end.take(5)
