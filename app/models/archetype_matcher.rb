@@ -7,8 +7,13 @@ class ArchetypeMatcher
     "Barnes Hunter",
     "C'Thun Druid",
     "C'Thun Warrior",
+    "N'Zoth Priest",
+    "N'Zoth Rogue",
+    "N'Zoth Mage",
+    "N'Zoth Paladin",
     "Prince Warlock",
     "Handlock",
+    "Jade Druid",
   ])
 
   def initialize(card_ids, class_name)
