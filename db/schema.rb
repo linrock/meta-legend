@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_26_083634) do
+ActiveRecord::Schema.define(version: 2018_08_10_080141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 2018_07_26_083634) do
     t.string "twitch_username"
     t.string "forum_username"
     t.boolean "is_legend"
+    t.text "description"
     t.index "lower((forum_username)::text)", name: "index_users_on_lowercase_forum_username", unique: true
     t.index ["battletag"], name: "index_users_on_battletag", unique: true
   end
