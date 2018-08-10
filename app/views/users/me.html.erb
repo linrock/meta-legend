@@ -11,14 +11,6 @@
     <div class="field-value"><%= @user.is_legend? ? "Verified" : "not started "%></div>
   </div>
 
-  <% if @user.is_legend? %>
-    <div style="margin-top: 20px">
-      You have access to the private <a href="/forum/legend-lounge">Legend Lounge</a> forum.
-    </div>
-  <% end %>
-
-  <br><br>
-
   <% if @user.forum_username.present? %>
     <div class="field">
       <div class="field-name">Forum username:</div>
@@ -54,6 +46,14 @@
                 options_for_select(User::BNET_REGIONS, selected: @user.region),
                 include_blank: true %>
         </div>
+      </div>
+
+      <br><br>
+
+      <div class="user-description">
+        Write something about yourself
+        <br><br>
+        <input type="text" name="user[description]" value="<%= @user.description %>"/>
       </div>
     </div>
     <input type="submit" value="Save"/>
