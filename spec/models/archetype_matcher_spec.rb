@@ -22,4 +22,19 @@ describe ArchetypeMatcher, type: :model do
     )
     expect(matcher.top_match[:name]).to eq('Deathrattle Rogue')
   end
+
+  it 'matches mechathun priest' do
+    matcher = ArchetypeMatcher.new(["BOT_424"], 'Priest')
+    expect(matcher.top_match[:name]).to eq("Mecha'thun Priest")
+  end
+
+  it 'matches mechathun warlock' do
+    matcher = ArchetypeMatcher.new(["BOT_424"], 'Warlock')
+    expect(matcher.top_match[:name]).to eq("Mecha'thun Warlock")
+  end
+
+  it 'matches mechathun druid' do
+    matcher = ArchetypeMatcher.new(["BOT_424"], 'Druid')
+    expect(matcher.top_match[:name]).to eq("Mecha'thun Druid")
+  end
 end

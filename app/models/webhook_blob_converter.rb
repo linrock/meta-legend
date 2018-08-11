@@ -5,7 +5,7 @@ class WebhookBlobConverter
   def reconvert_recent!
     n_changed = 0
     n_total = 0
-    WebhookBlob.order('id DESC').limit(1000).each do |wb|
+    WebhookBlob.order('id DESC').limit(10000).each do |wb|
       hsreplay_id = wb.hsreplay_id
       ro = ReplayOutcome.find_by(hsreplay_id: hsreplay_id)
       next unless ro.present?

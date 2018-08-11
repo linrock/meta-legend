@@ -8,10 +8,21 @@ class ArchetypeDefinitions
   end
 
   def archetype_match
+    name = archetype_name
+    name && Archetype.find_by_name(name)
+  end
+
+  def archetype_name
     if @class_name == "Rogue"
       deathrattle_card_ids = ["UNG_083", "BOT_286", "LOOT_161", "BOT_508"]
       if (@deck_card_ids & deathrattle_card_ids).length >= 2
-        Archetype.find_by_name "Deathrattle Rogue"
+        "Deathrattle Rogue"
+      end
+    elsif @deck_card_ids.include?("BOT_424")
+      case @class_name
+        when "Priest" then "Mecha'thun Priest"
+        when "Warlock" then "Mecha'thun Warlock"
+        when "Druid" then "Mecha'thun Druid"
       end
     end
   end
