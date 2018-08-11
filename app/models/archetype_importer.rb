@@ -28,12 +28,12 @@ class ArchetypeImporter
     end
   end
 
-  def fetch!
+  def fetch
     open(API_ENDPOINT).read
   end
 
   def json_data
-    JSON.parse(fetch!).sort_by {|arch| arch["id"] }
+    JSON.parse(fetch).sort_by {|arch| arch["id"] }
   end
 
   def hsreplay_archetypes
