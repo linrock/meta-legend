@@ -14,6 +14,7 @@ class WebhookBlobConverter
         puts "id: #{ro.id}"
         pp ro.data
         ro.save!
+        ro.extract_and_save_data
         n_changed += 1
       end
       n_total += 1
