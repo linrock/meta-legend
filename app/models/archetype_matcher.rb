@@ -16,6 +16,21 @@ class ArchetypeMatcher
     "Jade Druid",
   ])
 
+  def self.match_hsreplay_id(hsreplay_id)
+    game_api_response = ReplayGameApiResponse.find_by(hsreplay_id: hsreplay_id)
+    {
+      p1: ArchetypeMatcher.new(
+        game_api_response.friendly_deck["cards"],
+        game_api_response.friendly_class_name
+      ).top_matches,
+      p2: ArchetypeMatcher.new(
+        (game_api_response.opposing_deck["predicted_cards"] ||
+        game_api_response.opposing_deck["cards"]),
+        game_api_response.opposing_class_name
+      ).top_matches
+    }
+  end
+
   def initialize(card_ids, class_name)
     @card_ids = card_ids
     @class_name = class_name

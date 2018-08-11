@@ -9,6 +9,10 @@ class ReplayGameApiResponse < ApplicationRecord
     .order("data -> 'global_game' -> 'match_end' DESC")
   end
 
+  def friendly_deck
+    data["friendly_deck"]
+  end
+
   def opposing_deck
     data["opposing_deck"]
   end
