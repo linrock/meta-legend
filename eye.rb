@@ -36,6 +36,14 @@ Eye.application 'meta-legend' do
     stop_signals     [:TERM, 1.second, :KILL]
   end
 
+  process :webhooks do
+    daemonize        true
+    pid_file         'tmp/pids/eye.webhooks.pid'
+    stdall           'log/webhook_blob_converter.log'
+    start_command    procfile_commands[:webhooks]
+    stop_signals     [:TERM, 1.second, :KILL]
+  end
+
   process :puma do
     daemonize        true
     pid_file         'tmp/pids/eye.puma.pid'

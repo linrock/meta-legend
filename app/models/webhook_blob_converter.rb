@@ -24,7 +24,8 @@ class WebhookBlobConverter
     puts "#{n_changed} from #{n_total}"
   end
 
-  def convert_slowly!
+  # convert all submitted webhook blobs while waiting between conversions
+  def convert_slowly
     loop do
       convert_first_blob_for_each_user(rand.minutes)
       duration = (5 + rand*5).minutes
