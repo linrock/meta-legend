@@ -11,6 +11,7 @@ class ArchetypeMatcher
     "N'Zoth Rogue",
     "N'Zoth Mage",
     "N'Zoth Paladin",
+    "Demon Warlock",
     "Prince Warlock",
     "Handlock",
     "Jade Druid",
