@@ -64,9 +64,9 @@
       this.$store.dispatch(`setInitialData`, legendStats)
 
       let path = this.$route.params.path || `/`
-      if ([`top-100`, `top-1000`].includes(path)) {
+      if ([`top-100`, `top-500`, `top-1000`].includes(path)) {
         this.$store.dispatch(`setRankFilter`, path)
-        path = path.replace(/(top-1000|top-100)\/?/, '')
+        path = path.replace(/(top-1000|top-500|top-100)\/?/, '')
       } else if ([`americas`, `europe`, `asia`].includes(path)) {
         this.$store.dispatch(`setRegionOption`, path)
         path = path.replace(/(americas|europe|asia)\/?/, '')
@@ -79,9 +79,9 @@
          this.$store.dispatch(`setRankFilter`, filter)
          this.$store.dispatch(`setRegionOption`, filter2)
       } else if (filter) {
-        if ([`top-100`, `top-1000`].includes(filter)) {
+        if ([`top-100`, `top-500`, `top-1000`].includes(filter)) {
           this.$store.dispatch(`setRankFilter`, filter)
-          path = path.replace(/(top-1000|top-100)\/?/, '')
+          path = path.replace(/(top-1000|top-500|top-100)\/?/, '')
         } else if ([`americas`, `europe`, `asia`].includes(filter)) {
           this.$store.dispatch(`setRegionOption`, filter)
           path = path.replace(/(americas|europe|asia)\/?/, '')
@@ -223,7 +223,7 @@
     watch: {
       $route(to, from) {
         let path = to.params.path || `/`
-        if ([`top-100`, `top-1000`, `americas`, `europe`, `asia`].includes(path)) {
+        if ([`top-100`, `top-500`, `top-1000`, `americas`, `europe`, `asia`].includes(path)) {
           path = `/`
         }
         this.$store.dispatch(`setPath`, path)

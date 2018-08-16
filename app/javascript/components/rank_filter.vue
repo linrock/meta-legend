@@ -4,6 +4,7 @@
       option(disabled name="") games played by
       option(value="all") all legend players
       option(value="top-1000") top 1000 players
+      option(value="top-500") top 500 players
       option(value="top-100") top 100 players
 
 </template>

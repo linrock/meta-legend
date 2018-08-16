@@ -18,7 +18,7 @@ class RepeatingTasks
       cache.archetypes_map!
       route_map = RouteMap.new
       route_map.to_hash!
-      [nil, "top-100", "top-1000"].each do |rank|
+      [nil, "top-100", "top-500", "top-1000"].each do |rank|
         [nil, "americas", "europe", "asia"].each do |region|
           ReplayStatsCache.new.legend_stats! rank, region
         end

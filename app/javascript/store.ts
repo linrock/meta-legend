@@ -11,7 +11,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     path: `/`,       // class path    = rogue, paladin, etc.
-    rank: `all`,     // rank filter   = all, top-100, top-1000
+    rank: `all`,     // rank filter   = all, top-100, top-500, top-1000
     region: `all`,   // region filter = all, us, eu, sea
     page: 1,
     currentCard: null,

@@ -185,7 +185,7 @@
     watch: {
       $route(to, from) {
         let path = to.params.path || `/`
-        if ([`top-100`, `top-1000`, `americas`, `europe`, `asia`].includes(path)) {
+        if ([`top-100`, `top-500`, `top-1000`, `americas`, `europe`, `asia`].includes(path)) {
           path = `/`
         }
         this.$store.dispatch(`setPath`, path)

@@ -22,6 +22,8 @@ class DecksController < ApplicationController
   def get_filter(path)
     if path =~ /top-1000/
       "top-1000"
+    elsif path =~ /top-500/
+      "top-500"
     elsif path =~ /top-100/
       "top-100"
     end
@@ -30,6 +32,8 @@ class DecksController < ApplicationController
   def get_player_desc(path)
     if path =~ /top-1000/
       "the top 1000"
+    elsif path =~ /top-500/
+      "the top 500"
     elsif path =~ /top-100/
       "the top 100"
     else

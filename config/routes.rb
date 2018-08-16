@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # header links
   get "/decks"                     => "decks#index"
   get "/decks/top-1000"            => "decks#index"
+  get "/decks/top-500"             => "decks#index"
   get "/decks/top-100"             => "decks#index"
 
   # forum home
@@ -53,7 +54,7 @@ Rails.application.routes.draw do
   # catch-all routes for homepage
   constraints = {
     region: /(americas|europe|asia)/,
-    rank: /top-1000?/
+    rank: /(top-1000?|top-500)/
   }
 
   %w(

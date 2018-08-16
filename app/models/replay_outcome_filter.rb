@@ -1,5 +1,5 @@
 class ReplayOutcomeFilter
-  FILTERS = %w( all top-100 top-1000 )
+  FILTERS = %w( all top-100 top-500 top-1000 )
   REGIONS = %w( all americas europe asia )
 
   def self.get_rank_filter(filter)

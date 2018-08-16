@@ -70,6 +70,7 @@ class ReplayStatsCache
     end
     case rank
       when "top-1000" then replay_outcomes = replay_outcomes.top_legend(1000)
+      when "top-500" then replay_outcomes = replay_outcomes.top_legend(500)
       when "top-100" then replay_outcomes = replay_outcomes.top_legend(100)
     end
     case region

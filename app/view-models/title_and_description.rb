@@ -42,6 +42,7 @@ class TitleAndDescription
   def rank_type
     case @params[:rank]
     when "top-1000" then "top 1000"
+    when "top-500" then "top 500"
     when "top-100" then "top 100"
     else "legend-rank"
     end

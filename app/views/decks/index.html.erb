@@ -13,6 +13,10 @@
         <div class="current">Top 1000</div>
       <% end %>
       <div class="separator">&mdash;</div>
+      <%= link_to_unless_current "Top 500", "/decks/top-500" do %>
+        <div class="current">Top 500</div>
+      <% end %>
+      <div class="separator">&mdash;</div>
       <%= link_to_unless_current "Top 100",  "/decks/top-100" do %>
         <div class="current">Top 100</div>
       <% end %>
@@ -23,6 +27,8 @@
     Stats calculated from <%= @count %> games played between
     <% if @filter == "top-1000" %>
       top 1000
+    <% elsif @filter == "top-500" %>
+      top 500
     <% elsif @filter == "top-100" %>
       top 100
     <% else %>

@@ -29,6 +29,7 @@ class ReplayOutcomeCache
       .with_xml_data
     case options[:rank]
       when "top-100" then replay_query = replay_query.top_legend(100)
+      when "top-500" then replay_query = replay_query.top_legend(500)
       when "top-1000" then replay_query = replay_query.top_legend(1000)
     end
     case options[:region]
