@@ -18,7 +18,11 @@ class ArchetypeDefinitions
       if (@deck_card_ids & deathrattle_card_ids).length >= 2
         "Deathrattle Rogue"
       end
-    elsif @deck_card_ids.include?("BOT_424")
+    elsif @class_name == "Hunter"
+      if @deck_card_ids.include?("BOT_573") # Subject 9
+        "Secret Hunter"
+      end
+    elsif @deck_card_ids.include?("BOT_424") # Mecha'thun
       case @class_name
         when "Priest" then "Mecha'thun Priest"
         when "Warlock" then "Mecha'thun Warlock"

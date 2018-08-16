@@ -37,4 +37,9 @@ describe ArchetypeMatcher, type: :model do
     matcher = ArchetypeMatcher.new(["BOT_424"], 'Druid')
     expect(matcher.top_match[:name]).to eq("Mecha'thun Druid")
   end
+
+  it 'matches subject 9 to secret hunter' do
+    matcher = ArchetypeMatcher.new(["BOT_573"], 'Hunter')
+    expect(matcher.top_match[:name]).to eq("Secret Hunter")
+  end
 end
