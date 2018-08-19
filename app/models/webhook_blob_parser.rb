@@ -5,6 +5,8 @@ class WebhookBlobParser
   end
 
   def valid_blob?
+    return false if !PlayerClass::NAMES.include?(p1_class_name)
+    return false if !PlayerClass::NAMES.include?(p2_class_name)
     begin
       json_data
       hsreplay_id

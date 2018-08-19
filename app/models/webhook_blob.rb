@@ -9,6 +9,10 @@ class WebhookBlob < ApplicationRecord
            :to_replay_data,
            to: :webhook_blob_parser
 
+  def self.unconverted
+    where(converted_at: nil)
+  end
+
   def self.arena
     all.select do |b|
       JSON.parse(b.blob)["data"]["global_game"]["game_type"] == 3
