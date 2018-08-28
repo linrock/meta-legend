@@ -44,6 +44,7 @@ class ReplayXmlData < ApplicationRecord
     players = doc.xpath("//Player").map do |player|
       {
         tag: player.attr("name"),
+        rank: player.attr("rank"),
         legend_rank: player.attr("legendRank"),
       }
     end
