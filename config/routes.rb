@@ -36,7 +36,8 @@ Rails.application.routes.draw do
   # other game modes
   get "/arena"                     => "arena#index"
   get "/arena/replays.json"        => "arena#replays"
-  # get "/wild"                      => "wild#index"
+  get "/wild"                      => "wild#index"
+  get "/wild/replays.json"         => "wild#replays"
 
   # user submission routes
   post "/submit_replays"           => "users#submit_replays"

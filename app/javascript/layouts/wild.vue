@@ -1,9 +1,12 @@
 <template lang="pug">
   main
     header.container.sub-header-bg
-      class-image-selector
+      // class-image-selector
+      .subheader-description
+        | This section is a work-in-progress that shows all wild replays submitted by webhook
     article.container
       section#replays(:class="[{ loading: isLoading && isLoadingPageOne }]")
+        submit-replays
         .top-row
           h3.replay-feed-title {{ $store.state.replayFeedTitle }}
         template(v-if="$store.getters.replays.length === 0")
@@ -12,7 +15,12 @@
         .error-text(v-if="error") Failed to fetch replays :(
         .replay-feed-container
           .replay-feed
-            replay-list(:replays="$store.getters.replays")
+            .replay-list
+              replay-row(
+                v-for="replay in $store.getters.replays"
+                :key="replay.key"
+                :replay="replay"
+              )
           .bottom(ref="bottom")
             .back-to-top(
               v-if="$store.getters.currentPage > 1 && !infiniteScrollOn"
@@ -27,7 +35,7 @@
   import ClassWinrates from '../components/class_winrates'
   import RankFilter from '../components/rank_filter'
   import RegionFilter from '../components/region_filter'
-  import ReplayList from '../components/replay_list'
+  import ReplayRow from '../components/wild/replay_row'
   import Sidebar from '../components/sidebar'
   import SubmitReplays from '../components/submit_replays'
   import { trackEvent } from '../utils'
@@ -87,7 +95,6 @@
     methods: {
       setReplays(replays) {
         this.$store.dispatch(`setReplays`, replays)
-        // this.fetchReplayLikes(replays)
       },
       setPageTitle(route) {
         this.$store.dispatch(`setReplayFeedTitle`, route)
@@ -113,7 +120,7 @@
         }
       },
       apiQuery(page) {
-        let query = `/replays.json?path=${this.path || `/`}`
+        let query = `/wild/replays.json?path=${this.path || `/`}`
         if (this.rankFilter !== `all` && this.region !== `all`) {
           query = `${query}&rank=${this.rankFilter}&region=${this.region}`
         } else if (this.rankFilter !== `all`) {
@@ -156,7 +163,6 @@
               if (data.page < page || data.replays.length === 0) {
                 this.disableInfiniteScroll()
               }
-              // this.fetchReplayLikes(data.replays)
             }
           })
           .catch(error => {
@@ -171,20 +177,6 @@
             this.error = true
           })
         trackEvent('fetch replays', this.path, page)
-      },
-      fetchReplayLikes(replays) {
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        api.post(`/replays/get_likes.json`, { hsreplay_ids: replays.map(r => r.hsreplay_id) })
-          .then(response => response.data)
-          .then(data => {
-            data.replay_likes.forEach(([replayId, likeData]) => {
-              this.$store.dispatch(`setReplayLikes`, {
-                numLikes: likeData.likes,
-                liked: likeData.liked,
-                replayId,
-              })
-            })
-          })
       },
       backToTop() {
         window.scrollTo(0, 0)
@@ -210,7 +202,7 @@
       ClassWinrates,
       RankFilter,
       RegionFilter,
-      ReplayList,
+      ReplayRow,
       Sidebar,
       SubmitReplays,
     },
@@ -252,6 +244,10 @@
   section.loading
     opacity 0.5
     transition opacity 0.15s ease-in-out
+
+  .subheader-description
+    text-align center
+    padding 15px 0
 
   .loading-text
     position absolute
