@@ -19,6 +19,12 @@ class WebhookBlob < ApplicationRecord
     end
   end
 
+  def self.wild
+    all.select do |b|
+      JSON.parse(b.blob)["data"]["global_game"]["game_type"] == 30
+    end
+  end
+
   def create_replay_outcome!
     if converted_at.present?
       logger.info "webhook #{id} already converted. Exiting."
