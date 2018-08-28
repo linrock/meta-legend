@@ -47,7 +47,7 @@ class WebhookBlobConverter
   end
 
   def first_blob_for_each_user
-    blobs_to_convert = WebhookBlob.where(converted_at: nil).select(&:valid_blob?).shuffle
+    blobs_to_convert = WebhookBlob.unconverted.select(&:valid_blob?).shuffle
     blobs_to_convert.group_by {|w| w.p1_name }.map do |name, blobs|
       [name, blobs.first]
     end

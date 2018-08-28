@@ -71,6 +71,10 @@ class WebhookBlobParser
     json_data.dig("opposing_player", "legend_rank")
   end
 
+  def game_type
+    json_data.dig("global_game", "game_type")
+  end
+
   def num_turns
     json_data.dig("global_game", "num_turns")
   end

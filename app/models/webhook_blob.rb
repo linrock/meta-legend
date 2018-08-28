@@ -1,5 +1,6 @@
 class WebhookBlob < ApplicationRecord
   delegate :hsreplay_id,
+           :game_type,
            :friendly_deck_card_ids,
            :opposing_deck_predicted_card_ids,
            :opposing_deck_card_ids,
@@ -9,20 +10,21 @@ class WebhookBlob < ApplicationRecord
            :to_replay_data,
            to: :webhook_blob_parser
 
+  GAME_TYPES = {
+    arena: 3,
+    wild: 30,
+  }
+
   def self.unconverted
     where(converted_at: nil)
   end
 
   def self.arena
-    all.select do |b|
-      JSON.parse(b.blob)["data"]["global_game"]["game_type"] == 3
-    end
+    all.select {|b| b.game_type == GAME_TYPES[:arena] }
   end
 
   def self.wild
-    all.select do |b|
-      JSON.parse(b.blob)["data"]["global_game"]["game_type"] == 30
-    end
+    all.select {|b| b.game_type == GAME_TYPES[:wild] }
   end
 
   def create_replay_outcome!
