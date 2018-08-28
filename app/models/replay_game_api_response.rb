@@ -9,6 +9,11 @@ class ReplayGameApiResponse < ApplicationRecord
     .order("data -> 'global_game' -> 'match_end' DESC")
   end
 
+  scope :wild, -> do
+    where("data -> 'global_game' -> 'game_type' = '30'")
+    .order("data -> 'global_game' -> 'match_end' DESC")
+  end
+
   def friendly_deck
     data["friendly_deck"]
   end

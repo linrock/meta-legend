@@ -20,11 +20,19 @@ class WebhookBlob < ApplicationRecord
   end
 
   def self.arena
-    all.select {|b| b.game_type == GAME_TYPES[:arena] }
+    all.select(&:is_arena?)
   end
 
   def self.wild
-    all.select {|b| b.game_type == GAME_TYPES[:wild] }
+    all.select(&:is_wild?)
+  end
+
+  def is_arena?
+    game_type == GAME_TYPES[:arena]
+  end
+
+  def is_wild?
+    game_type == GAME_TYPES[:wild]
   end
 
   def create_replay_outcome!
