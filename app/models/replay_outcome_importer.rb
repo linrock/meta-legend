@@ -48,7 +48,12 @@ class ReplayOutcomeImporter
           data: replay_data
         )
         if replay_outcome.valid?
-          replay_outcome.save!
+          begin
+            replay_outcome.save!
+          rescue
+            logger.error "#{hsreplay_id} is invalid #{replay_data.to_json}"
+            break
+          end
           if replay_outcome.legend_game?
             legend_saved += 1
           end
