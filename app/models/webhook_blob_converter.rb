@@ -42,7 +42,7 @@ class WebhookBlobConverter
     end
     blobs.map {|row| row[1] }.shuffle.each do |blob|
       blob.convert!
-      if blob.is_arena?
+      if blob.is_arena? or blob.is_wild?
         # TODO centralize replay data fetching between different game types
         FetchReplayDataJob.perform_async(blob.hsreplay_id)
       end
