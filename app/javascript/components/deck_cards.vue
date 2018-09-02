@@ -35,6 +35,9 @@
       dustCost: {
         type: Number,
       },
+      partial: {
+        type: Boolean,
+      },
       predicted: {
         type: Boolean,
       },
@@ -71,6 +74,8 @@
         let title = `${this.player.name}'s`
         if (this.predicted) {
           title = `${title} predicted`
+        } else if (this.partial) {
+          title = `${title} partial`
         }
         return `${title} deck`
       }

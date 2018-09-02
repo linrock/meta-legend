@@ -33,6 +33,14 @@
         :predicted="true"
         :cards="replay.opposingDeckPredictedCards"
       )
+    template(v-else)
+      deck-cards(
+        v-if="replay.opposingDeckCards.length > 0"
+        :player="replay.p2"
+        :partial="true"
+        :cards="replay.opposingDeckCards"
+      )
+
 </template>
 
 <script lang="ts">
