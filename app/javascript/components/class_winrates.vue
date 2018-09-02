@@ -1,6 +1,10 @@
 <template lang="pug">
-  .class-winrates
-    .winrate(v-for="([path, route]) in $store.getters.classArray") {{ route.winrate }}%
+  .class-stats
+    .class-stat(v-for="([path, route]) in $store.getters.classArray")
+      .n-games {{ route.n }} games
+      .winrate
+        span(v-if="route.n > 0") {{ route.winrate }}%
+        span(v-else) &nbsp;
 
 </template>
 
@@ -9,17 +13,24 @@
 </script>
 
 <style lang="stylus" scoped>
-  .class-winrates
+  .class-stats
     width 750px
     display flex
     flex-wrap wrap
     justify-content space-between
     align-items center
 
-    .winrate
-      opacity 0.5
+    .class-stat
       width 77px
       text-align center
+
+    .n-games
+      font-size 12px
+      margin-bottom 8px
+      opacity 0.5
+
+    .winrate
+      opacity 0.5
 
     .stats-row
       display flex

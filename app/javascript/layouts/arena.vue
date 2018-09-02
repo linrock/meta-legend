@@ -89,7 +89,6 @@
     methods: {
       setReplays(replays) {
         this.$store.dispatch(`setReplays`, replays)
-        // this.fetchReplayLikes(replays)
       },
       setPageTitle(route) {
         this.$store.dispatch(`setReplayFeedTitle`, route)
@@ -162,20 +161,6 @@
             this.error = true
           })
         trackEvent('fetch replays', this.path, page)
-      },
-      fetchReplayLikes(replays) {
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        api.post(`/replays/get_likes.json`, { hsreplay_ids: replays.map(r => r.hsreplay_id) })
-          .then(response => response.data)
-          .then(data => {
-            data.replay_likes.forEach(([replayId, likeData]) => {
-              this.$store.dispatch(`setReplayLikes`, {
-                numLikes: likeData.likes,
-                liked: likeData.liked,
-                replayId,
-              })
-            })
-          })
       },
       backToTop() {
         window.scrollTo(0, 0)
