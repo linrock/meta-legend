@@ -8,6 +8,5 @@ class FetchReplayDataJob
     importer.import
     importer = ReplayGameApiResponseImporter.new(hsreplay_id)
     importer.import
-    # CacheReplayDataJob.perform_async(hsreplay_id)
   end
 end
