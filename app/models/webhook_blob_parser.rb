@@ -5,6 +5,11 @@ class WebhookBlobParser
   end
 
   def valid_blob?
+    begin
+      JSON.parse(@data)
+    rescue
+      return false
+    end
     return false if !PlayerClass::NAMES.include?(p1_class_name)
     return false if !PlayerClass::NAMES.include?(p2_class_name)
     begin
