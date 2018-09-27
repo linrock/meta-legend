@@ -97,7 +97,7 @@ class ReplayStats
 
   # counts the number of games submitted via webhooks
   def top_webhook_submitters
-    names = WebhookBlob.select(&:valid?).map { |blob| blob.p1_name }
+    names = WebhookBlob.select(&:valid?).map { |blob| blob.p1_name rescue nil }.compact
     names.group_by(&:to_s).map {|k,v| [k,v.length] }.sort_by {|_, v| -v }
   end
 
