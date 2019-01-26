@@ -12,28 +12,32 @@ class RepeatingTasks
   end
 
   def calculate_legend_stats
-    loop do
-      t0 = Time.now
-      cache = ArchetypeCache.new
-      cache.archetypes_map!
-      route_map = RouteMap.new
-      route_map.to_hash!
-      [nil, "top-100", "top-500", "top-1000"].each do |rank|
-        [nil, "americas", "europe", "asia"].each do |region|
-          ReplayStatsCache.new.legend_stats! rank, region
+    ActiveRecord::Base.logger.silence do
+      loop do
+        t0 = Time.now
+        cache = ArchetypeCache.new
+        cache.archetypes_map!
+        route_map = RouteMap.new
+        route_map.to_hash!
+        [nil, "top-100", "top-500", "top-1000"].each do |rank|
+          [nil, "americas", "europe", "asia"].each do |region|
+            ReplayStatsCache.new.legend_stats! rank, region
+          end
         end
+        logger.info "#{Time.now - t0}s to refresh archetype + legend stats caches"
+        sleep 15.minutes
       end
-      logger.info "#{Time.now - t0}s to refresh archetype + legend stats caches"
-      sleep 15.minutes
     end
   end
 
   def warm_json_response_caches
-    loop do
-      t0 = Time.now
-      JsonResponseCache.warm_all_caches!
-      logger.info "#{Time.now - t0}s to refresh json caches"
-      sleep 2.minutes
+    ActiveRecord::Base.logger.silence do
+      loop do
+        t0 = Time.now
+        JsonResponseCache.warm_all_caches!
+        logger.info "#{Time.now - t0}s to refresh json caches"
+        sleep 2.minutes
+      end
     end
   end
 
