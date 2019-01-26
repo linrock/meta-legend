@@ -1,9 +1,11 @@
+# Finds and verifies legend players from recent replay data
+
 class LegendFinder
 
   def find_legends
     battletags = User.pluck(:battletag)
     seen_legend_tags = Set.new
-    ReplayXmlData.pluck(:extracted_data).map do |data|
+    ReplayXmlData.order('id DESC').limit(10000).pluck(:extracted_data).map do |data|
       next unless data.present?
       [data['p1']['tag'], data['p2']['tag']].compact.each do |tag|
         seen_legend_tags.add tag
