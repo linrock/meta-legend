@@ -1,0 +1,1 @@
+HearthstoneCardImporter.import!
