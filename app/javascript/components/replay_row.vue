@@ -9,7 +9,7 @@
         .win-indicator
           svg.crown(v-if="replay.winner === `p1`")
             use(xlink:href="#crown")
-        div {{ replay.p1.name }}
+        .name {{ replay.p1.name }}
       .archetype(:class="[{ [p1Color]: p1Highlight }]")
         | {{ replay.p1.deckType }}
     player-rank(:player="replay.p1")
@@ -17,7 +17,7 @@
     player-rank(:player="replay.p2")
     .player.player2
       .player-name
-        div {{ replay.p2.name }}
+        .name {{ replay.p2.name }}
         .win-indicator
           svg.crown(v-if="replay.winner === `p2`")
             use(xlink:href="#crown")
@@ -141,6 +141,9 @@
       display flex
       margin-bottom 7px
       flex-direction row
+
+      .name
+        transition color 0.2s ease
 
   .archetype
     font-size 15px
