@@ -67,14 +67,16 @@
       const replays = replayData.replays
       if (replays && replays.length > 0 && replayData.path === path) {
         this.setReplays(replays)
+        this.enableInfiniteScroll()
       } else {
         this.fetchReplays()
       }
-      const route = replayData.route || this.$store.getters.currentRoute
-      this.enableInfiniteScroll()
       this.scrollPoller = setInterval(() => {
+        if (!this.infiniteScrollOn) {
+          return
+        }
         const d = this.distanceFromBottom()
-        if (d < infScroll.triggerDistance && !this.isLoading && this.infiniteScrollOn) {
+        if (d < infScroll.triggerDistance && !this.isLoading) {
           this.fetchReplays(this.$store.getters.currentPage + 1)
         }
       }, infScroll.pollInterval)
@@ -152,11 +154,7 @@
             if (data.page === 1) {
               this.setReplays(data.replays)
               this.setPageTitle(data.route || {})
-              if (data.replays_count === data.page_size) {
-                this.enableInfiniteScroll()
-              } else {
-                this.disableInfiniteScroll()
-              }
+              this.enableInfiniteScroll()
               this.backToTop()
             } else {
               this.$store.dispatch(`addReplays`, data.replays)
