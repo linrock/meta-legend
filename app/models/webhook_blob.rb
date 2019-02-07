@@ -62,7 +62,6 @@ class WebhookBlob < ApplicationRecord
       self.save!
     end
   end
-  alias convert! create_replay_outcome!
 
   def to_replay_outcome_data
     {
