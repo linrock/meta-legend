@@ -1,6 +1,5 @@
 # Creates or updates replay data for an hsreplay id from:
 # ReplayOutcome
-# ReplayHtmlData
 # ReplayXmlData
 # ReplayGameApiResponse
 
@@ -16,7 +15,6 @@ class CombinedReplayDataMigrator
   def check_data
     {
       replay_outcome: ro.present?,
-      replay_html: rh.present?,
       replay_xml: rx.present?,
       replay_game_api_response: rg.present?
     }
@@ -24,7 +22,6 @@ class CombinedReplayDataMigrator
 
   def migrate!
     extract_replay_outcome_data
-    extract_html_data
     extract_xml_data
     extract_game_api_data
   end
@@ -40,11 +37,6 @@ class CombinedReplayDataMigrator
     @combined.p2_legend_rank = ro.player2_legend_rank
     @combined.found_at = ro.created_at
     @combined.save!
-  end
-
-  def extract_html_data
-    # rh = ReplayHtmlData.find_by(hsreplay_id: @hsreplay_id)
-    # @combined.save!
   end
 
   def extract_xml_data
@@ -71,10 +63,6 @@ class CombinedReplayDataMigrator
 
   def ro
     @ro ||= ReplayOutcome.find_by(hsreplay_id: @hsreplay_id)
-  end
-
-  def rh
-    @rh ||= ReplayHtmlData.find_by(hsreplay_id: @hsreplay_id)
   end
 
   def rx
