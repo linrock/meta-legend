@@ -5,6 +5,40 @@
 
 class CombinedReplayDataMigrator
 
+  def self.check_hsreplay_ids(hsreplay_ids)
+    counts = {
+      has_all_data: 0,
+      missing_replay_outcome: 0,
+      missing_replay_xml: 0,
+      missing_game_api_response: 0,
+    }
+    hsreplay_ids.each do |hsreplay_id|
+      check = self.new(hsreplay_id).check_data
+      if check.values.all?
+        counts[:has_all_data] += 1
+      else
+        if !check[:replay_outcome]
+          counts[:missing_replay_outcome] += 1
+        end
+        if !check[:replay_xml]
+          counts[:missing_replay_xml] += 1
+        end
+        if !check[:replay_game_api_response]
+          counts[:missing_replay_game_api_response] += 1
+        end
+      end
+    end
+    counts
+  end
+
+  def self.migrate_hsreplay_ids!(hsreplay_ids)
+    ActiveRecord::Base.logger.silence do
+      hsreplay_ids.each do |hsreplay_id|
+        self.new(hsreplay_id).migrate!
+      end
+    end
+  end
+
   def initialize(hsreplay_id)
     @hsreplay_id = hsreplay_id
     @combined = CombinedReplayData.find_or_initialize_by(
@@ -22,9 +56,15 @@ class CombinedReplayDataMigrator
 
   def migrate!
     return unless check_data.values.all?
-    extract_replay_outcome_data
-    extract_xml_data
-    extract_game_api_data
+    begin
+      extract_replay_outcome_data
+      extract_xml_data
+      extract_game_api_data
+    rescue => e
+      puts "Error migrating: #{@hsreplay_id}"
+      puts "#{e.class.name}: #{e.message}"
+      puts "#{e.backtrace.join("\n")}"
+    end
   end
 
   def extract_replay_outcome_data
@@ -43,7 +83,6 @@ class CombinedReplayDataMigrator
   def extract_xml_data
     @combined.p1_battletag = rx.extracted_data["p1"]["tag"]
     @combined.p2_battletag = rx.extracted_data["p2"]["tag"]
-    @combined.p1_wins = rx.extracted_data["winner"] == "p1"
     @combined.utc_offset = rx.utc_offset
     @combined.save!
   end
@@ -52,6 +91,7 @@ class CombinedReplayDataMigrator
     @combined.p1_deck_card_ids = rg.friendly_deck["cards"].sort
     @combined.p2_deck_card_ids = rg.opposing_deck["cards"].sort
     @combined.p2_predicted_deck_card_ids = (rg.opposing_deck["predicted_cards"] || []).sort
+    @combined.p1_wins = rg.data["won"]
     @combined.game_type = rg.game_type
     @combined.ladder_season = rg.ladder_season
     @combined.played_at = rg.played_at
