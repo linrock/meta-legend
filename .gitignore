@@ -34,5 +34,6 @@ yarn-debug.log*
 /scripts/data/
 /replay_data/
 /data/hsreplay-cards/
+/solr/*/data/
 
 .env.development
