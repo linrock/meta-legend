@@ -21,6 +21,7 @@ class CombinedReplayDataMigrator
   end
 
   def migrate!
+    return unless check_data.values.all?
     extract_replay_outcome_data
     extract_xml_data
     extract_game_api_data
@@ -50,7 +51,7 @@ class CombinedReplayDataMigrator
   def extract_game_api_data
     @combined.p1_deck_card_ids = rg.friendly_deck["cards"].sort
     @combined.p2_deck_card_ids = rg.opposing_deck["cards"].sort
-    @combined.p2_predicted_deck_card_ids = rg.opposing_deck["predicted_cards"].sort
+    @combined.p2_predicted_deck_card_ids = (rg.opposing_deck["predicted_cards"] || []).sort
     @combined.game_type = rg.game_type
     @combined.ladder_season = rg.ladder_season
     @combined.played_at = rg.played_at
