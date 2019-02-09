@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_10_080141) do
+ActiveRecord::Schema.define(version: 2019_02_08_044720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,35 @@ ActiveRecord::Schema.define(version: 2018_08_10_080141) do
     t.jsonb "data", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "combined_replay_data", force: :cascade do |t|
+    t.string "hsreplay_id"
+    t.jsonb "metadata", default: {}, null: false
+    t.string "p1_battletag"
+    t.string "p1_class"
+    t.string "p1_archetype"
+    t.integer "p1_rank"
+    t.integer "p1_legend_rank"
+    t.jsonb "p1_deck_card_ids"
+    t.string "p2_battletag"
+    t.string "p2_class"
+    t.string "p2_archetype"
+    t.integer "p2_rank"
+    t.integer "p2_legend_rank"
+    t.jsonb "p2_deck_card_ids"
+    t.jsonb "p2_predicted_deck_card_ids"
+    t.string "game_type"
+    t.integer "ladder_season"
+    t.integer "utc_offset"
+    t.integer "num_turns"
+    t.integer "duration_seconds"
+    t.boolean "p1_wins"
+    t.datetime "found_at"
+    t.datetime "played_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hsreplay_id"], name: "index_combined_replay_data_on_hsreplay_id", unique: true
   end
 
   create_table "forum_comments", force: :cascade do |t|

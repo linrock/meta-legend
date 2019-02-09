@@ -25,6 +25,26 @@ class ReplayGameApiResponse < ApplicationRecord
     end
   end
 
+  def ladder_season
+    data["global_game"]["ladder_season"].to_i
+  end
+
+  def played_at
+    DateTime.iso8601 data["global_game"]["match_start"]
+  end
+
+  def ended_at
+    DateTime.iso8601 data["global_game"]["match_end"]
+  end
+
+  def duration_seconds
+    ended_at.to_i - played_at.to_i
+  end
+
+  def num_turns
+    data["global_game"]["num_turns"].to_i
+  end
+
   def friendly_deck
     data["friendly_deck"]
   end

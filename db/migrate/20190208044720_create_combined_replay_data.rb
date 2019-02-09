@@ -2,7 +2,7 @@ class CreateCombinedReplayData < ActiveRecord::Migration[5.2]
   def change
     create_table :combined_replay_data do |t|
       t.string :hsreplay_id
-      t.jsonb :metadata
+      t.jsonb :metadata, null: false, default: {}
 
       t.string :p1_battletag
       t.string :p1_class
@@ -23,6 +23,7 @@ class CreateCombinedReplayData < ActiveRecord::Migration[5.2]
       t.integer :ladder_season
       t.integer :utc_offset
       t.integer :num_turns
+      t.integer :duration_seconds
       t.boolean :p1_wins
 
       t.datetime :found_at
