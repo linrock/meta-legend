@@ -50,33 +50,6 @@ class CombinedReplayData < ActiveRecord::Base
 end
 
 =begin
-  searchable do
-    text :pilot_name, :p1_name
-    text :pilot_battletag, :p1_battletag
-    text :pilot_class, :p1_class
-    text :pilot_archetype, :p1_archetype
-    integer :pilot_rank, :p1_rank
-    integer :pilot_legend_rank, :p1_legend_rank
-    json_facet :pilot_deck_card_ids, :p1_deck_card_ids
-
-    text :opponent_name, :p2_name
-    text :opponent_battletag, :p2_battletag
-    text :opponent_class, :p2_class
-    text :opponent_archetype, :p2_archetype
-    integer :opponent_rank, :p2_rank
-    integer :opponent_legend_rank, :p2_legend_rank
-    json_facet :opponent_partial_deck_card_ids, :p2_partial_deck_card_ids
-    json_facet :opponent_predicted_deck_card_ids, :p2_predicted_deck_card_ids
-
-    text :game_mode, :game_mode
-    integer :num_turns, :num_turns
-    boolean :pilot_wins, :pilot_wins
-
-    time :created_at
-    time :played_at
-  end
-end
-
 CombinedReplayData.search do
   pilot_class "Hunter"
   pilot_archetype "Secret"
