@@ -1,5 +1,9 @@
 class ArchetypeCache
 
+  def self.instance
+    @@instance ||= self.new
+  end
+
   def initialize
     @cache = Rails.cache
   end

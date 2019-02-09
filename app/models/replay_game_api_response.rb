@@ -14,6 +14,17 @@ class ReplayGameApiResponse < ApplicationRecord
     .order("data -> 'global_game' -> 'match_end' DESC")
   end
 
+  def game_type
+    case data["global_game"]["game_type"]
+    when 2
+      "standard"
+    when 3
+      "arena"
+    when 30
+      "wild"
+    end
+  end
+
   def friendly_deck
     data["friendly_deck"]
   end

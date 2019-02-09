@@ -70,12 +70,63 @@ class ReplayOutcome < ApplicationRecord
 
   alias_attribute :found_at, :created_at
 
+  searchable do
+    string :hsreplay_id
+
+    integer :pilot_rank do
+      player1_rank&.to_i
+    end
+    integer :pilot_legend_rank do
+      player1_legend_rank&.to_i
+    end
+    # integer :pilot_class do
+    #   player1_class
+    # end
+    # integer :pilot_archetype do
+    #   arch_id = data["player1_archetype"]
+    #   arch = ArchetypeCache.instance.archetypes_map[arch_id.to_s]
+    #   arch.data["name"].gsub(player1_class, '').strip
+    # end
+
+    integer :opponent_rank do
+      player2_rank&.to_i
+    end
+    integer :opponent_legend_rank do
+      player2_legend_rank&.to_i
+    end
+    # integer :opponent_class do
+    #   player2_class
+    # end
+    # integer :opponent_archetype do
+    #   arch_id = data["player2_archetype"]
+    #   arch = ArchetypeCache.instance.archetypes_map[arch_id.to_s]
+    #   arch.data["name"].gsub(player1_class, '').strip
+    # end
+
+    # string :game_type do
+    #   ReplayGameApiResponse
+    # end
+    time :created_at
+  end
+
   def archetype_ids
     [ data["player1_archetype"], data["player2_archetype"] ]
   end
 
   def legend_game?
     player1_is_legend? and player2_is_legend?
+  end
+
+  def player1_class
+    arch_id = data["player1_archetype"]
+    arch = ArchetypeCache.instance.archetypes_map[arch_id.to_s]
+    arch.data["player_class_name"].capitalize
+  end
+
+  def player1_archetype_prefix
+    arch_id = data["player1_archetype"]
+    arch = ArchetypeCache.instance.archetypes_map[arch_id.to_s]
+    arch.data["name"].gsub(player1_class, '').strip
   end
 
   def player1_archetype
@@ -96,6 +147,18 @@ class ReplayOutcome < ApplicationRecord
 
   def player1_legend_rank
     player1_is_legend? ? data["player1_legend_rank"] : nil
+  end
+
+  def player2_class
+    arch_id = data["player2_archetype"]
+    arch = ArchetypeCache.instance.archetypes_map[arch_id.to_s]
+    arch.data["player_class_name"].capitalize
+  end
+
+  def player2_archetype_prefix
+    arch_id = data["player2_archetype"]
+    arch = ArchetypeCache.instance.archetypes_map[arch_id.to_s]
+    arch.data["name"].gsub(player1_class, '').strip
   end
 
   def player2_archetype
