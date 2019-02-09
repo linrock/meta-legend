@@ -3744,24 +3744,6 @@
     "wild_ccp_signature_core": null
   },
   {
-    "id": 262,
-    "name": "Dead Man's Hand Warrior",
-    "player_class": 10,
-    "player_class_name": "WARRIOR",
-    "url": "/archetypes/262/dead-mans-hand-warrior",
-    "standard_ccp_signature_core": null,
-    "wild_ccp_signature_core": null
-  },
-  {
-    "id": 263,
-    "name": "Basic Mage",
-    "player_class": 4,
-    "player_class_name": "MAGE",
-    "url": "/archetypes/263/basic-mage",
-    "standard_ccp_signature_core": null,
-    "wild_ccp_signature_core": null
-  },
-  {
     "id": 264,
     "name": "Aggro Priest",
     "player_class": 6,
@@ -3783,15 +3765,6 @@
         1362
       ]
     },
-    "wild_ccp_signature_core": null
-  },
-  {
-    "id": 265,
-    "name": "",
-    "player_class": 6,
-    "player_class_name": "PRIEST",
-    "url": "/archetypes/265/",
-    "standard_ccp_signature_core": null,
     "wild_ccp_signature_core": null
   },
   {
@@ -4008,15 +3981,6 @@
         48111
       ]
     },
-    "wild_ccp_signature_core": null
-  },
-  {
-    "id": 275,
-    "name": "Murloc Warrior",
-    "player_class": 10,
-    "player_class_name": "WARRIOR",
-    "url": "/archetypes/275/murloc-warrior",
-    "standard_ccp_signature_core": null,
     "wild_ccp_signature_core": null
   },
   {
