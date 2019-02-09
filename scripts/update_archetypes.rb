@@ -1,0 +1,2 @@
+Archetype.create_from_archetypes_json!
+Archetype.update_from_archetypes_json!
