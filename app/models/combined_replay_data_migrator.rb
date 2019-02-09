@@ -56,6 +56,7 @@ class CombinedReplayDataMigrator
     @combined.played_at = rg.played_at
     @combined.duration_seconds = rg.duration_seconds
     @combined.num_turns = rg.num_turns
+    @combined.metadata = rg.metadata if rg.metadata.present?
     @combined.save!
   end
 

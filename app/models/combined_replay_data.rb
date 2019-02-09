@@ -8,6 +8,45 @@
 # ReplayXmlData - data from the XML file when viewing a game
 
 class CombinedReplayData < ActiveRecord::Base
+  validates :hsreplay_id, presence: true
+  validates :p1_class, inclusion: PlayerClass::NAMES
+  validates :p2_class, inclusion: PlayerClass::NAMES
+  validates :game_type, inclusion: ["standard", "wild", "arena"], allow_nil: true
+  validates :ladder_season, numericality: { greater_than: 0 }, allow_nil: true
+  validates :num_turns, numericality: { greater_than: 0 }, allow_nil: true
+  validates :duration_seconds, numericality: { greater_than: 0 }, allow_nil: true
+  validate :check_player_ranks
+
+  searchable do
+    string :p1_battletag
+    string :p1_class
+    string :p1_archetype
+    integer :p1_rank
+    integer :p1_legend_rank
+    string :p1_deck_card_ids, multiple: true
+
+    string :p2_battletag
+    string :p2_class
+    string :p2_archetype
+    integer :p2_rank
+    integer :p2_legend_rank
+    string :p2_deck_card_ids, multiple: true
+    string :p2_predicted_deck_card_ids, multiple: true
+
+    string :game_type
+    integer :ladder_season
+    integer :utc_offset
+    integer :num_turns
+    integer :duration_seconds
+    boolean :p1_wins
+
+    time :played_at
+  end
+
+  private
+
+  def check_player_ranks
+  end
 end
 
 =begin
