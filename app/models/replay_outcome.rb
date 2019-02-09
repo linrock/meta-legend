@@ -8,7 +8,6 @@ class ReplayOutcome < ApplicationRecord
   after_create :import_legend_replay_data
 
   delegate :player_names, to: :replay_xml_data
-  delegate :num_turns, to: :replay_html_data
 
   scope :filter, -> (filter) do
     case filter

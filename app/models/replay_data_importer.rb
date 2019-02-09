@@ -23,12 +23,12 @@ class ReplayDataImporter
   end
 
   def import
-    save_html
+    # save_html
     save_xml
   end
 
   def import!
-    save_html!
+    # save_html!
     save_xml!
   end
 

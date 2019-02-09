@@ -1,9 +1,9 @@
 # Replay data from all available replay data sources
-# html data, xml data, game api response
+# xml data, game api response
 
 class ReplayData
   delegate :num_turns,
-           to: :replay_html_data
+           to: :replay_game_api_response
 
   delegate :player_names, :deck_card_lists,
            to: :replay_xml_data
@@ -13,7 +13,7 @@ class ReplayData
   end
 
   def exists?
-    ReplayHtmlData.exists?(hsreplay_id: @hsreplay_id) and
+    ReplayGameApiResponse.exists?(hsreplay_id: @hsreplay_id) and
     ReplayXmlData.exists?(hsreplay_id: @hsreplay_id)
   end
 
@@ -79,10 +79,6 @@ class ReplayData
       end
     end
     merged_hash
-  end
-
-  def replay_html_data
-    @replay_html_data ||= ReplayHtmlData.find_by(hsreplay_id: @hsreplay_id)
   end
 
   def replay_xml_data
