@@ -6,12 +6,19 @@ ruby '2.5.1'
 gem 'rails', '~> 5.2.0'
 gem 'puma', '~> 3.11'
 gem 'eye', require: false
+gem 'dotenv-rails'
 gem 'bugsnag'
 
 # persistence
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'dalli', '~> 2.7'
+
+# workers
 gem 'sidekiq'
+
+# search
+gem 'sunspot_rails'
+gem 'progress_bar'
 
 # business logic
 gem 'omniauth-bnet'
@@ -25,7 +32,6 @@ gem 'webpacker'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'dotenv-rails'
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
