@@ -60,6 +60,7 @@ class CombinedReplayDataMigrator
       extract_replay_outcome_data
       extract_xml_data
       extract_game_api_data
+      @combined.save!
     rescue => e
       puts "Error migrating: #{@hsreplay_id}"
       puts "#{e.class.name}: #{e.message}"
@@ -77,14 +78,12 @@ class CombinedReplayDataMigrator
     @combined.p2_rank = ro.player2_rank
     @combined.p2_legend_rank = ro.player2_legend_rank
     @combined.found_at = ro.created_at
-    @combined.save!
   end
 
   def extract_xml_data
     @combined.p1_battletag = rx.extracted_data["p1"]["tag"]
     @combined.p2_battletag = rx.extracted_data["p2"]["tag"]
     @combined.utc_offset = rx.utc_offset
-    @combined.save!
   end
 
   def extract_game_api_data
@@ -98,7 +97,6 @@ class CombinedReplayDataMigrator
     @combined.duration_seconds = rg.duration_seconds
     @combined.num_turns = rg.num_turns
     @combined.metadata = rg.metadata if rg.metadata.present?
-    @combined.save!
   end
 
   private

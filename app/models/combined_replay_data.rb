@@ -9,16 +9,24 @@
 
 class CombinedReplayData < ActiveRecord::Base
   validates :hsreplay_id, presence: true
+  validates :game_type, inclusion: ["standard", "wild", "arena"]
+  validates :p1_battletag, presence: true, format: { with: /\A.*#\d+\z/ }
+  validates :p2_battletag, presence: true, format: { with: /\A.*#\d+\z/ }
   validates :p1_class, inclusion: PlayerClass::NAMES
   validates :p2_class, inclusion: PlayerClass::NAMES
-  validates :game_type, inclusion: ["standard", "wild", "arena"], allow_nil: true
-  validates :ladder_season, numericality: { greater_than: 0 }, allow_nil: true
-  validates :num_turns, numericality: { greater_than: 0 }, allow_nil: true
-  validates :duration_seconds, numericality: { greater_than: 0 }, allow_nil: true
+  validates :p1_deck_card_ids, length: { is: 30 }
+  validates :ladder_season,
+    numericality: { greater_than: 0 }, allow_nil: true
+  validates :num_turns, numericality: { greater_than: 0 }
+  validates :duration_seconds, numericality: { greater_than: 0 }
   validate :check_player_ranks
 
   searchable do
+    string :hsreplay_id
     string :p1_battletag
+    string :p1_name do
+      p1_battletag.split("#").first
+    end
     string :p1_class
     string :p1_archetype
     integer :p1_rank
@@ -26,6 +34,9 @@ class CombinedReplayData < ActiveRecord::Base
     string :p1_deck_card_ids, multiple: true
 
     string :p2_battletag
+    string :p2_name do
+      p2_battletag.split("#").first
+    end
     string :p2_class
     string :p2_archetype
     integer :p2_rank
@@ -46,6 +57,18 @@ class CombinedReplayData < ActiveRecord::Base
   private
 
   def check_player_ranks
+    ranks = [p1_rank, p1_legend_rank, p2_rank, p2_legend_rank]
+    ranks.each do |rank|
+      errors[:base] << "player rank is invalid" unless rank.nil? || rank.to_i > 0
+    end
+    if ((p1_rank.nil? && p1_legend_rank.nil?) ||
+        (p1_rank.to_i > 0 && p1_legend_rank.to_i > 0))
+      errors[:base] << "player 1 rank values are invalid"
+    end
+    if ((p2_rank.nil? && p2_legend_rank.nil?) ||
+        (p2_rank.to_i > 0 && p2_legend_rank.to_i > 0))
+      errors[:base] << "player 2 rank values are invalid"
+    end
   end
 end
 
