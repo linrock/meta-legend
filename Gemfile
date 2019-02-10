@@ -23,6 +23,7 @@ gem 'progress_bar'
 # business logic
 gem 'omniauth-bnet'
 gem 'nokogiri', '>= 1.8'
+gem 'slim'
 
 # assets
 gem 'sass-rails', '~> 5.0'
