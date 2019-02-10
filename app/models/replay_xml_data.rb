@@ -11,12 +11,14 @@ class ReplayXmlData < ApplicationRecord
   after_create :set_played_at_and_utc_offset
   after_create :set_utc_offset
 
-  delegate :doc, :player_legend_ranks,
-           :players, :player_names,
-           :pilot_name, :deck_card_ids,
-           :winner_name, :loser_name,
-           :winner_entity_id, :loser_entity_id,
-           to: :replay_xml_parser
+  private *delegate(
+    :doc, :player_legend_ranks,
+    :players, :player_names,
+    :pilot_name, :deck_card_ids,
+    :winner_name, :loser_name,
+    :winner_entity_id, :loser_entity_id,
+    to: :replay_xml_parser
+  )
 
   scope :since, -> (timestamp) do
     where("created_at > ?", timestamp)
