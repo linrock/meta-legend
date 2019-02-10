@@ -10,4 +10,10 @@ class HomeController < ApplicationController
     @title = title_and_description.html_title
     @meta_desc = title_and_description.html_meta_description
   end
+
+  def beta
+    @stats_popular_decks = StatsPopularDecks.new
+    @stats_top_submitters = StatsTopSubmitters.new
+    render layout: "beta"
+  end
 end

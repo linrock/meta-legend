@@ -1,0 +1,92 @@
+<div class="container flex">
+  <div class="left">
+    <h2>
+      Replays of games by top Hearthstone players.
+    </h2>
+
+    <div class="search-filters">
+      <div>
+        <div class="label">Show me</div>
+        <div class="selector">Standard games</div>
+      </div>
+
+      <div>
+        <div class="label">Played at</div>
+        <div class="selector">Rank 5 and above</div>
+      </div>
+
+      <div>
+        <div class="label">By</div>
+        <div class="selector">Secret Hunter</div>
+      </div>
+
+      <div>
+        <div class="label">Against</div>
+        <div class="selector">Odd Mage</div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <header class="sidebar-section-header">
+      <h3>Popular decks</h3>
+      <h4>In the past 5 days at rank 5 to legend</h4>
+    </header>
+
+    <header class="stats-header">
+      <div class="left">Standard</div>
+      <div class="right"># games</div>
+    </header>
+    <div class="stats-section">
+      <% @stats_popular_decks.standard_stats.each do |row| %>
+        <div class="stats-row">
+          <div class="class-and-archetype"><%= row[0] %></div>
+          <div class="count"><%= row[1] %></div>
+        </div>
+      <% end %>
+    </div>
+
+    <header class="stats-header">
+      <div class="left">Wild</div>
+      <div class="right"># games</div>
+    </header>
+    <div class="stats-section">
+      <% @stats_popular_decks.wild_stats.each do |row| %>
+        <div class="stats-row">
+          <div class="class-and-archetype"><%= row[0] %></div>
+          <div class="count"><%= row[1] %></div>
+        </div>
+      <% end %>
+    </div>
+
+    <header class="sidebar-section-header">
+      <h3>Top replay submitters</h3>
+    </header>
+
+    <header class="stats-header">
+      <div class="left">Past 7 days</div>
+      <div class="right"># games</div>
+    </header>
+    <div class="stats-section">
+      <% @stats_top_submitters.recent(7).each do |row| %>
+        <div class="stats-row">
+          <div class="player-name"><%= row[0].split("#")[0] %></div>
+          <div class="count"><%= row[1] %></div>
+        </div>
+      <% end %>
+    </div>
+
+    <header class="stats-header">
+      <div class="left">All-time</div>
+      <div class="right"># games</div>
+    </header>
+    <div class="stats-section">
+      <% @stats_top_submitters.all_time.each do |row| %>
+        <div class="stats-row">
+          <div class="player-name"><%= row[0].split("#")[0] %></div>
+          <div class="count"><%= row[1] %></div>
+        </div>
+      <% end %>
+    </div>
+  </aside>
+</div>

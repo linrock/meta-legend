@@ -52,6 +52,8 @@ Rails.application.routes.draw do
   # login routes
   get "/auth/:provider/callback", to: "sessions#create"
 
+  get "/beta" => "home#beta"
+
   # catch-all routes for homepage
   constraints = {
     region: /(americas|europe|asia)/,

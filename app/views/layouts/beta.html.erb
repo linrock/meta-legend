@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Meta Legend</title>
+    <meta name="description" content="<%= @meta_desc %>"/>
+    <meta name="viewport" content="width=790, user-scalable=yes"/>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag 'beta', media: 'all' %>
+    <%# javascript_pack_tag 'beta' %>
+    <%# stylesheet_pack_tag 'beta', media: 'all' %>
+
+    <% if Rails.env.development? %>
+      <link href="/assets/fonts.css" rel="stylesheet">
+    <% else %>
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700"
+            rel="stylesheet">
+    <% end %>
+  </head>
+
+  <body>
+    <%= render partial: "layouts/main_header" %>
+    <%= render partial: "layouts/svg_icons" %>
+
+    <%= yield %>
+
+    <% if ENV["GA_ID"] %>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV["GA_ID"] %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '<%= ENV["GA_ID"] %>');
+      </script>
+    <% end %>
+  </body>
+</html>
