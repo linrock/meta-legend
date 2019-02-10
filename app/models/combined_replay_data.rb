@@ -29,6 +29,9 @@ class CombinedReplayData < ActiveRecord::Base
     end
     string :p1_class
     string :p1_archetype
+    string :p1_class_and_archetype do
+      "#{p1_archetype} #{p1_class}"
+    end
     integer :p1_rank
     integer :p1_legend_rank
     string :p1_deck_card_ids, multiple: true
@@ -39,6 +42,9 @@ class CombinedReplayData < ActiveRecord::Base
     end
     string :p2_class
     string :p2_archetype
+    string :p2_class_and_archetype do
+      "#{p2_archetype} #{p2_class}"
+    end
     integer :p2_rank
     integer :p2_legend_rank
     string :p2_deck_card_ids, multiple: true
