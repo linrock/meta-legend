@@ -1,21 +1,23 @@
 .container.flex
   .left
-    h2
-      Replays of games by top Hearthstone players.
+    h2 Replays of games by top Hearthstone players.
 
-    .search-filters
-      div
-        .label Show me
-        .selector Standard games
-      div
-        .label Played at
-        .selector Rank 5 and above
-      div
-        .label By
-        .selector Secret Hunter
-      div
-        .label Against
-        .selector Odd Mage
+    template.replay-data= sanitize(@replay_data).html_safe
+    .search
+      .search-filters
+        div
+          .label Show me
+          .selector Standard games
+        div
+          .label Played at
+          .selector Rank 5 and above
+        div
+          .label By
+          .selector Secret Hunter
+        div
+          .label Against
+          .selector Odd Mage
+      .search-results
 
   aside.sidebar
     header.sidebar-section-header

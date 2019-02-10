@@ -7,8 +7,8 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag 'beta', media: 'all' %>
-    <%# javascript_pack_tag 'beta' %>
-    <%# stylesheet_pack_tag 'beta', media: 'all' %>
+    <%= javascript_pack_tag 'beta' %>
+    <%= stylesheet_pack_tag 'beta', media: 'all' %>
 
     <% if Rails.env.development? %>
       <link href="/assets/fonts.css" rel="stylesheet">
