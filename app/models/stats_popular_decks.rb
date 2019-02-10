@@ -24,11 +24,11 @@ class StatsPopularDecks
       all do
         any_of do
           with(:p1_rank).between(1..5)
-          with(:p1_legend_rank).greater_than(0)
+          without(:p1_legend_rank, nil)
         end
         any_of do
           with(:p2_rank).between(1..5)
-          with(:p2_legend_rank).greater_than(0)
+          without(:p2_legend_rank, nil)
         end
       end
       with(:played_at).greater_than(1.week.ago)
