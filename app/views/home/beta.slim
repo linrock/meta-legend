@@ -1,0 +1,62 @@
+.container.flex
+  .left
+    h2
+      Replays of games by top Hearthstone players.
+
+    .search-filters
+      div
+        .label Show me
+        .selector Standard games
+      div
+        .label Played at
+        .selector Rank 5 and above
+      div
+        .label By
+        .selector Secret Hunter
+      div
+        .label Against
+        .selector Odd Mage
+
+  aside.sidebar
+    header.sidebar-section-header
+      h3 Popular decks
+      h4 In the past 5 days at rank 5 to legend
+
+    header.stats-header
+      .left Standard
+      .right # games
+    .stats-section
+      - @stats_popular_decks.standard_stats.each do |row|
+        .stats-row
+          .class-and-archetype = row[0]
+          .count = row[1]
+
+    header.stats-header
+      .left Wild
+      .right # games
+    .stats-section
+      - @stats_popular_decks.wild_stats.each do |row|
+        .stats-row
+          .class-and-archetype = row[0]
+          .count = row[1]
+
+    header.sidebar-section-header
+      h3 Top replay submitters
+
+    header.stats-header
+      .left Past 7 days
+      .right # games
+    .stats-section
+      - @stats_top_submitters.recent(7).each do |row|
+        .stats-row
+          .class-and-archetype = row[0].split("#")[0]
+          .count = row[1]
+
+    header.stats-header
+      .left All-time
+      .right # games
+    .stats-section
+      - @stats_top_submitters.all_time.each do |row|
+        .stats-row
+          .player-name = row[0].split("#")[0]
+          .count = row[1]
