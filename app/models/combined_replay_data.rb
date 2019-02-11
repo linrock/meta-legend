@@ -116,6 +116,7 @@ class CombinedReplayData < ActiveRecord::Base
         legend_rank: p2_legend_rank,
         archetype: "#{p2_archetype} #{p2_class}".strip,
       },
+      winner: p1_wins ? 'p1' : 'p2',
       metadata: metadata,
       found_at: found_at
     }
