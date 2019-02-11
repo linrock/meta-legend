@@ -30,7 +30,7 @@ class CombinedReplayData < ActiveRecord::Base
     string :p1_class
     string :p1_archetype
     string :p1_class_and_archetype do
-      "#{p1_archetype} #{p1_class}"
+      p1_archetype ? "#{p1_archetype} #{p1_class}" : nil
     end
     integer :p1_rank
     integer :p1_legend_rank
@@ -43,7 +43,7 @@ class CombinedReplayData < ActiveRecord::Base
     string :p2_class
     string :p2_archetype
     string :p2_class_and_archetype do
-      "#{p2_archetype} #{p2_class}"
+      p2_archetype ? "#{p2_archetype} #{p2_class}" : nil
     end
     integer :p2_rank
     integer :p2_legend_rank
@@ -58,6 +58,33 @@ class CombinedReplayData < ActiveRecord::Base
     boolean :p1_wins
 
     time :played_at
+  end
+
+  # Data structure should match ReplayData#to_hash
+  def as_json
+    {
+      hsreplay_id: hsreplay_id,
+      num_turns: num_turns,
+      deck_card_names: HearthstoneCard.card_ids_to_deck_list(p1_deck_card_ids),
+      opposing_deck: {
+        cards: HearthstoneCard.card_ids_to_deck_list(p2_deck_card_ids),
+        predicted_cards: HearthstoneCard.card_ids_to_deck_list(
+          p2_predicted_deck_card_ids
+        )
+      },
+      p1: {
+        rank: p1_legend_rank || p1_rank,
+        is_legend: !p1_legend_rank.nil?,
+        archetype: "#{p1_archetype} #{p1_class}".strip,
+      },
+      p2: {
+        rank: p2_legend_rank || p2_rank,
+        is_legend: !p2_legend_rank.nil?,
+        archetype: "#{p2_archetype} #{p2_class}".strip,
+      },
+      metadata: metadata,
+      found_at: found_at
+    }
   end
 
   private
@@ -79,33 +106,3 @@ class CombinedReplayData < ActiveRecord::Base
     end
   end
 end
-
-=begin
-CombinedReplayData.search do
-  pilot_class "Hunter"
-  pilot_archetype "Secret"
-
-  with(:created_at).greater_than 7.days.ago
-  paginate(page: 1, per_page: 25)
-end
-
-CombinedReplayData.search do
-  pilot_class "Hunter"
-  pilot_archetype "Secret"
-
-  facet(:pilot_legend_rank, range: 1..1_000)
-  facet(:opponent_legend_rank, range: 1..1_000)
-  with(:created_at).greater_than 7.days.ago
-  order_by(:created_at, :desc)
-  paginate(page: 1, per_page: 25)
-end
-
-CombinedReplayData.search do
-  any_of do
-    with(:pilot_legend_rank).greater_than 0
-    with(:pilot_rank, range: 1..5)
-    with(:opponent_legend_rank).greater_than 0
-    with(:opponent_rank, range: 1..5)
-  end
-end
-=end
