@@ -39,7 +39,7 @@ class CombinedReplayDataMigrator
           self.new(hsreplay_id).migrate!
         rescue => e
           logger.error "Error migrating: #{hsreplay_id}"
-          logger.error "#{e.class.name}: #{e.message}\n#{e.backtrace.join("\n")}"
+          logger.error "#{e.class.name}: #{e.message}"
         end
       end
     end
