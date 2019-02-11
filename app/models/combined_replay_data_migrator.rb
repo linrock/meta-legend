@@ -32,9 +32,15 @@ class CombinedReplayDataMigrator
   end
 
   def self.migrate_hsreplay_ids!(hsreplay_ids)
+    logger = Logger.new("#{Rails.root}/log/combined_replay_data_migrator.error.log")
     ActiveRecord::Base.logger.silence do
       hsreplay_ids.each do |hsreplay_id|
-        self.new(hsreplay_id).migrate!
+        begin
+          self.new(hsreplay_id).migrate!
+        rescue => e
+          logger.error "Error migrating: #{hsreplay_id}"
+          logger.error "#{e.class.name}: #{e.message}\n#{e.backtrace.join("\n")}"
+        end
       end
     end
   end
@@ -56,15 +62,11 @@ class CombinedReplayDataMigrator
 
   def migrate!
     return unless check_data.values.all?
-    begin
-      extract_xml_data
-      extract_game_api_data
-      extract_replay_outcome_data
-      @combined.save!
-    rescue => e
-      logger.error "Error migrating: #{@hsreplay_id}"
-      logger.error "#{e.class.name}: #{e.message}\n#{e.backtrace.join("\n")}"
-    end
+    extract_xml_data
+    extract_game_api_data
+    extract_replay_outcome_data
+    @combined.found_at = [rx, rg, ro].map(&:created_at).min
+    @combined.save!
   end
 
   def extract_xml_data
@@ -119,7 +121,6 @@ class CombinedReplayDataMigrator
       @combined.p2_rank = nil
       @combined.p2_legend_rank = nil
     end
-    @combined.found_at = ro.created_at
   end
 
   private
@@ -134,9 +135,5 @@ class CombinedReplayDataMigrator
 
   def rg
     @rg ||= ReplayGameApiResponse.find_by(hsreplay_id: @hsreplay_id)
-  end
-
-  def logger
-    @logger ||= Logger.new("#{Rails.root}/log/combined_replay_data_migrator.error.log")
   end
 end
