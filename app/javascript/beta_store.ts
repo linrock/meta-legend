@@ -35,6 +35,9 @@ const store = new Vuex.Store({
     },
     selectP1Class(state, p1Class) {
       state.p1Class = p1Class
+    },
+    selectP2Class(state, p2Class) {
+      state.p2Class = p2Class
     }
   },
 
@@ -63,6 +66,10 @@ const store = new Vuex.Store({
     selectP1Class({ commit }, p1Class) {
       commit(`toggleDropdown`, null)
       commit(`selectP1Class`, p1Class)
+    },
+    selectP2Class({ commit }, p2Class) {
+      commit(`toggleDropdown`, null)
+      commit(`selectP2Class`, p2Class)
     }
   },
 
@@ -73,6 +80,7 @@ const store = new Vuex.Store({
     gameType: state => state.gameType,
     rankRange: state => state.rankRange,
     p1Class: state => state.p1Class,
+    p2Class: state => state.p2Class,
   },
 })
 

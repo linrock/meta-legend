@@ -12,7 +12,7 @@
         select-p1-class
       .selector-group
         .label Against
-        .selector(@click="chooseVs") Odd Mage
+        select-p2-class
     .search-results
       replay-row(
         v-for="replay in $store.getters.replays"
@@ -26,6 +26,7 @@
   import SelectGameType from './select_game_type'
   import SelectRankRange from './select_rank_range'
   import SelectP1Class from './select_p1_class'
+  import SelectP2Class from './select_p2_class'
   import { paramsToString } from '../../utils'
   import api from '../../api'
 
@@ -51,6 +52,7 @@
           game_type: this.$store.getters.gameType,
           rank_range: this.$store.getters.rankRange,
           p1_class: this.$store.getters.p1Class,
+          p2_class: this.$store.getters.p2Class,
         }
         return `/search.json?${paramsToString(queryParams)}`
       }
@@ -71,6 +73,7 @@
       SelectGameType,
       SelectRankRange,
       SelectP1Class,
+      SelectP2Class,
     }
   }
 </script>

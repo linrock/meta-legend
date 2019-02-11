@@ -1,0 +1,45 @@
+<template lang="pug">
+  .selector
+    .selected(@click="chooseP2Class")
+      | {{ classes[$store.getters.p2Class] }}
+    .selector-dropdown(
+      v-if="$store.getters.currentDropdown === 'p2_class'"
+    )
+      .option(
+        v-for="[value, label] in Object.entries(classes)"
+        @click="selectP2Class(value)"
+      ) {{ label }}
+
+</template>
+
+<script lang="ts">
+  const classes = {
+    'all':     'Any class',
+    'Druid':   'Druid',
+    'Hunter':  'Hunter',
+    'Mage':    'Mage',
+    'Paladin': 'Paladin',
+    'Priest':  'Priest',
+    'Rogue':   'Rogue',
+    'Shaman':  'Shaman',
+    'Warlock': 'Warlock',
+    'Warrior': 'Warrior',
+  }
+
+  export default {
+    data() {
+      return {
+        classes
+      }
+    },
+
+    methods: {
+      chooseP2Class() {
+        this.$store.dispatch(`toggleDropdown`, `p2_class`)
+      },
+      selectP2Class(p2Class) {
+        this.$store.dispatch(`selectP2Class`, p2Class)
+      }
+    }
+  }
+</script>
