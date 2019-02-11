@@ -14,6 +14,8 @@ class CombinedReplayData < ActiveRecord::Base
   validates :p2_battletag, presence: true, format: { with: /\A.*#\d+\z/ }
   validates :p1_class, inclusion: PlayerClass::NAMES
   validates :p2_class, inclusion: PlayerClass::NAMES
+  validates :p1_archetype, format: { without: PlayerClass::REGEX }
+  validates :p2_archetype, format: { without: PlayerClass::REGEX }
   validates :p1_deck_card_ids, length: { is: 30 }
   validates :ladder_season,
     numericality: { greater_than: 0 }, allow_nil: true
@@ -23,6 +25,8 @@ class CombinedReplayData < ActiveRecord::Base
 
   searchable do
     string :hsreplay_id
+
+    # p1 is the pilot
     string :p1_battletag
     string :p1_name do
       p1_battletag.split("#").first
@@ -35,7 +39,10 @@ class CombinedReplayData < ActiveRecord::Base
     integer :p1_rank
     integer :p1_legend_rank
     string :p1_deck_card_ids, multiple: true
+    boolean :p1_is_first
+    boolean :p1_wins
 
+    # p1 is the opponent
     string :p2_battletag
     string :p2_name do
       p2_battletag.split("#").first
@@ -49,13 +56,14 @@ class CombinedReplayData < ActiveRecord::Base
     integer :p2_legend_rank
     string :p2_deck_card_ids, multiple: true
     string :p2_predicted_deck_card_ids, multiple: true
+    boolean :p2_is_first
+    boolean :p2_wins
 
     string :game_type
     integer :ladder_season
     integer :utc_offset
     integer :num_turns
     integer :duration_seconds
-    boolean :p1_wins
 
     time :played_at
   end

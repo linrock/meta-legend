@@ -10,4 +10,6 @@ class PlayerClass
     Warlock
     Warrior
   )
+
+  REGEX = /#{NAMES.join("|")}/i
 end
