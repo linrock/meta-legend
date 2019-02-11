@@ -12,11 +12,17 @@ class HomeController < ApplicationController
   end
 
   def beta
-    hsreplay_ids = CombinedReplayData.search do
+    # hsreplay_ids = CombinedReplayData.search do
+    #   with :p1_class, "Hunter"
+    #   with :p1_archetype, "Midrange"
+    #   order_by :played_at, :desc
+    # end.each_hit_with_result.map {|_, result| result.hsreplay_id }
+    # @replay_data = replay_data(hsreplay_ids)
+    @replay_data = CombinedReplayData.search do
       with :p1_class, "Hunter"
       with :p1_archetype, "Midrange"
-    end.each_hit_with_result.map {|_, result| result.hsreplay_id }
-    @replay_data = replay_data(hsreplay_ids)
+      order_by :played_at, :desc
+    end.each_hit_with_result.map {|_, result| result }.to_json
     @stats_popular_decks = StatsPopularDecks.new
     @stats_top_submitters = StatsTopSubmitters.new
     render layout: "beta"

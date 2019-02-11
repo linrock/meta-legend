@@ -61,7 +61,7 @@ class CombinedReplayData < ActiveRecord::Base
   end
 
   # Data structure should match ReplayData#to_hash
-  def as_json
+  def as_json(options = {})
     {
       hsreplay_id: hsreplay_id,
       num_turns: num_turns,
@@ -73,13 +73,16 @@ class CombinedReplayData < ActiveRecord::Base
         )
       },
       p1: {
-        rank: p1_legend_rank || p1_rank,
+        tag: p1_battletag,
+        rank: p1_rank,
+        legend_rank: p1_legend_rank,
         is_legend: !p1_legend_rank.nil?,
         archetype: "#{p1_archetype} #{p1_class}".strip,
       },
       p2: {
-        rank: p2_legend_rank || p2_rank,
-        is_legend: !p2_legend_rank.nil?,
+        tag: p2_battletag,
+        rank: p2_rank,
+        legend_rank: p2_legend_rank,
         archetype: "#{p2_archetype} #{p2_class}".strip,
       },
       metadata: metadata,
