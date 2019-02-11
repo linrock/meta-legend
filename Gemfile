@@ -29,7 +29,7 @@ gem 'slim'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'mini_racer', platforms: :ruby
-gem 'webpacker'
+gem 'webpacker', '>= 4.0.x'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
