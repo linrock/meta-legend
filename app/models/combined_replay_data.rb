@@ -60,10 +60,17 @@ class CombinedReplayData < ActiveRecord::Base
     boolean :p2_wins
 
     string :game_type
-    integer :ladder_season
     integer :utc_offset
     integer :num_turns
     integer :duration_seconds
+
+    integer :ladder_season
+    integer :arena_wins do
+      metadata["wins"] if game_type == "arena"
+    end
+    integer :arena_losses do
+      metadata["losses"] if game_type == "arena"
+    end
 
     time :played_at
   end
@@ -117,8 +124,16 @@ class CombinedReplayData < ActiveRecord::Base
         archetype: "#{p2_archetype} #{p2_class}".strip,
       },
       winner: p1_wins ? 'p1' : 'p2',
-      metadata: metadata,
+      metadata: filtered_metadata,
       found_at: found_at
+    }
+  end
+
+  def filtered_metadata
+    return unless game_type == "arena"
+    {
+      wins: metadata["wins"],
+      losses: metadata["losses"]
     }
   end
 

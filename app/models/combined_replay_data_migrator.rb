@@ -121,6 +121,9 @@ class CombinedReplayDataMigrator
       @combined.p2_rank = nil
       @combined.p2_legend_rank = nil
     end
+    if ro.data["source"]
+      @combined.metadata[:source] = ro.data["source"]
+    end
   end
 
   private
