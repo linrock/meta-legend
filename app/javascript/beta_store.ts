@@ -7,8 +7,11 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    replays: new Replays(),
-    currentReplay: null,
+    replays: new Replays(),   // all replays in the current list
+    currentReplay: null,      // if a replay was clicked
+    currentDropdown: null,    // homepage select dropdowns
+    gameType: `all`,          // all, standard, wild
+    rankRange: `rank5`,       // rank5, legend, top-1000, top-500, top-100
   },
 
   mutations: {
@@ -18,6 +21,15 @@ const store = new Vuex.Store({
     },
     selectReplay(state, replay) {
       state.currentReplay = replay
+    },
+    toggleDropdown(state, dropdownType) {
+      state.currentDropdown = dropdownType
+    },
+    selectGameType(state, gameType) {
+      state.gameType = gameType
+    },
+    selectRankRange(state, rankRange) {
+      state.rankRange = rankRange
     }
   },
 
@@ -27,12 +39,28 @@ const store = new Vuex.Store({
     },
     selectReplay({ commit }, replay) {
       commit(`selectReplay`, replay)
-    }
+    },
+    toggleDropdown({ commit, getters }, dropdownType) {
+      if (dropdownType === getters.currentDropdown) {
+        commit(`toggleDropdown`, null)
+      } else {
+        commit(`toggleDropdown`, dropdownType)
+      }
+    },
+    selectGameType({ commit }, gameType) {
+      commit(`toggleDropdown`, null)
+      commit(`selectGameType`, gameType)
+    },
+    selectRankRange({ commit }, rankRange) {
+      commit(`toggleDropdown`, null)
+      commit(`selectRankRange`, rankRange)
+    },
   },
 
   getters: {
     replays: state => state.replays.replayList,
-    currentReplay: state => state.currentReplay
+    currentReplay: state => state.currentReplay,
+    currentDropdown: state => state.currentDropdown,
   },
 })
 

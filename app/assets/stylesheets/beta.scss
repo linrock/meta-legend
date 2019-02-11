@@ -29,12 +29,13 @@ body {
 
   &.flex {
     display: flex;
-  }
 
-  & > .left {
-    font-size: 16px;
-    color: rgba(0,0,0,0.7);
-    width: 510px;
+    & > .left {
+      font-size: 16px;
+      color: rgba(0,0,0,0.7);
+      width: 510px;
+      margin-top: 20px;
+    }
   }
 }
 
@@ -62,7 +63,7 @@ body {
   .sidebar-section-header {
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    margin: 20px 0;
 
     h3 {
       font-size: 14px;
