@@ -22,6 +22,10 @@ class ArchetypeDefinitions
       if @deck_card_ids.include?("BOT_573") # Subject 9
         "Secret Hunter"
       end
+    elsif @class_name == "Priest"
+      if @deck_card_ids.include?("BOT_567") # Zerek's Cloning Gallery
+        "Clone Priest"
+      end
     elsif @deck_card_ids.include?("BOT_424") # Mecha'thun
       case @class_name
         when "Priest" then "Mecha'thun Priest"

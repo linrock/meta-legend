@@ -3,7 +3,9 @@
 require 'set'
 
 class ArchetypeMatcher
-  IGNORED_ARCHETYPES = Set.new([
+
+  # Archetypes that are no longer seen in Standard
+  WILD_ARCHETYPES = Set.new([
     "Barnes Hunter",
     "C'Thun Druid",
     "C'Thun Warrior",
@@ -22,20 +24,25 @@ class ArchetypeMatcher
     {
       p1: ArchetypeMatcher.new(
         game_api_response.friendly_deck["cards"],
-        game_api_response.friendly_class_name
+        game_api_response.friendly_class_name,
+        game_api_response.game_type
       ).top_matches,
       p2: ArchetypeMatcher.new(
         (game_api_response.opposing_deck["predicted_cards"] ||
         game_api_response.opposing_deck["cards"]),
-        game_api_response.opposing_class_name
+        game_api_response.opposing_class_name,
+        game_api_response.game_type
       ).top_matches
     }
   end
 
-  def initialize(card_ids, class_name)
+  def initialize(card_ids, class_name, game_type = nil)
     @card_ids = card_ids
     @class_name = class_name
-    @archetype_match = ArchetypeDefinitions.new(card_ids, class_name).archetype_match
+    @game_type = game_type
+    @archetype_match = ArchetypeDefinitions.new(
+      card_ids, class_name
+    ).archetype_match
   end
 
   def top_match
@@ -43,17 +50,17 @@ class ArchetypeMatcher
   end
 
   def top_matches
-    [
-      @archetype_match && {
+    matches = all_matches
+    if @game_type == "standard"
+      matches.select! {|data| !WILD_ARCHETYPES.include?(data[:name]) }
+    end
+    matches = matches.sort_by { |data| -data[:percent_match] }.take(5)
+    if @archetype_match
+      matches.unshift({
         id: @archetype_match.data["id"],
         name: @archetype_match.data["name"]
-      }
-    ].compact +
-    all_matches
-      .select {|data| !IGNORED_ARCHETYPES.include?(data[:name]) }
-      .sort_by do |data|
-        -data[:percent_match]
-      end.take(5)
+      })
+    end
   end
 
   def all_matches

@@ -68,6 +68,29 @@ class CombinedReplayData < ActiveRecord::Base
     time :played_at
   end
 
+  # Gets the top archetype matches for p1 and p2
+  # Does not classify p2 if not enough cards in the deck
+  def archetype_matches
+    matches = {}
+    matches[:p1] = ArchetypeMatcher.new(
+      p1_deck_card_ids, p1_class, game_type
+    ).top_matches
+    card_ids = p2_predicted_deck_card_ids || p2_deck_card_ids
+    if card_ids.length >= 8
+      matches[:p2] = ArchetypeMatcher.new(
+        card_ids, p2_class, game_type
+      ).top_matches
+    end
+    matches
+  end
+
+  def update_archetypes_from_matches
+    matches = archetype_matches
+    p1_archetype = matches[:p1].first.gsub(p1_class, '').strip
+    p2_archetype = matches[:p2].first.gsub(p2_class, '').strip
+    save!
+  end
+
   # Data structure should match ReplayData#to_hash
   def as_json(options = {})
     {

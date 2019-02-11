@@ -19,8 +19,9 @@ class HomeController < ApplicationController
     # end.each_hit_with_result.map {|_, result| result.hsreplay_id }
     # @replay_data = replay_data(hsreplay_ids)
     @replay_data = CombinedReplayData.search do
-      with :p1_class, "Hunter"
-      with :p1_archetype, "Midrange"
+      # with :p1_class, "Hunter"
+      # with :p1_archetype, "Midrange"
+      with :p1_rank, 1..5
       order_by :played_at, :desc
     end.each_hit_with_result.map {|_, result| result }.to_json
     @stats_popular_decks = StatsPopularDecks.new
