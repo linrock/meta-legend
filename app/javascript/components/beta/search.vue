@@ -3,32 +3,40 @@
     .search-filters
       div
         .label Show me
-        .selector Standard games
+        .selector(@click="chooseGameType") Standard games
       div
         .label Played at
-        .selector Rank 5 and above
+        .selector(@click="chooseRank") Rank 5 and above
       div
         .label By
-        .selector Secret Hunter
+        .selector(@click="chooseClassAndArchetype") Secret Hunter
       div
         .label Against
-        .selector Odd Mage
+        .selector(@click="chooseVs") Odd Mage
     .search-results
       replay-row(
-        v-for="replay in replays"
+        v-for="replay in $store.getters.replays"
         :key="replay.key"
         :replay="replay"
       )
 </template>
 
 <script lang="ts">
-  import store from '../../beta_store'
   import ReplayRow from './replay_row'
 
   export default {
-    data() {
-      return {
-        replays: store.replays
+    methods: {
+      chooseGameType() {
+        console.log(`choosing game type`)
+      },
+      chooseRank() {
+        console.log(`choosing rank`)
+      },
+      chooseClassAndArchetype() {
+        console.log(`choosing class and archetype`)
+      },
+      chooseVs() {
+        console.log(`choosing vs`)
       }
     },
 

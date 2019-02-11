@@ -26,6 +26,7 @@
 </template>
 
 <script lang="ts">
+  import Replay from '../../models/replay'
   import PlayerRank from '../player_rank'
   import { trackEvent } from '../../utils'
 
@@ -33,7 +34,7 @@
     props: {
       replay: {
         required: true,
-        type: Object,
+        type: Replay,
       },
     },
 
@@ -42,15 +43,14 @@
         const replay = this.isSelectedReplay ? null : this.replay
         this.$store.dispatch(`selectReplay`, replay)
         if (replay) {
-          trackEvent('click row', 'replay', replay.hsreplayId)
+          trackEvent(`click row`, `replay`, replay.hsreplayId)
         }
       },
     },
 
     computed: {
       isSelectedReplay() {
-        return false
-        // return this.replay === this.$store.getters.currentReplay
+        return this.replay === this.$store.getters.currentReplay
       },
     },
 
