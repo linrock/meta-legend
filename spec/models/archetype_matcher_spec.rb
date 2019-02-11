@@ -64,4 +64,9 @@ describe ArchetypeMatcher, type: :model do
     )
     expect(matcher.top_match[:name]).to eq("Dragon Priest")
   end
+
+  it 'matches even paladin' do
+    matcher = ArchetypeMatcher.new(["GIL_692"], 'Paladin')
+    expect(matcher.top_match[:name]).to eq("Even Paladin")
+  end
 end

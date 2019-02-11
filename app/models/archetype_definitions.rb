@@ -65,6 +65,8 @@ class ArchetypeDefinitions
       else
         "Odd #{@class_name}"
       end
+    elsif has_card?("GIL_692") # Genn greymane
+      "Even #{@class_name}"
     end
   end
 
