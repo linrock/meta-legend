@@ -157,7 +157,7 @@ class ReplayOutcome < ApplicationRecord
   def player2_archetype_prefix
     arch_id = data["player2_archetype"]
     arch = ArchetypeCache.instance.archetypes_map[arch_id.to_s]
-    arch.data["name"].gsub(player1_class, '').strip
+    arch.data["name"].gsub(player2_class, '').strip
   end
 
   def player2_archetype
