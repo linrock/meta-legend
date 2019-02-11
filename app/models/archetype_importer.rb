@@ -21,8 +21,15 @@ class ArchetypeImporter
     end
   end
 
-  def import!
-    data = JSON.pretty_generate(json_data).to_s
+  def import!(filter = false)
+    data = json_data
+    if filter # filter out archetypes that fail validations
+      data.select! do |d|
+        Archetype.new(data: d).valid? && \
+        d["standard_ccp_signature_core"].present?
+      end
+    end
+    data = JSON.pretty_generate(data).to_s
     open("data/archetypes.json", 'w') do |f|
       f.write data
     end

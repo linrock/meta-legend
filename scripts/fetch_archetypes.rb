@@ -1,1 +1,1 @@
-ArchetypeImporter.new.import!
+ArchetypeImporter.new.import!(true)
