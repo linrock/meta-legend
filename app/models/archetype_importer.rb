@@ -2,6 +2,7 @@ require 'open-uri'
 
 class ArchetypeImporter
   API_ENDPOINT = "https://hsreplay.net/api/v1/archetypes/"
+  DATA_FILE = Rails.root.join("data/archetypes.json")
 
   def check!
     hsreplay_archetypes.each do |hsrp_archetype|
@@ -30,7 +31,7 @@ class ArchetypeImporter
       end
     end
     data = JSON.pretty_generate(data).to_s
-    open("data/archetypes.json", 'w') do |f|
+    open(DATA_FILE, 'w') do |f|
       f.write data
     end
   end

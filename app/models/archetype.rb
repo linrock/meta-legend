@@ -4,8 +4,9 @@ class Archetype < ApplicationRecord
   validate :check_data_format
   validate :check_data_scsc_format
 
+  # Update existing Archetype models with new data
   def self.update_from_archetypes_json!
-    json_archetypes = open("data/archetypes.json", "r") do |f|
+    json_archetypes = open(ArchetypeImporter::DATA_FILE, "r") do |f|
       JSON.parse(f.read)
     end
     json_archetypes.each do |arch_data|
@@ -15,8 +16,9 @@ class Archetype < ApplicationRecord
     end
   end
 
+  # Create missing Archetypes based on the data file
   def self.create_from_archetypes_json!
-    json_archetypes = open("data/archetypes.json", "r") do |f|
+    json_archetypes = open(ArchetypeImporter::DATA_FILE, "r") do |f|
       JSON.parse(f.read)
     end
     json_archetypes.each do |arch_data|
