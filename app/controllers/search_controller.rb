@@ -1,7 +1,7 @@
 class SearchController < ActionController::API
 
   def index
-    hsreplay_ids = CombinedReplayData.search do
+    replay_data = CombinedReplayData.search do
       if PlayerClass::NAMES.include? params[:p1_class]
         with :p1_class, params[:p1_class]
       end
@@ -41,20 +41,12 @@ class SearchController < ActionController::API
         end
       end
       order_by(:played_at, :desc)
-      paginate(page: 1, per_page: 30)
-    end.each_hit_with_result.map {|_, result| result.hsreplay_id }
+      paginate(page: 1, per_page: 20)
+    end.each_hit_with_result.map {|_, result| result }.as_json
     render json: {
-      replays: replay_data(hsreplay_ids),
+      replays: replay_data,
       page: 1,
-      per_page: 30,
+      per_page: 20,
     }
-  end
-
-  private
-
-  def replay_data(hsreplay_ids)
-    hsreplay_ids.map do |hsreplay_id|
-      ReplayDataCache.new.replay_data_hash(hsreplay_id) rescue nil
-    end.compact
   end
 end
