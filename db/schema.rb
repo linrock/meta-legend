@@ -22,19 +22,23 @@ ActiveRecord::Schema.define(version: 2019_02_08_044720) do
   end
 
   create_table "combined_replay_data", force: :cascade do |t|
-    t.string "hsreplay_id"
+    t.string "hsreplay_id", null: false
     t.jsonb "metadata", default: {}, null: false
     t.string "p1_battletag"
     t.string "p1_class"
     t.string "p1_archetype"
     t.integer "p1_rank"
     t.integer "p1_legend_rank"
+    t.boolean "p1_is_first"
+    t.boolean "p1_wins"
     t.jsonb "p1_deck_card_ids"
     t.string "p2_battletag"
     t.string "p2_class"
     t.string "p2_archetype"
     t.integer "p2_rank"
     t.integer "p2_legend_rank"
+    t.boolean "p2_is_first"
+    t.boolean "p2_wins"
     t.jsonb "p2_deck_card_ids"
     t.jsonb "p2_predicted_deck_card_ids"
     t.string "game_type"
@@ -42,7 +46,6 @@ ActiveRecord::Schema.define(version: 2019_02_08_044720) do
     t.integer "utc_offset"
     t.integer "num_turns"
     t.integer "duration_seconds"
-    t.boolean "p1_wins"
     t.datetime "found_at"
     t.datetime "played_at"
     t.datetime "created_at", null: false
