@@ -61,6 +61,8 @@ const store = new Vuex.Store({
     replays: state => state.replays.replayList,
     currentReplay: state => state.currentReplay,
     currentDropdown: state => state.currentDropdown,
+    gameType: state => state.gameType,
+    rankRange: state => state.rankRange,
   },
 })
 

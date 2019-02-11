@@ -1,18 +1,23 @@
 <template lang="pug">
-  .selector-dropdown.select-game-type
-    .option(
-      v-for="[value, label] in gameTypes"
-      @click="selectGameType(value)"
-    ) {{ label }}
+  .selector
+    .selected(@click="chooseGameType")
+      | {{ gameTypes[$store.getters.gameType] }}
+    .selector-dropdown(
+      v-if="$store.getters.currentDropdown === 'game_type'"
+    )
+      .option(
+        v-for="[value, label] in Object.entries(gameTypes)"
+        @click="selectGameType(value)"
+      ) {{ label }}
 
 </template>
 
 <script lang="ts">
-  const gameTypes = [
-    ['all', 'All ranked games'],
-    ['standard', 'Standard games'],
-    ['wild', 'Wild games'],
-  ]
+  const gameTypes = {
+    'all':      'All ranked games',
+    'standard': 'Standard games',
+    'wild':     'Wild games',
+  }
 
   export default {
     data() {
@@ -22,6 +27,9 @@
     },
 
     methods: {
+      chooseGameType() {
+        this.$store.dispatch(`toggleDropdown`, `game_type`)
+      },
       selectGameType(gameType) {
         this.$store.dispatch(`selectGameType`, gameType)
       }

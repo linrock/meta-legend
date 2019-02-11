@@ -3,16 +3,10 @@
     .search-filters
       .selector-group
         .label Show me
-        .selector(@click="chooseGameType") Standard games
-        select-game-type(
-          v-if="$store.getters.currentDropdown === 'game_type'"
-        )
+        select-game-type
       .selector-group
         .label Played at
-        .selector(@click="chooseRank") Rank 5 and above
-        select-rank-range(
-          v-if="$store.getters.currentDropdown === 'rank_range'"
-        )
+        select-rank-range
       .selector-group
         .label By
         .selector(@click="chooseClassAndArchetype") Secret Hunter
@@ -40,14 +34,6 @@
     },
 
     methods: {
-      chooseGameType() {
-        console.log(`choosing game type`)
-        this.$store.dispatch(`toggleDropdown`, `game_type`)
-      },
-      chooseRank() {
-        console.log(`choosing rank`)
-        this.$store.dispatch(`toggleDropdown`, `rank_range`)
-      },
       chooseClassAndArchetype() {
         console.log(`choosing class and archetype`)
       },
@@ -64,25 +50,38 @@
   }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
   .search-filters
     min-height 100px
 
   .selector-group
     position relative
 
-    .selector-dropdown
-      position absolute
-      background white
-      border-radius 2px
-      box-shadow 0 1px 10px rgba(0,0,0,0.15)
-      min-width 160px
-      left 110px
-      top 30px
-      z-index 10
-      padding 10px
+    .selector
+      .selected
+        user-select none
 
-      >>> .option
-        padding 5px 0
+        &:hover
+          cursor pointer
+
+      .selector-dropdown
+        position absolute
+        background white
+        border-radius 2px
+        box-shadow 0 1px 10px rgba(0,0,0,0.15)
+        font-weight normal
+        min-width 160px
+        left 110px
+        top 30px
+        z-index 10
+        padding 10px
+
+        .option
+          user-select none
+          font-weight normal
+          padding 5px 0
+
+          &:hover
+            cursor pointer
 
 </style>
