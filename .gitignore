@@ -13,12 +13,6 @@
 !/log/.keep
 !/tmp/.keep
 
-# Ignore uploaded files in development
-/storage/*
-
-/node_modules
-/yarn-error.log
-
 /public/assets
 .byebug_history
 
@@ -27,13 +21,15 @@
 
 /public/packs
 /public/packs-test
+/node_modules
+/yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+.env.development
 
 # Ignore data
 /scripts/data/
 /replay_data/
 /data/hsreplay-cards/
 /solr/*/data/
-
-.env.development
