@@ -17,6 +17,8 @@ class ArchetypeMatcher
     "Prince Warlock",
     "Handlock",
     "Jade Druid",
+    "Highlander Priest",
+    "Dragon Highlander Priest"
   ])
 
   def self.match_hsreplay_id(hsreplay_id)
@@ -49,6 +51,7 @@ class ArchetypeMatcher
     top_matches.first
   end
 
+  # manual match (if present) + top 5 matches ranked by % cards matched
   def top_matches
     matches = all_matches
     if @game_type == "standard"
@@ -61,6 +64,7 @@ class ArchetypeMatcher
         name: @archetype_match.data["name"]
       })
     end
+    matches
   end
 
   def all_matches

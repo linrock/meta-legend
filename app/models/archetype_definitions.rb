@@ -7,11 +7,13 @@ class ArchetypeDefinitions
     @class_name = class_name
   end
 
+  # Returns the Archetype model matching the cards + class name
   def archetype_match
     name = archetype_name
-    name && Archetype.find_by_name(name)
+    name && name.include?(@class_name) && Archetype.find_by_name(name)
   end
 
+  # Returns the name of the archetype matching the cards + class name
   def archetype_name
     if @class_name == "Rogue"
       deathrattle_card_ids = ["UNG_083", "BOT_286", "LOOT_161", "BOT_508"]
@@ -25,6 +27,13 @@ class ArchetypeDefinitions
     elsif @class_name == "Priest"
       if @deck_card_ids.include?("BOT_567") # Zerek's Cloning Gallery
         "Clone Priest"
+      else
+        dragons = Set.new([
+          "UNG_848", "EX1_561", "LOOT_410", "EX1_043", "TRL_569"
+        ])
+        if @deck_card_ids.count {|c| dragons.include?(c) } >= 5
+          "Dragon Priest"
+        end
       end
     elsif @deck_card_ids.include?("BOT_424") # Mecha'thun
       case @class_name

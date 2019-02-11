@@ -8,7 +8,7 @@ module HearthstoneCard
     @@card_json_data ||= open(DATA_FILE, 'r') { |f| JSON.parse(f.read) }
   end
 
-  # map id -> card info
+  # map id (ie. TRL_569) -> shortened card info
   def card_map
     return @@card_map if defined? @@card_map
     @@card_map ||= Hash[card_json_data.map {|card|
@@ -16,7 +16,15 @@ module HearthstoneCard
     }]
   end
 
-  # map path -> card info
+  # map id (ie. TRL_569) -> full card info
+  def full_card_map
+    return @@full_card_map if defined? @@full_card_map
+    @@full_card_map ||= Hash[card_json_data.map {|card|
+      [card['id'], card]
+    }]
+  end
+
+  # map http path -> card info
   def card_path_map
     return @@card_path_map if defined? @@card_path_map
     @@card_path_map ||= Hash[card_json_data.map {|card|
@@ -24,8 +32,8 @@ module HearthstoneCard
     }]
   end
 
-  def find_by_id(card_id)
-    card_map[card_id]
+  def find_by_id(card_id, full_info = false)
+    full_info ? full_card_map[card_id] : card_map[card_id]
   end
 
   def find_by_name(card_name)
