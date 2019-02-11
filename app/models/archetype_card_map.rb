@@ -22,8 +22,9 @@ class ArchetypeCardMap
   end
 
   def export!
+    json_data = dynamic_card_map
     open(CARD_MAP_FILE, "w") do |f|
-      f.write dynamic_card_map.to_json
+      f.write JSON.pretty_generate(json_data).to_s
     end
   end
 end
