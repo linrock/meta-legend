@@ -11,7 +11,7 @@ const store = new Vuex.Store({
     currentReplay: null,      // if a replay was clicked
     currentDropdown: null,    // homepage select dropdowns
     gameType: `all`,          // all, standard, wild
-    rankRange: `rank5`,       // rank5, legend, top-1000, top-500, top-100
+    rankRange: `rank-5`,      // rank-5, legend, top-1000, top-500, top-100
   },
 
   mutations: {

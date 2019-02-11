@@ -8,7 +8,7 @@
         .label Played at
         select-rank-range
       .selector-group
-        .label By
+        .label Piloted by
         .selector(@click="chooseClassAndArchetype") Secret Hunter
       .selector-group
         .label Against
@@ -25,6 +25,8 @@
   import ReplayRow from './replay_row'
   import SelectGameType from './select_game_type'
   import SelectRankRange from './select_rank_range'
+  import { paramsToString } from '../../utils'
+  import api from '../../api'
 
   export default {
     data() {
@@ -39,6 +41,26 @@
       },
       chooseVs() {
         console.log(`choosing vs`)
+      }
+    },
+
+    computed: {
+      apiPath() {
+        const queryParams = {
+          game_type: this.$store.getters.gameType,
+          rank_range: this.$store.getters.rankRange,
+        }
+        return `/search.json?${paramsToString(queryParams)}`
+      }
+    },
+
+    watch: {
+      apiPath() {
+        api.get(this.apiPath)
+          .then(response => response.data)
+          .then(jsonData => {
+            this.$store.dispatch(`setReplays`, jsonData.replays)
+          })
       }
     },
 

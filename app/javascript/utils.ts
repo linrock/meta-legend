@@ -40,3 +40,7 @@ export function timeAgo(timestamp): string {
   }
   return timeAgo
 }
+
+export function paramsToString(params: Object): string {
+  return Object.entries(params).map(([k,v]) => `${k}=${v}`).join(`&`)
+}

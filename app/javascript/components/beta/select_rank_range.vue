@@ -14,7 +14,7 @@
 
 <script lang="ts">
   const rankRanges = {
-    'rank5':    'Rank 5 and above',
+    'rank-5':   'Rank 5 and above',
     'legend':   'All legend',
     'top-1000': 'Top 1000 legend',
     'top-500':  'Top 500 legend',

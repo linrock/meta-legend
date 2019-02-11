@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # JSON api endpoints
   get "/replays.json"              => "replays#index"
   get "/popular.json"              => "replays#popular"
+  get "/search.json"               => "search#index"
 
   post "/replays/like.json"        => "replay_likes#create"
   post "/replays/get_likes.json"   => "replay_likes#likes_batch"

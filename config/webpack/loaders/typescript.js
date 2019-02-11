@@ -1,5 +1,5 @@
 module.exports = {
-  test: /\.(ts|tsx)?(\.erb)?$/,
+  test: /\.ts$/,
   use: [{
     loader: 'ts-loader',
     options: {
