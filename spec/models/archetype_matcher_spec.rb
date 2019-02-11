@@ -42,4 +42,14 @@ describe ArchetypeMatcher, type: :model do
     matcher = ArchetypeMatcher.new(["BOT_573"], 'Hunter')
     expect(matcher.top_match[:name]).to eq("Secret Hunter")
   end
+
+  it 'matches odd quest warrior' do
+    matcher = ArchetypeMatcher.new(["GIL_826", "UNG_934"], 'Warrior')
+    expect(matcher.top_match[:name]).to eq("Odd Quest Warrior")
+  end
+
+  it 'matches odd warrior' do
+    matcher = ArchetypeMatcher.new(["GIL_826"], 'Warrior')
+    expect(matcher.top_match[:name]).to eq("Odd Warrior")
+  end
 end

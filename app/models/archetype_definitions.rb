@@ -50,12 +50,18 @@ class ArchetypeDefinitions
 
   # Cards that define the deck
   def match_by_card
-    if @deck_card_ids.include?("BOT_424") # Mecha'thun
+    if has_card?("BOT_424") # Mecha'thun
       case @class_name
         when "Priest" then "Mecha'thun Priest"
         when "Warlock" then "Mecha'thun Warlock"
         when "Druid" then "Mecha'thun Druid"
         when "Warrior" then "Mecha'thun Warrior"
+      end
+    elsif has_card?("GIL_826") # Baku the mooneater
+      if @class_name == "Warrior" && has_card?("UNG_934")
+        "Odd Quest Warrior"
+      else
+        "Odd #{@class_name}"
       end
     end
   end
