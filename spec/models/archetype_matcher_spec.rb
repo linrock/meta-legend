@@ -52,4 +52,16 @@ describe ArchetypeMatcher, type: :model do
     matcher = ArchetypeMatcher.new(["GIL_826"], 'Warrior')
     expect(matcher.top_match[:name]).to eq("Odd Warrior")
   end
+
+  it 'matches secret odd mage' do
+    matcher = ArchetypeMatcher.new(["GIL_826", "EX1_287", "LOOT_101", "EX1_612"]*2, 'Mage')
+    expect(matcher.top_match[:name]).to eq("Secret Odd Mage")
+  end
+
+  it 'matches dragon priest' do
+    matcher = ArchetypeMatcher.new(
+      ["UNG_848", "EX1_561", "LOOT_410", "EX1_043", "TRL_569"]*2, 'Priest'
+    )
+    expect(matcher.top_match[:name]).to eq("Dragon Priest")
+  end
 end

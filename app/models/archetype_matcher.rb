@@ -55,7 +55,7 @@ class ArchetypeMatcher
     if @game_type == "standard"
       matches.select! {|data| !WILD_ARCHETYPES.include?(data[:name]) }
     end
-    matches = matches.sort_by { |data| -data[:percent_match] }.take(5)
+    matches = matches.sort_by { |data| -data[:percent_match] }
     archetype_match = @definitions.archetype_match
     if archetype_match
       matches.unshift({
@@ -63,7 +63,7 @@ class ArchetypeMatcher
         name: archetype_match.data["name"]
       })
     end
-    @definitions.filter(matches)
+    @definitions.filter(matches).take(5)
   end
 
   def all_matches

@@ -60,6 +60,8 @@ class ArchetypeDefinitions
     elsif has_card?("GIL_826") # Baku the mooneater
       if @class_name == "Warrior" && has_card?("UNG_934")
         "Odd Quest Warrior"
+      elsif @class_name == "Mage" && has(4, ["EX1_287", "LOOT_101", "EX1_612"])
+        "Secret Odd Mage"
       else
         "Odd #{@class_name}"
       end
@@ -91,6 +93,11 @@ class ArchetypeDefinitions
 
   def has_card?(card_id)
     @deck_card_ids.include?(card_id)
+  end
+
+  # has at least N of any of the card ids
+  def has(n, card_ids)
+    @deck_card_ids.count {|c| card_ids.include?(c) } >= n
   end
 
   def deck_cards
