@@ -57,9 +57,9 @@ class CombinedReplayDataMigrator
   def migrate!
     return unless check_data.values.all?
     begin
-      extract_replay_outcome_data
       extract_xml_data
       extract_game_api_data
+      extract_replay_outcome_data
       @combined.save!
     rescue => e
       puts "Error migrating: #{@hsreplay_id}"
@@ -68,27 +68,20 @@ class CombinedReplayDataMigrator
     end
   end
 
-  def extract_replay_outcome_data
-    @combined.p1_class = ro.player1_class
-    @combined.p1_archetype = ro.player1_archetype_prefix
-    @combined.p1_rank = ro.player1_rank
-    @combined.p1_legend_rank = ro.player1_legend_rank
-    @combined.p2_class = ro.player2_class
-    @combined.p2_archetype = ro.player2_archetype_prefix
-    @combined.p2_rank = ro.player2_rank
-    @combined.p2_legend_rank = ro.player2_legend_rank
-    @combined.found_at = ro.created_at
-  end
-
   def extract_xml_data
-    @combined.p1_battletag = rx.extracted_data["p1"]["tag"]
+    data = rx.extracted_data
+    @combined.p1_battletag = data["p1"]["tag"]
     @combined.p2_battletag = rx.extracted_data["p2"]["tag"]
     @combined.utc_offset = rx.utc_offset
   end
 
   def extract_game_api_data
     @combined.p1_deck_card_ids = rg.friendly_deck["cards"].sort
+    @combined.p1_rank = rg.friendly_rank
+    @combined.p1_legend_rank = rg.friendly_legend_rank
     @combined.p2_deck_card_ids = rg.opposing_deck["cards"].sort
+    @combined.p2_rank = rg.opposing_rank
+    @combined.p2_legend_rank = rg.opposing_legend_rank
     @combined.p2_predicted_deck_card_ids = (rg.opposing_deck["predicted_cards"] || []).sort
     @combined.p1_wins = rg.data["won"]
     @combined.game_type = rg.game_type
@@ -97,6 +90,29 @@ class CombinedReplayDataMigrator
     @combined.duration_seconds = rg.duration_seconds
     @combined.num_turns = rg.num_turns
     @combined.metadata = rg.metadata if rg.metadata.present?
+  end
+
+  def extract_replay_outcome_data
+    if @combined.p1_rank == ro.player1_rank&.to_i && \
+       @combined.p1_legend_rank == ro.player1_legend_rank&.to_i
+      @combined.p1_class = ro.player1_class
+      @combined.p1_archetype = ro.player1_archetype_prefix
+      @combined.p2_class = ro.player2_class
+      @combined.p2_archetype = ro.player2_archetype_prefix
+    elsif @combined.p1_rank == ro.player2_rank&.to_i && \
+          @combined.p1_legend_rank == ro.player2_legend_rank&.to_i
+      @combined.p1_class = ro.player2_class
+      @combined.p1_archetype = ro.player2_archetype_prefix
+      @combined.p2_class = ro.player1_class
+      @combined.p2_archetype = ro.player1_archetype_prefix
+    else
+      # Ranks in the data are mismatched, so invalidate them
+      @combined.p1_rank = nil
+      @combined.p1_legend_rank = nil
+      @combined.p2_rank = nil
+      @combined.p2_legend_rank = nil
+    end
+    @combined.found_at = ro.created_at
   end
 
   private

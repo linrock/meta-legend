@@ -67,13 +67,15 @@ class CombinedReplayData < ActiveRecord::Base
     ranks.each do |rank|
       errors[:base] << "player rank is invalid" unless rank.nil? || rank.to_i > 0
     end
-    if ((p1_rank.nil? && p1_legend_rank.nil?) ||
-        (p1_rank.to_i > 0 && p1_legend_rank.to_i > 0))
-      errors[:base] << "player 1 rank values are invalid"
-    end
-    if ((p2_rank.nil? && p2_legend_rank.nil?) ||
-        (p2_rank.to_i > 0 && p2_legend_rank.to_i > 0))
-      errors[:base] << "player 2 rank values are invalid"
+    if game_type == "standard" || game_type == "wild"
+      unless ((p1_rank.nil? && p1_legend_rank.to_i > 0) ||
+          (p1_rank.to_i > 0 && p1_legend_rank.nil?))
+        errors[:base] << "player 1 rank values are invalid - #{p1_rank}, #{p1_legend_rank}"
+      end
+      unless ((p2_rank.nil? && p2_legend_rank.to_i > 0) ||
+          (p2_rank.to_i > 0 && p2_legend_rank.nil?))
+        errors[:base] << "player 2 rank values are invalid - #{p2_rank}, #{p2_legend_rank}"
+      end
     end
   end
 end

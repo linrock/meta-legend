@@ -57,8 +57,24 @@ class ReplayGameApiResponse < ApplicationRecord
     data["friendly_player"]["hero_class_name"].capitalize
   end
 
+  def friendly_rank
+    data["friendly_player"]["rank"]&.to_i
+  end
+
+  def friendly_legend_rank
+    data["friendly_player"]["legend_rank"]&.to_i
+  end
+
   def opposing_class_name
     data["opposing_player"]["hero_class_name"].capitalize
+  end
+
+  def opposing_rank
+    data["opposing_player"]["rank"]&.to_i
+  end
+
+  def opposing_legend_rank
+    data["opposing_player"]["legend_rank"]&.to_i
   end
 
   def arena?
