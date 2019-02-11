@@ -21,7 +21,7 @@ class ReplayXmlParser
     players.map {|p| p.attr("name") }
   end
 
-  # since the legend rank for a player in the replay is sometimes nil
+  # the legend rank for a player in the replay is sometimes nil here
   # when it's not nil in the replay outcome
   def player_legend_ranks
     players.map {|p| p.attr("legendRank") }

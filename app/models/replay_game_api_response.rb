@@ -4,23 +4,29 @@ class ReplayGameApiResponse < ApplicationRecord
   validates_uniqueness_of :hsreplay_id
   validate :check_data_format
 
+  GAME_TYPES = {
+    standard: 2,
+    arena: 3,
+    wild: 30,
+  }
+
   scope :arena, -> do
-    where("data -> 'global_game' -> 'game_type' = '3'")
+    where("data -> 'global_game' -> 'game_type' = '#{GAME_TYPES[:arena]}'")
     .order("data -> 'global_game' -> 'match_end' DESC")
   end
 
   scope :wild, -> do
-    where("data -> 'global_game' -> 'game_type' = '30'")
+    where("data -> 'global_game' -> 'game_type' = '#{GAME_TYPES[:wild]}'")
     .order("data -> 'global_game' -> 'match_end' DESC")
   end
 
   def game_type
     case data["global_game"]["game_type"]
-    when 2
+    when GAME_TYPES[:standard]
       "standard"
-    when 3
+    when GAME_TYPES[:arena]
       "arena"
-    when 30
+    when GAME_TYPES[:wild]
       "wild"
     end
   end
@@ -45,40 +51,66 @@ class ReplayGameApiResponse < ApplicationRecord
     data["global_game"]["num_turns"].to_i
   end
 
+  # cards, digest, predicted_cards, size
   def friendly_deck
     data["friendly_deck"]
   end
 
+  def friendly_player
+    data["friendly_player"]
+  end
+
+  def friendly_class_name
+    friendly_player["hero_class_name"].capitalize
+  end
+
+  def friendly_rank
+    friendly_player["rank"]&.to_i
+  end
+
+  def friendly_legend_rank
+    friendly_player["legend_rank"]&.to_i
+  end
+
+  def friendly_player_is_first
+    friendly_player["is_first"]
+  end
+
+  def friendly_player_wins
+    friendly_player["final_state"] == 4
+  end
+
+  # cards, digest, predicted_cards, size
   def opposing_deck
     data["opposing_deck"]
   end
 
-  def friendly_class_name
-    data["friendly_player"]["hero_class_name"].capitalize
-  end
-
-  def friendly_rank
-    data["friendly_player"]["rank"]&.to_i
-  end
-
-  def friendly_legend_rank
-    data["friendly_player"]["legend_rank"]&.to_i
+  def opposing_player
+    data["opposing_player"]
   end
 
   def opposing_class_name
-    data["opposing_player"]["hero_class_name"].capitalize
+    opposing_player["hero_class_name"].capitalize
   end
 
   def opposing_rank
-    data["opposing_player"]["rank"]&.to_i
+    opposing_player["rank"]&.to_i
   end
 
   def opposing_legend_rank
-    data["opposing_player"]["legend_rank"]&.to_i
+    opposing_player["legend_rank"]&.to_i
+  end
+
+  def opposing_player_is_first
+    opposing_player["is_first"]
+  end
+
+  def opposing_player_wins
+    opposing_player["final_state"] == 4
   end
 
   def arena?
-    data["global_game"]["game_type"] == 3
+    data["global_game"]["game_type"] == GAME_TYPES[:arena]
   end
 
   def metadata

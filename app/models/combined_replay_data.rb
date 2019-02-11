@@ -19,7 +19,7 @@ class CombinedReplayData < ActiveRecord::Base
     numericality: { greater_than: 0 }, allow_nil: true
   validates :num_turns, numericality: { greater_than: 0 }
   validates :duration_seconds, numericality: { greater_than: 0 }
-  validate :check_player_ranks
+  validate :validate_player_ranks
 
   searchable do
     string :hsreplay_id
@@ -62,7 +62,7 @@ class CombinedReplayData < ActiveRecord::Base
 
   private
 
-  def check_player_ranks
+  def validate_player_ranks
     ranks = [p1_rank, p1_legend_rank, p2_rank, p2_legend_rank]
     ranks.each do |rank|
       errors[:base] << "player rank is invalid" unless rank.nil? || rank.to_i > 0

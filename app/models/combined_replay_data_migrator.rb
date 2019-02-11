@@ -79,11 +79,18 @@ class CombinedReplayDataMigrator
     @combined.p1_deck_card_ids = rg.friendly_deck["cards"].sort
     @combined.p1_rank = rg.friendly_rank
     @combined.p1_legend_rank = rg.friendly_legend_rank
+    @combined.p1_is_first = rg.friendly_player_is_first
+    @combined.p1_wins = rg.data["won"]
+
     @combined.p2_deck_card_ids = rg.opposing_deck["cards"].sort
     @combined.p2_rank = rg.opposing_rank
     @combined.p2_legend_rank = rg.opposing_legend_rank
-    @combined.p2_predicted_deck_card_ids = (rg.opposing_deck["predicted_cards"] || []).sort
-    @combined.p1_wins = rg.data["won"]
+    @combined.p2_predicted_deck_card_ids = (
+      rg.opposing_deck["predicted_cards"] || []
+    ).sort
+    @combined.p2_is_first = rg.opposing_player_is_first
+    @combined.p2_wins = rg.opposing_player_wins
+
     @combined.game_type = rg.game_type
     @combined.ladder_season = rg.ladder_season
     @combined.played_at = rg.played_at
@@ -92,6 +99,7 @@ class CombinedReplayDataMigrator
     @combined.metadata = rg.metadata if rg.metadata.present?
   end
 
+  # make sure that p1 is the pilot
   def extract_replay_outcome_data
     if @combined.p1_rank == ro.player1_rank&.to_i && \
        @combined.p1_legend_rank == ro.player1_legend_rank&.to_i
