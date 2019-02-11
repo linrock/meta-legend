@@ -13,6 +13,7 @@
       .selector-group
         .label Against
         select-p2-class
+    .search-stats
     .search-results
       replay-row(
         v-for="replay in $store.getters.replays"
@@ -82,6 +83,9 @@
   .search-filters
     min-height 100px
 
+  .search-stats
+    border-bottom 1px solid rgba(0,0,0,0.15)
+
   .selector-group
     position relative
 
@@ -90,6 +94,7 @@
         user-select none
 
         &:hover
+          color #45abfe
           cursor pointer
 
       .selector-dropdown
@@ -99,7 +104,7 @@
         box-shadow 0 1px 10px rgba(0,0,0,0.15)
         font-weight normal
         min-width 160px
-        left 110px
+        left 140px
         top 30px
         z-index 10
         padding 10px
@@ -110,6 +115,7 @@
           padding 5px 0
 
           &:hover
+            color #45abfe
             cursor pointer
 
 </style>
