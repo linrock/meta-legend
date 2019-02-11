@@ -42,9 +42,7 @@ class ArchetypeMatcher
     @card_ids = card_ids
     @class_name = class_name
     @game_type = game_type
-    @archetype_match = ArchetypeDefinitions.new(
-      card_ids, class_name
-    ).archetype_match
+    @definitions = ArchetypeDefinitions.new(card_ids, class_name)
   end
 
   def top_match
@@ -58,13 +56,14 @@ class ArchetypeMatcher
       matches.select! {|data| !WILD_ARCHETYPES.include?(data[:name]) }
     end
     matches = matches.sort_by { |data| -data[:percent_match] }.take(5)
-    if @archetype_match
+    archetype_match = @definitions.archetype_match
+    if archetype_match
       matches.unshift({
-        id: @archetype_match.data["id"],
-        name: @archetype_match.data["name"]
+        id: archetype_match.data["id"],
+        name: archetype_match.data["name"]
       })
     end
-    matches
+    @definitions.filter(matches)
   end
 
   def all_matches

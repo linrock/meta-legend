@@ -15,17 +15,23 @@ class ArchetypeDefinitions
 
   # Returns the name of the archetype matching the cards + class name
   def archetype_name
-    if @class_name == "Rogue"
+    match_by_card || match_by_class_name
+  end
+
+  # Class-specific matches
+  def match_by_class_name
+    case @class_name
+    when "Rogue"
       deathrattle_card_ids = ["UNG_083", "BOT_286", "LOOT_161", "BOT_508"]
       if (@deck_card_ids & deathrattle_card_ids).length >= 2
         "Deathrattle Rogue"
       end
-    elsif @class_name == "Hunter"
-      if @deck_card_ids.include?("BOT_573") # Subject 9
+    when "Hunter"
+      if has_card?("BOT_573") # Subject 9
         "Secret Hunter"
       end
-    elsif @class_name == "Priest"
-      if @deck_card_ids.include?("BOT_567") # Zerek's Cloning Gallery
+    when "Priest"
+      if has_card?("BOT_567") # Zerek's Cloning Gallery
         "Clone Priest"
       else
         dragons = Set.new([
@@ -35,16 +41,51 @@ class ArchetypeDefinitions
           "Dragon Priest"
         end
       end
-    elsif @deck_card_ids.include?("BOT_424") # Mecha'thun
-      case @class_name
-        when "Priest" then "Mecha'thun Priest"
-        when "Warlock" then "Mecha'thun Warlock"
-        when "Druid" then "Mecha'thun Druid"
+    when "Shaman"
+      if has_card?("GIL_820") # Shudderwock
+        "Shudderwock Shaman"
       end
     end
   end
 
+  # Cards that define the deck
+  def match_by_card
+    if @deck_card_ids.include?("BOT_424") # Mecha'thun
+      case @class_name
+        when "Priest" then "Mecha'thun Priest"
+        when "Warlock" then "Mecha'thun Warlock"
+        when "Druid" then "Mecha'thun Druid"
+        when "Warrior" then "Mecha'thun Warrior"
+      end
+    end
+  end
+
+  # Filters out clearly-wrong matches
+  def filter(archetype_matches)
+    quests = [
+      "UNG_028", # Open the waygate
+      "UNG_116", # Jungle giants
+      "UNG_829", # Lakkari sacrifice
+      "UNG_920", # The marsh queen
+      "UNG_934", # Fire plume's heart
+      "UNG_940", # Awaken the makers
+      "UNG_942", # Unite the murlocs
+      "UNG_954", # The last kaleidosaur
+      "UNG_067", # The caverns below
+    ]
+    if (quests & @deck_card_ids).present?
+      archetype_matches
+    else
+      # Don't allow Quest archetypes for decks that have no quests
+      archetype_matches.select {|match| !match[:name].include?("Quest") }
+    end
+  end
+
   private
+
+  def has_card?(card_id)
+    @deck_card_ids.include?(card_id)
+  end
 
   def deck_cards
     @deck_card_ids.map do |card_id|
