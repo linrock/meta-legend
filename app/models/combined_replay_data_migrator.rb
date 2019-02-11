@@ -62,9 +62,8 @@ class CombinedReplayDataMigrator
       extract_replay_outcome_data
       @combined.save!
     rescue => e
-      puts "Error migrating: #{@hsreplay_id}"
-      puts "#{e.class.name}: #{e.message}"
-      puts "#{e.backtrace.join("\n")}"
+      logger.error "Error migrating: #{@hsreplay_id}"
+      logger.error "#{e.class.name}: #{e.message}\n#{e.backtrace.join("\n")}"
     end
   end
 
@@ -135,5 +134,9 @@ class CombinedReplayDataMigrator
 
   def rg
     @rg ||= ReplayGameApiResponse.find_by(hsreplay_id: @hsreplay_id)
+  end
+
+  def logger
+    @logger ||= Logger.new("#{Rails.root}/log/combined_replay_data_migrator.error.log")
   end
 end
