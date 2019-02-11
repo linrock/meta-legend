@@ -9,7 +9,7 @@
         select-rank-range
       .selector-group
         .label Piloted by
-        .selector(@click="chooseClassAndArchetype") Secret Hunter
+        select-p1-class
       .selector-group
         .label Against
         .selector(@click="chooseVs") Odd Mage
@@ -25,6 +25,7 @@
   import ReplayRow from './replay_row'
   import SelectGameType from './select_game_type'
   import SelectRankRange from './select_rank_range'
+  import SelectP1Class from './select_p1_class'
   import { paramsToString } from '../../utils'
   import api from '../../api'
 
@@ -49,6 +50,7 @@
         const queryParams = {
           game_type: this.$store.getters.gameType,
           rank_range: this.$store.getters.rankRange,
+          p1_class: this.$store.getters.p1Class,
         }
         return `/search.json?${paramsToString(queryParams)}`
       }
@@ -68,6 +70,7 @@
       ReplayRow,
       SelectGameType,
       SelectRankRange,
+      SelectP1Class,
     }
   }
 </script>

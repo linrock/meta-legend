@@ -2,7 +2,12 @@ class SearchController < ActionController::API
 
   def index
     hsreplay_ids = CombinedReplayData.search do
-      # with :p1_class, "Warlock"
+      if PlayerClass::NAMES.include? params[:p1_class]
+        with :p1_class, params[:p1_class]
+      end
+      if PlayerClass::NAMES.include? params[:p2_class]
+        with :p2_class, params[:p2_class]
+      end
       # with :p1_archetype, "Cube"
       case params[:game_type]
       when "standard"
@@ -20,6 +25,9 @@ class SearchController < ActionController::API
       when "top-1000"
         with(:p1_legend_rank).between(1..1_000)
         with(:p2_legend_rank).between(1..1_000)
+      when "legend"
+        without(:p1_legend_rank, nil)
+        without(:p2_legend_rank, nil)
       else
         all do
           any_of do

@@ -12,6 +12,8 @@ const store = new Vuex.Store({
     currentDropdown: null,    // homepage select dropdowns
     gameType: `all`,          // all, standard, wild
     rankRange: `rank-5`,      // rank-5, legend, top-1000, top-500, top-100
+    p1Class: `all`,
+    p2Class: `all`,
   },
 
   mutations: {
@@ -30,6 +32,9 @@ const store = new Vuex.Store({
     },
     selectRankRange(state, rankRange) {
       state.rankRange = rankRange
+    },
+    selectP1Class(state, p1Class) {
+      state.p1Class = p1Class
     }
   },
 
@@ -55,6 +60,10 @@ const store = new Vuex.Store({
       commit(`toggleDropdown`, null)
       commit(`selectRankRange`, rankRange)
     },
+    selectP1Class({ commit }, p1Class) {
+      commit(`toggleDropdown`, null)
+      commit(`selectP1Class`, p1Class)
+    }
   },
 
   getters: {
@@ -63,6 +72,7 @@ const store = new Vuex.Store({
     currentDropdown: state => state.currentDropdown,
     gameType: state => state.gameType,
     rankRange: state => state.rankRange,
+    p1Class: state => state.p1Class,
   },
 })
 
