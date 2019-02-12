@@ -69,10 +69,17 @@ class CombinedReplayDataMigrator
     @combined.save!
   end
 
+  # p1 from extracted xml data is always the pilot
   def extract_xml_data
     data = rx.extracted_data
     @combined.p1_battletag = data["p1"]["tag"]
-    @combined.p2_battletag = rx.extracted_data["p2"]["tag"]
+    @combined.p2_battletag = data["p2"]["tag"]
+    if data["p1"]["pre_mulligan_card_ids"]
+      @combined.p1_pre_mulligan_card_ids = data["p1"]["pre_mulligan_card_ids"]
+    end
+    if data["p2"]["pre_mulligan_card_ids"]
+      @combined.p1_post_mulligan_card_ids = data["p1"]["post_mulligan_card_ids"]
+    end
     @combined.utc_offset = rx.utc_offset
   end
 

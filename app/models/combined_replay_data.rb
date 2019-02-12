@@ -39,6 +39,8 @@ class CombinedReplayData < ActiveRecord::Base
     integer :p1_rank
     integer :p1_legend_rank
     string :p1_deck_card_ids, multiple: true
+    # string :p1_pre_mulligan_card_ids, multiple: true
+    # string :p1_post_mulligan_card_ids, multiple: true
     boolean :p1_is_first
     boolean :p1_wins
 

@@ -55,14 +55,15 @@ class ReplayXmlParser
   # cards held by the pilot after the mulligan
   # entity 1 = game, entities 2 and 3 = the two players
   def pilot_post_mulligan_hand
-    # list of pilot's cards. Each item's keys: "entity", "cardID"
+    # list of pilot's initial cards. Each item's keys: "entity", "cardID"
     cards = doc.xpath('//Game/Block[@entity=1][1]/ShowEntity').map do |node|
       Hash[node.attributes.map {|k,v| [k,v.value] }]
     end
-    # entity ids of cards kept after mulligan by both players
+    # entity ids of cards kept by both players during mulligan
     kept_entity_ids = doc
       .xpath('//Game/Block[@entity=1][2]/ChosenEntities/Choice/@entity')
       .map(&:value)
+    # card ids kept by pilot during mulligan
     cards_kept = cards
       .select {|c| kept_entity_ids.include?(c["entity"]) }
       .map {|c| c["cardID"] }
@@ -71,7 +72,7 @@ class ReplayXmlParser
       doc.xpath('//Game/Block[@entity=2][1]/ShowEntity/@cardID'),
       doc.xpath('//Game/Block[@entity=3][1]/ShowEntity/@cardID')
     ].flatten.map(&:value)
-    # cards held after the mulligan
+    # card ids held by pilot after mulligan
     cards_kept + cards_drawn
   end
 
