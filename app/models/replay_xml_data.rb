@@ -17,6 +17,8 @@ class ReplayXmlData < ApplicationRecord
     :pilot_name, :deck_card_ids,
     :winner_name, :loser_name,
     :winner_entity_id, :loser_entity_id,
+    :pilot_pre_mulligan_hand,
+    :pilot_post_mulligan_hand,
     to: :replay_xml_parser
   )
 
@@ -64,6 +66,8 @@ class ReplayXmlData < ApplicationRecord
       pilot_name: pilot_name,
       deck_card_ids: deck_card_ids,
     }
+    data[:p1][:pre_mulligan_card_ids] = pilot_pre_mulligan_hand
+    data[:p1][:post_mulligan_card_ids] = pilot_post_mulligan_hand
     if winner_name.nil?
       # deal with draws
       data[:winner] = nil
