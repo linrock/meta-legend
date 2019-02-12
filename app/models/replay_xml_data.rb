@@ -66,8 +66,12 @@ class ReplayXmlData < ApplicationRecord
       pilot_name: pilot_name,
       deck_card_ids: deck_card_ids,
     }
-    data[:p1][:pre_mulligan_card_ids] = pilot_pre_mulligan_hand
-    data[:p1][:post_mulligan_card_ids] = pilot_post_mulligan_hand
+    begin
+      data[:p1][:pre_mulligan_card_ids] = pilot_pre_mulligan_hand
+      data[:p1][:post_mulligan_card_ids] = pilot_post_mulligan_hand
+    rescue
+      logger.error "#{hsreplay_id} - failed to extract pre/post mulligan card ids"
+    end
     if winner_name.nil?
       # deal with draws
       data[:winner] = nil
