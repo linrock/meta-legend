@@ -15,15 +15,24 @@ class RepeatingTasks
     ActiveRecord::Base.logger.silence do
       loop do
         t0 = Time.now
-        cache = ArchetypeCache.new
-        cache.archetypes_map!
-        route_map = RouteMap.new
-        route_map.to_hash!
-        [nil, "top-100", "top-500", "top-1000"].each do |rank|
-          [nil, "americas", "europe", "asia"].each do |region|
-            ReplayStatsCache.new.legend_stats! rank, region
+        pid = fork do
+          cache = ArchetypeCache.new
+          cache.archetypes_map!
+        end
+        Process.wait pid
+        pid = fork do
+          route_map = RouteMap.new
+          route_map.to_hash!
+        end
+        Process.wait pid
+        pid = fork do
+          [nil, "top-100", "top-500", "top-1000"].each do |rank|
+            [nil, "americas", "europe", "asia"].each do |region|
+              ReplayStatsCache.new.legend_stats! rank, region
+            end
           end
         end
+        Process.wait pid
         logger.info "#{Time.now - t0}s to refresh archetype + legend stats caches"
         sleep 15.minutes
       end
