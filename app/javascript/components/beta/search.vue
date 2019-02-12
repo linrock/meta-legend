@@ -109,6 +109,19 @@
         z-index 10
         padding 10px
 
+        .select-dropdown-container
+          position relative
+
+          &:before
+            content ""
+            position absolute
+            width 20px
+            height 20px
+            top -28px
+            border 10px solid transparent
+            border-bottom 10px solid white
+            background none
+
         .option
           user-select none
           font-weight normal

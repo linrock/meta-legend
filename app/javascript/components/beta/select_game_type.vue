@@ -5,10 +5,11 @@
     .selector-dropdown(
       v-if="$store.getters.currentDropdown === 'game_type'"
     )
-      .option(
-        v-for="[value, label] in Object.entries(gameTypes)"
-        @click="selectGameType(value)"
-      ) {{ label }}
+      .select-dropdown-container
+        .option(
+          v-for="[value, label] in Object.entries(gameTypes)"
+          @click="selectGameType(value)"
+        ) {{ label }}
 
 </template>
 
