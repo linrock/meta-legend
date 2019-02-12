@@ -72,6 +72,10 @@ class ArchetypeDefinitions
 
   # Filters out clearly-wrong matches
   def filter(archetype_matches)
+    archetype_matches = filter_by_quests(archetype_matches)
+  end
+
+  def filter_by_quests(archetype_matches)
     quests = [
       "UNG_028", # Open the waygate
       "UNG_116", # Jungle giants
