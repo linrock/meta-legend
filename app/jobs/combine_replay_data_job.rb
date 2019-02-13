@@ -9,5 +9,6 @@ class CombineReplayDataJob
   def perform(hsreplay_id)
     migrator = CombinedReplayDataMigrator.new(hsreplay_id)
     migrator.migrate!
+    Sunspot.commit rescue nil
   end
 end
