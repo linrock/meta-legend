@@ -1,3 +1,5 @@
+# https://github.com/kostya/eye
+
 working_dir = File.expand_path(File.dirname(__FILE__))
 
 procfile_commands = open("#{working_dir}/Procfile", "r") do |f|
@@ -33,14 +35,6 @@ Eye.application 'meta-legend' do
     pid_file         'tmp/pids/eye.importer.pid'
     stdall           'log/replay_outcome_importer.log'
     start_command    procfile_commands[:importer]
-    stop_signals     [:TERM, 1.second, :KILL]
-  end
-
-  process :webhooks do
-    daemonize        true
-    pid_file         'tmp/pids/eye.webhooks.pid'
-    stdall           'log/webhook_blob_converter.log'
-    start_command    procfile_commands[:webhooks]
     stop_signals     [:TERM, 1.second, :KILL]
   end
 
