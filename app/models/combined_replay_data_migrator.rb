@@ -62,13 +62,30 @@ class CombinedReplayDataMigrator
     }
   end
 
-  def migrate!
-    return unless check_data.values.all?
+  def extract_data
     extract_replay_game_api_data
     extract_replay_xml_data
     extract_replay_html_data
     extract_replay_outcome_data
     @combined.found_at = [rx, rg, ro].map(&:created_at).min
+  end
+
+  # Called by CombineReplayDataJob
+  # logs errors instead of crashing and retrying
+  def migrate
+    return unless check_data.values.all?
+    extract_data
+    begin
+      @combined.save!
+    rescue => e
+      logger.error "Error migrating: #{hsreplay_id}"
+      logger.error "#{e.class.name}: #{e.message}"
+    end
+  end
+
+  def migrate!
+    return unless check_data.values.all?
+    extract_data
     @combined.save!
   end
 
