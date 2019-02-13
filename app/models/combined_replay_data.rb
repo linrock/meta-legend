@@ -8,6 +8,8 @@
 # ReplayXmlData - data from the XML file when viewing a game
 
 class CombinedReplayData < ActiveRecord::Base
+  before_validation :set_player_archetypes
+
   validates :hsreplay_id, presence: true
   validates :game_type, inclusion: ["standard", "wild", "arena"]
   validates :p1_battletag, presence: true, format: { with: /\A.*#\d+\z/ }
@@ -94,9 +96,9 @@ class CombinedReplayData < ActiveRecord::Base
   end
 
   def update_archetypes_from_matches
-    matches = archetype_matches
-    p1_archetype = matches[:p1].first.gsub(p1_class, '').strip
-    p2_archetype = matches[:p2].first.gsub(p2_class, '').strip
+    m = archetype_matches
+    self.p1_archetype = m[:p1]&.first&.gsub(p1_class, '')&.strip
+    self.p2_archetype = m[:p2]&.first&.gsub(p2_class, '')&.strip
     save!
   end
 
@@ -140,6 +142,15 @@ class CombinedReplayData < ActiveRecord::Base
   end
 
   private
+
+  def set_player_archetypes
+    return if p1_archetype.present? && p2_archetype.present?
+    return unless game_type == "standard" || game_type == "wild"
+    m = archetype_matches
+    self.p1_archetype = m[:p1]&.first[:name]&.gsub(p1_class, '')&.strip
+    self.p2_archetype = m[:p2]&.first[:name]&.gsub(p2_class, '')&.strip
+    save!
+  end
 
   def validate_player_ranks
     ranks = [p1_rank, p1_legend_rank, p2_rank, p2_legend_rank]

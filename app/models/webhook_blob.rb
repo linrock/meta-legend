@@ -136,12 +136,13 @@ class WebhookBlob < ApplicationRecord
   end
 
   def friendly_archetype_matches
-    ArchetypeMatcher.new(friendly_deck_card_ids, p1_class_name).top_matches
+    card_ids = friendly_deck_card_ids
+    ArchetypeMatcher.new(card_ids, p1_class_name, game_type).top_matches
   end
 
   def opposing_archetype_matches
     card_ids = (opposing_deck_predicted_card_ids || opposing_deck_card_ids)
-    ArchetypeMatcher.new(card_ids, p2_class_name).top_matches
+    ArchetypeMatcher.new(card_ids, p2_class_name, game_type).top_matches
   end
 
   private

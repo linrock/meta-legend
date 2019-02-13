@@ -1,7 +1,9 @@
 # Creates or updates replay data for an hsreplay id from:
-# ReplayOutcome
-# ReplayXmlData
+#
 # ReplayGameApiResponse
+# ReplayOutcome
+# ReplayHtmlData
+# ReplayXmlData
 
 class CombinedReplayDataMigrator
 
@@ -62,35 +64,24 @@ class CombinedReplayDataMigrator
 
   def migrate!
     return unless check_data.values.all?
-    extract_replay_xml_data
     extract_replay_game_api_data
+    extract_replay_xml_data
     extract_replay_html_data
     extract_replay_outcome_data
     @combined.found_at = [rx, rg, ro].map(&:created_at).min
     @combined.save!
   end
 
-  # p1 from extracted xml data is always the pilot
-  def extract_replay_xml_data
-    data = rx.extracted_data
-    @combined.p1_battletag = data["p1"]["tag"]
-    @combined.p2_battletag = data["p2"]["tag"]
-    if data["p1"]["pre_mulligan_card_ids"]
-      @combined.p1_pre_mulligan_card_ids = data["p1"]["pre_mulligan_card_ids"]
-    end
-    if data["p2"]["pre_mulligan_card_ids"]
-      @combined.p1_post_mulligan_card_ids = data["p1"]["post_mulligan_card_ids"]
-    end
-    @combined.utc_offset = rx.utc_offset
-  end
-
+  # p1 = pilot. friendly player from game api response is always the pilot
   def extract_replay_game_api_data
+    @combined.p1_class = rg.friendly_class_name
     @combined.p1_deck_card_ids = rg.friendly_deck["cards"].sort
     @combined.p1_rank = rg.friendly_rank
     @combined.p1_legend_rank = rg.friendly_legend_rank
     @combined.p1_is_first = rg.friendly_player_is_first
     @combined.p1_wins = rg.data["won"]
 
+    @combined.p2_class = rg.opposing_class_name
     @combined.p2_deck_card_ids = rg.opposing_deck["cards"].sort
     @combined.p2_rank = rg.opposing_rank
     @combined.p2_legend_rank = rg.opposing_legend_rank
@@ -108,34 +99,56 @@ class CombinedReplayDataMigrator
     @combined.metadata = rg.metadata if rg.metadata.present?
   end
 
+  # p1 from extracted xml data is NOT always the pilot
+  def extract_replay_xml_data
+    data = rx.extracted_data
+    @combined.p1_battletag = data["p1"]["tag"]
+    @combined.p2_battletag = data["p2"]["tag"]
+    if data["p1"]["pre_mulligan_card_ids"]
+      @combined.p1_pre_mulligan_card_ids = data["p1"]["pre_mulligan_card_ids"]
+    end
+    if data["p2"]["pre_mulligan_card_ids"]
+      @combined.p1_post_mulligan_card_ids = data["p1"]["post_mulligan_card_ids"]
+    end
+    @combined.utc_offset = rx.utc_offset
+  end
+
+  # optional data source. has a reliable # p1 turns
   def extract_replay_html_data
     return unless rh.present?
     @combined.num_turns = rh.extracted_data["own_turns"]
   end
 
+  # use replay outcome data for class archetype info
   # make sure that p1 is the pilot
   def extract_replay_outcome_data
-    if @combined.p1_rank == ro.player1_rank&.to_i && \
-       @combined.p1_legend_rank == ro.player1_legend_rank&.to_i
-      @combined.p1_class = ro.player1_class
+    # nullify existing archetypes if re-running migration on bad data
+    @combined.p1_archetype = nil
+    @combined.p2_archetype = nil
+    if @combined.p1_legend_rank == ro.player1_legend_rank&.to_i
       @combined.p1_archetype = ro.player1_archetype_prefix
-      @combined.p2_class = ro.player2_class
       @combined.p2_archetype = ro.player2_archetype_prefix
-    elsif @combined.p1_rank == ro.player2_rank&.to_i && \
-          @combined.p1_legend_rank == ro.player2_legend_rank&.to_i
-      @combined.p1_class = ro.player2_class
+    elsif @combined.p1_legend_rank == ro.player2_legend_rank&.to_i
       @combined.p1_archetype = ro.player2_archetype_prefix
-      @combined.p2_class = ro.player1_class
       @combined.p2_archetype = ro.player1_archetype_prefix
     else
-      # Ranks in the data are mismatched, so invalidate them
-      @combined.p1_rank = nil
-      @combined.p1_legend_rank = nil
-      @combined.p2_rank = nil
-      @combined.p2_legend_rank = nil
+      # couldn't match with replay outcome based on legend ranks
+      p1_class = @combined.p1_class
+      p2_class = @combined.p2_class
+      if p1_class != p2_class
+        # if the classes are swapped, unswap them
+        if p1_class == ro.player1_class && p2_class == ro.player2_class
+          @combined.p1_archetype = ro.player1_archetype_prefix
+          @combined.p2_archetype = ro.player2_archetype_prefix
+        elsif p1_class == ro.player2_class && p2_class == ro.player1_class
+          @combined.p1_archetype = ro.player2_archetype_prefix
+          @combined.p2_archetype = ro.player1_archetype_prefix
+        end
+      end
     end
+    # if no archetypes are set, handle setting them later
     if ro.data["source"]
-      @combined.metadata[:source] = ro.data["source"]
+      @combined.metadata["source"] = ro.data["source"]
     end
   end
 
