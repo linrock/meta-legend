@@ -28,6 +28,7 @@ class HomeController < ApplicationController
           without(:p2_legend_rank, nil)
           with(:p2_rank).between(1..5)
         end
+        with(:num_turns).greater_than(7)
       end
       order_by :played_at, :desc
     end.each_hit_with_result.map {|_, result| result }.to_json

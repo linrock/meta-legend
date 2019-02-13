@@ -8,6 +8,9 @@
         .label Played at
         select-rank-range
       .selector-group
+        .label With at least
+        .label 8 turns
+      .selector-group
         .label Piloted by
         select-p1-class
       .selector-group
