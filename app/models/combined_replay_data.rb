@@ -154,7 +154,6 @@ class CombinedReplayData < ActiveRecord::Base
     if m[:p2].present?
       self.p2_archetype = m[:p2].first[:name]&.gsub(p2_class, '')&.strip
     end
-    save!
   end
 
   def validate_player_ranks
