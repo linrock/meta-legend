@@ -12,7 +12,7 @@ class WebhookBlob < ApplicationRecord
            :to_replay_data,
            to: :webhook_blob_parser
 
-  after_create :convert_webhook_blob
+  after_create :enqueue_webhook_blob_converter_job
 
   GAME_TYPES = {
     arena: 3,
@@ -122,6 +122,10 @@ class WebhookBlob < ApplicationRecord
       # TODO centralize replay data fetching between different game types
       FetchReplayDataJob.perform_async(blob.hsreplay_id)
     end
+  end
+
+  def enqueue_webhook_blob_converter_job
+    WebhookBlobConverterJob.perform_async(id)
   end
 
   private
