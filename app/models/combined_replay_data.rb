@@ -143,12 +143,17 @@ class CombinedReplayData < ActiveRecord::Base
 
   private
 
+  # try to set player archetypes for standard and wild games
   def set_player_archetypes
     return if p1_archetype.present? && p2_archetype.present?
     return unless game_type == "standard" || game_type == "wild"
     m = archetype_matches
-    self.p1_archetype = m[:p1]&.first[:name]&.gsub(p1_class, '')&.strip
-    self.p2_archetype = m[:p2]&.first[:name]&.gsub(p2_class, '')&.strip
+    if m[:p1].present?
+      self.p1_archetype = m[:p1].first[:name]&.gsub(p1_class, '')&.strip
+    end
+    if m[:p2].present?
+      self.p2_archetype = m[:p2].first[:name]&.gsub(p2_class, '')&.strip
+    end
     save!
   end
 
