@@ -6,7 +6,7 @@ class ReplayOutcome < ApplicationRecord
   validate :check_data_format
 
   after_create :extract_and_save_data
-  after_create :import_legend_replay_data
+  after_create :enqueue_fetch_replay_data_job
 
   delegate :player_names, to: :replay_xml_data
 
@@ -76,6 +76,11 @@ class ReplayOutcome < ApplicationRecord
 
   def legend_game?
     player1_is_legend? and player2_is_legend?
+  end
+
+  def rank_5_and_higher_game?
+    return true if legend_game?
+    (1..5).include?(player1_rank.to_i) && (1..5).include?(player2_rank.to_i)
   end
 
   def player1_class
@@ -189,11 +194,9 @@ class ReplayOutcome < ApplicationRecord
     self.save!
   end
 
-  def import_legend_replay_data
-    return unless legend_game?
-    data_importer = ReplayDataImporter.new(hsreplay_id)
-    return if data_importer.data_exists?
-    data_importer.import_async
+  def enqueue_fetch_replay_data_job
+    return unless rank_5_and_higher_game?
+    FetchReplayDataJob.perform_async(hsreplay_id)
   end
 
   private
