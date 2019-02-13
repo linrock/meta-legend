@@ -33,6 +33,7 @@ class ReplayOutcomeImporter
   def import_from_json_api_response(json_string)
     num_saved = 0
     legend_saved = 0
+    rank5_saved = 0
     data = JSON.parse json_string
     replay_outcomes = data["data"]
     hsreplay_id_map = replay_outcomes.group_by {|ro| ro["id"] }
@@ -55,6 +56,8 @@ class ReplayOutcomeImporter
           end
           if replay_outcome.legend_game?
             legend_saved += 1
+          elsif replay_outcome.rank_5_and_higher_game?
+            rank5_saved += 1
           end
           num_saved += 1
         else
@@ -62,7 +65,7 @@ class ReplayOutcomeImporter
         end
       end
     end
-    logger.info "Saved #{num_saved}/#{replay_outcomes.length} replays (#{legend_saved} legend)"
+    logger.info "Saved #{num_saved}/#{replay_outcomes.length} replays (#{legend_saved} legend, #{rank5_saved} rank 5+)"
     true
   end
 
