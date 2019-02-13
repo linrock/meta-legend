@@ -26,6 +26,15 @@ class CombinedReplayDataQuery
         order_by :played_at, :desc
         paginate page: 1, per_page: 100
       end
+    elsif @query[:card_id]
+      CombinedReplayData.search do
+        any_of do
+          with :p1_deck_card_ids, query[:card_id]
+          with :p2_deck_card_ids, query[:card_id]
+        end
+        order_by :played_at, :desc
+        paginate page: 1, per_page: 100
+      end
     else
       CombinedReplayData.search do
         # top 100 legend players

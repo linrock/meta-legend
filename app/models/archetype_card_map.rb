@@ -1,3 +1,7 @@
+ # maps hearthstone card UIDs -> hsreplay card ids
+ # hsreplay card ids are used for archetype components
+ # in data/archetypes.json
+
 class ArchetypeCardMap
   CARD_MAP_FILE = "data/archetype_card_map.json"
 
@@ -11,7 +15,7 @@ class ArchetypeCardMap
     end
   end
 
-  # map of card UIDs -> hsreplay card id
+  # card map generated on-the-fly from hsreplay card html files
   def dynamic_card_map
     map = {}
     Dir.glob("data/hsreplay-cards/*.html").each do |file|
