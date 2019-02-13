@@ -1,3 +1,5 @@
+# Parses the data field of a WebhookBlob, which should be valid JSON
+
 class WebhookBlobParser
 
   def initialize(webhook_blob_data)

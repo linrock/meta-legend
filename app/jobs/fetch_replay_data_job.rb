@@ -1,3 +1,5 @@
+# Fetches replay data from hsreplay.net - xml, html, game api
+
 class FetchReplayDataJob
   include Sidekiq::Worker
 

@@ -3,5 +3,5 @@
 :max_retries: 3
 :pidfile: ./tmp/pids/sidekiq.pid
 :queues:
+  - default
   - fetcher
-  - cacher

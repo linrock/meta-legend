@@ -1,3 +1,5 @@
+# Replay data sent by hsreplay.net
+
 class WebhookBlob < ApplicationRecord
   delegate :hsreplay_id,
            :game_type,
@@ -9,6 +11,8 @@ class WebhookBlob < ApplicationRecord
            :num_turns, :winner, :valid_blob?,
            :to_replay_data,
            to: :webhook_blob_parser
+
+  after_create :convert_webhook_blob
 
   GAME_TYPES = {
     arena: 3,
@@ -35,13 +39,19 @@ class WebhookBlob < ApplicationRecord
     game_type == GAME_TYPES[:wild]
   end
 
+  def create_replay_outcome
+    data = to_replay_outcome_data
+    return if ReplayOutcome.exists?(hsreplay_id: data[:id])
+    create_replay_outcome!
+  end
+
   def create_replay_outcome!
     if converted_at.present?
       logger.info "webhook #{id} already converted. Exiting."
       return
     end
     if !valid_blob?
-      logger.error "webhook #{id} does not seem to be a valid blob. Exiting."
+      logger.error "webhook #{id} is not a valid blob. Exiting."
       return
     end
     data = to_replay_outcome_data
@@ -63,6 +73,7 @@ class WebhookBlob < ApplicationRecord
     end
   end
 
+  # matches the shape of a ReplayOutcome#data field
   def to_replay_outcome_data
     {
       id: hsreplay_id,
@@ -101,6 +112,16 @@ class WebhookBlob < ApplicationRecord
   def opposing_archetype_matches
     card_ids = (opposing_deck_predicted_card_ids || opposing_deck_card_ids)
     ArchetypeMatcher.new(card_ids, p2_class_name).top_matches
+  end
+
+  # Called by WebhookConverterJob to create replay outcomes from webhook blobs
+  def convert_to_replay_outcome
+    create_replay_outcome
+    logger.info "#{p1_name} sent a webhook blob. Converted"
+    if is_arena? or is_wild?
+      # TODO centralize replay data fetching between different game types
+      FetchReplayDataJob.perform_async(blob.hsreplay_id)
+    end
   end
 
   private
