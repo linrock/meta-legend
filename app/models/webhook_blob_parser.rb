@@ -6,20 +6,21 @@ class WebhookBlobParser
     @data = webhook_blob_data
   end
 
+  # valid json + has data field, hsreplay_id + valid classes for each player
   def valid_blob?
     begin
       JSON.parse(@data)
     rescue
       return false
     end
-    return false if !PlayerClass::NAMES.include?(p1_class_name)
-    return false if !PlayerClass::NAMES.include?(p2_class_name)
     begin
       json_data
       hsreplay_id
     rescue
       false
     else
+      return false if !PlayerClass::NAMES.include?(p1_class_name)
+      return false if !PlayerClass::NAMES.include?(p2_class_name)
       true
     end
   end
@@ -46,6 +47,7 @@ class WebhookBlobParser
     }
   end
 
+  # p1 = pilot
   def p1_name
     json_data.dig("friendly_player", "name")
   end
@@ -62,6 +64,7 @@ class WebhookBlobParser
     json_data.dig("friendly_player", "legend_rank")
   end
 
+  # p2 = opponent
   def p2_name
     json_data.dig("opposing_player", "name")
   end

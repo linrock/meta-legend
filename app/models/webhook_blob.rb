@@ -1,6 +1,14 @@
 # Replay data sent by hsreplay.net
 
 class WebhookBlob < ApplicationRecord
+  STATES = %w( converted fetched invalid ignored )
+  # nil       - new and not-yet processed
+  # invalid   - an invalid webhook blob
+  # converted - converted to a replay outcome or enqueued data job
+  # ignored   - looked at the contents and did nothing
+
+  validates :state, inclusion: STATES, allow_nil: true
+
   delegate :hsreplay_id,
            :game_type,
            :friendly_deck_card_ids,
@@ -14,7 +22,9 @@ class WebhookBlob < ApplicationRecord
 
   after_create :enqueue_webhook_blob_converter_job
 
+  # TODO centralize this
   GAME_TYPES = {
+    standard: 2,
     arena: 3,
     wild: 30,
   }
@@ -31,45 +41,71 @@ class WebhookBlob < ApplicationRecord
     all.select(&:is_wild?)
   end
 
-  def is_arena?
-    game_type == GAME_TYPES[:arena]
+  def is_standard?
+    game_type == GAME_TYPES[:standard]
   end
 
   def is_wild?
     game_type == GAME_TYPES[:wild]
   end
 
-  def create_replay_outcome
-    data = to_replay_outcome_data
-    return if ReplayOutcome.exists?(hsreplay_id: data[:id])
-    create_replay_outcome!
+  def is_arena?
+    game_type == GAME_TYPES[:arena]
   end
 
-  def create_replay_outcome!
+  # Called by WebhookConverterJob
+  # - creates replay outcomes from valid standard and wild games
+  # - fetches data for valid standard, wild, and arena games
+  def convert!
     if converted_at.present?
-      logger.info "webhook #{id} already converted. Exiting."
+      logger.info "webhook #{id} already has converted_at. Not processing"
+      return
+    elsif !valid_blob?
+      logger.error "webhook #{id} has invalid data. Not processing"
+      self.converted_at = Time.now
+      self.state = "invalid"
+      self.save!
       return
     end
-    if !valid_blob?
-      logger.error "webhook #{id} is not a valid blob. Exiting."
+    logger.info "#{p1_name} submitted webhook #{id}. Processing..."
+    if !is_standard? or !is_wild? or !is_arena?
+      logger.info "Ignoring webhook #{id}. Not standard, wild, or arena"
+      self.converted_at = Time.now
+      self.state = "ignored"
+      self.save!
       return
     end
-    data = to_replay_outcome_data
-    logger.info "#{data[:id]} - creating replay outcome (webhook #{id})"
-    begin
-      ActiveRecord::Base.transaction do
-        replay_outcome = ReplayOutcome.new({
-          hsreplay_id: data[:id],
-          data: data
-        })
-        replay_outcome.save!
+    create_replay_outcome
+    if is_arena? or is_wild?
+      # TODO centralize replay data fetching for different game types
+      FetchReplayDataJob.new.perform(blob.hsreplay_id)
+      if ReplayData.new(blob.hsreplay_id).exists?
         self.converted_at = Time.now
+        self.state = "fetched"
         self.save!
       end
-    rescue ActiveRecord::RecordNotUnique
-      logger.info "#{data[:id]} already converted. Setting converted_at (webhook #{id})"
+    end
+  end
+
+  # Only standard and wild game types have replay outcomes
+  def create_replay_outcome
+    return unless is_standard? or is_wild?
+    data = to_replay_outcome_data
+    if ReplayOutcome.exists?(hsreplay_id: data[:id])
+      logger.info "webhook #{id} already has replay outcome #{data[:id]}. Exiting"
       self.converted_at = Time.now
+      self.state = "converted"
       self.save!
+    else
+      logger.info "#{data[:id]} - creating replay outcome (webhook #{id})"
+      ActiveRecord::Base.transaction do
+        # this enqueues a fetch replay data job for legend replays
+        # TODO enqueue replay data jobs for rank5 and above
+        ReplayOutcome.create!({ hsreplay_id: data[:id], data: data })
+        self.converted_at = Time.now
+        self.state = "converted"
+        self.save!
+      end
     end
   end
 
@@ -90,19 +126,13 @@ class WebhookBlob < ApplicationRecord
   end
 
   def p1_archetype_id
-    friendly_archetype_matches[0][:id]
+    matches = friendly_archetype_matches
+    matches.present? && matches[0][:id]
   end
 
   def p2_archetype_id
-    opposing_archetype_matches[0][:id]
-  end
-
-  # need to merge this with the data feed somehow
-  def replay_data
-    parsed_replay_data = to_replay_data
-    parsed_replay_data[:p1][:archetype] = friendly_archetype_matches[0][:id]
-    parsed_replay_data[:p2][:archetype] = opposing_archetype_matches[0][:id]
-    parsed_replay_data
+    matches = opposing_archetype_matches
+    matches.present? && matches[0][:id]
   end
 
   def friendly_archetype_matches
@@ -114,21 +144,11 @@ class WebhookBlob < ApplicationRecord
     ArchetypeMatcher.new(card_ids, p2_class_name).top_matches
   end
 
-  # Called by WebhookConverterJob to create replay outcomes from webhook blobs
-  def convert_to_replay_outcome
-    create_replay_outcome
-    logger.info "#{p1_name} webhook #{id}. Converted"
-    if is_arena? or is_wild?
-      # TODO centralize replay data fetching between different game types
-      FetchReplayDataJob.perform_async(blob.hsreplay_id)
-    end
-  end
+  private
 
   def enqueue_webhook_blob_converter_job
     WebhookBlobConverterJob.perform_async(id)
   end
-
-  private
 
   def webhook_blob_parser
     WebhookBlobParser.new(blob)

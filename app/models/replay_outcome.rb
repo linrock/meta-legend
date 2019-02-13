@@ -1,4 +1,5 @@
 # Represents the outcome of a replay
+# These only exist for standard and wild game types (not arena)
 
 class ReplayOutcome < ApplicationRecord
   validate :check_hsreplay_id

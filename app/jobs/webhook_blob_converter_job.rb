@@ -8,6 +8,6 @@ class WebhookBlobConverterJob
   def perform(webhook_blob_id)
     blob = WebhookBlob.find_by(id: webhook_blob_id)
     return unless blob.present?
-    blob.convert_to_replay_outcome
+    blob.convert!
   end
 end
