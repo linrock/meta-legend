@@ -1,6 +1,9 @@
 class SearchController < ActionController::API
 
   def index
+    page = params[:page].to_i
+    page = 1 if page < 1
+    page = 20 if page > 20
     replay_data = CombinedReplayData.search do
       if PlayerClass::NAMES.include? params[:p1_class]
         with :p1_class, params[:p1_class]
@@ -41,11 +44,11 @@ class SearchController < ActionController::API
         end
       end
       order_by(:played_at, :desc)
-      paginate(page: 1, per_page: 20)
+      paginate(page: page, per_page: 20)
     end.each_hit_with_result.map {|_, result| result }.as_json
     render json: {
       replays: replay_data,
-      page: 1,
+      page: page,
       per_page: 20,
     }
   end

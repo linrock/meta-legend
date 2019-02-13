@@ -23,6 +23,7 @@
         :key="replay.key"
         :replay="replay"
       )
+    infinite-scroll
 
 </template>
 
@@ -32,6 +33,7 @@
   import SelectRankRange from './select_rank_range'
   import SelectP1Class from './select_p1_class'
   import SelectP2Class from './select_p2_class'
+  import InfiniteScroll from './infinite_scroll'
   import { paramsToString } from '../../utils'
   import api from '../../api'
 
@@ -57,6 +59,7 @@
       SelectRankRange,
       SelectP1Class,
       SelectP2Class,
+      InfiniteScroll,
     }
   }
 </script>

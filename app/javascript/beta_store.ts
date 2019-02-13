@@ -26,6 +26,10 @@ const store = new Vuex.Store({
       state.replays.addReplays(replays)
       state.isFetching = false
     },
+    addReplays(state, replays) {
+      state.replays.addReplays(replays)
+      state.isFetching = false
+    },
     selectReplay(state, replay) {
       state.currentReplay = replay
     },
@@ -34,24 +38,34 @@ const store = new Vuex.Store({
     },
     selectGameType(state, gameType) {
       state.gameType = gameType
+      state.page = 1
     },
     selectRankRange(state, rankRange) {
       state.rankRange = rankRange
+      state.page = 1
     },
     selectP1Class(state, p1Class) {
       state.p1Class = p1Class
+      state.page = 1
     },
     selectP2Class(state, p2Class) {
       state.p2Class = p2Class
+      state.page = 1
     },
     setIsFetching(state, isFetching) {
       state.isFetching = isFetching
+    },
+    nextPage(state) {
+      state.page = state.page + 1
     }
   },
 
   actions: {
     setReplays({ commit }, replays) {
       commit(`setReplays`, replays)
+    },
+    addReplays({ commit }, replays) {
+      commit(`addReplays`, replays)
     },
     selectReplay({ commit }, replay) {
       commit(`selectReplay`, replay)
@@ -83,7 +97,20 @@ const store = new Vuex.Store({
       commit(`setIsFetching`, true)
       api.get(apiPath)
         .then(response => response.data)
-        .then(jsonData => dispatch(`setReplays`, jsonData.replays))
+        .then(({ page, replays }) => {
+          if (page === 1) {
+            dispatch(`setReplays`, replays)
+          } else {
+            dispatch(`addReplays`, replays)
+          }
+        })
+    },
+    fetchNextPage({ state, commit }, apiPath) {
+      if (state.isFetching) {
+        return
+      }
+      commit(`setIsFetching`, true)
+      commit(`nextPage`)
     }
   },
 
@@ -101,6 +128,7 @@ const store = new Vuex.Store({
         rank_range: state.rankRange,
         p1_class: state.p1Class,
         p2_class: state.p2Class,
+        page: state.page,
       }
       return `/search.json?${paramsToString(queryParams)}`
     },
