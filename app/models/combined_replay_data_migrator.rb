@@ -125,14 +125,16 @@ class CombinedReplayDataMigrator
     # nullify existing archetypes if re-running migration on bad data
     @combined.p1_archetype = nil
     @combined.p2_archetype = nil
-    if @combined.p1_legend_rank == ro.player1_legend_rank&.to_i
-      @combined.p1_archetype = ro.player1_archetype_prefix
-      @combined.p2_archetype = ro.player2_archetype_prefix
-    elsif @combined.p1_legend_rank == ro.player2_legend_rank&.to_i
-      @combined.p1_archetype = ro.player2_archetype_prefix
-      @combined.p2_archetype = ro.player1_archetype_prefix
+    unless @combined.p1_legend_rank.nil?
+      if @combined.p1_legend_rank == ro.player1_legend_rank&.to_i
+        @combined.p1_archetype = ro.player1_archetype_prefix
+        @combined.p2_archetype = ro.player2_archetype_prefix
+      elsif @combined.p1_legend_rank == ro.player2_legend_rank&.to_i
+        @combined.p1_archetype = ro.player2_archetype_prefix
+        @combined.p2_archetype = ro.player1_archetype_prefix
+      end
     else
-      # couldn't match with replay outcome based on legend ranks
+      # no legend ranks to try to match
       p1_class = @combined.p1_class
       p2_class = @combined.p2_class
       if p1_class != p2_class
@@ -146,7 +148,7 @@ class CombinedReplayDataMigrator
         end
       end
     end
-    # if no archetypes are set, handle setting them later
+    # if no archetypes are set by now, handle setting them later
     if ro.data["source"]
       @combined.metadata["source"] = ro.data["source"]
     end
