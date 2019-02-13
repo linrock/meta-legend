@@ -21,7 +21,10 @@ class ReplayData
     replay_outcome&.found_at
   end
 
-  # merge data from the replay outcome and xml replay data together
+  # merge data from replay sources into a hash
+  # REQUIRED - replay xml data
+  # optional - replay outcome
+  # optional - replay game api response
   def to_hash
     xml = replay_xml_data.to_hash
     merged_hash = xml
@@ -82,14 +85,14 @@ class ReplayData
   end
 
   def replay_xml_data
-    @replay_xml_data ||= ReplayXmlData.find_by(hsreplay_id: @hsreplay_id)
+    @_rx ||= ReplayXmlData.find_by(hsreplay_id: @hsreplay_id)
   end
 
   def replay_game_api_response
-    @replay_game_api_response ||= ReplayGameApiResponse.find_by(hsreplay_id: @hsreplay_id)
+    @_rg ||= ReplayGameApiResponse.find_by(hsreplay_id: @hsreplay_id)
   end
 
   def replay_outcome
-    @replay_outcome ||= ReplayOutcome.find_by(hsreplay_id: @hsreplay_id)
+    @_ro ||= ReplayOutcome.find_by(hsreplay_id: @hsreplay_id)
   end
 end

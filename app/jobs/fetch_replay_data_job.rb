@@ -10,5 +10,8 @@ class FetchReplayDataJob
     importer.import
     importer = ReplayGameApiResponseImporter.new(hsreplay_id)
     importer.import
+    if ReplayData.exists?(hsreplay_id)
+      CombineReplayDataJob.perform_async(hsreplay_id)
+    end
   end
 end
