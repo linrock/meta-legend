@@ -62,15 +62,16 @@ class CombinedReplayDataMigrator
 
   def migrate!
     return unless check_data.values.all?
-    extract_xml_data
-    extract_game_api_data
+    extract_replay_xml_data
+    extract_replay_game_api_data
+    extract_replay_html_data
     extract_replay_outcome_data
     @combined.found_at = [rx, rg, ro].map(&:created_at).min
     @combined.save!
   end
 
   # p1 from extracted xml data is always the pilot
-  def extract_xml_data
+  def extract_replay_xml_data
     data = rx.extracted_data
     @combined.p1_battletag = data["p1"]["tag"]
     @combined.p2_battletag = data["p2"]["tag"]
@@ -83,7 +84,7 @@ class CombinedReplayDataMigrator
     @combined.utc_offset = rx.utc_offset
   end
 
-  def extract_game_api_data
+  def extract_replay_game_api_data
     @combined.p1_deck_card_ids = rg.friendly_deck["cards"].sort
     @combined.p1_rank = rg.friendly_rank
     @combined.p1_legend_rank = rg.friendly_legend_rank
@@ -103,8 +104,13 @@ class CombinedReplayDataMigrator
     @combined.ladder_season = rg.ladder_season
     @combined.played_at = rg.played_at
     @combined.duration_seconds = rg.duration_seconds
-    @combined.num_turns = rg.num_turns
+    @combined.num_turns = rg.num_turns / 2
     @combined.metadata = rg.metadata if rg.metadata.present?
+  end
+
+  def extract_replay_html_data
+    return unless rh.present?
+    @combined.num_turns = rh.extracted_data["own_turns"]
   end
 
   # make sure that p1 is the pilot
@@ -137,6 +143,10 @@ class CombinedReplayDataMigrator
 
   def ro
     @ro ||= ReplayOutcome.find_by(hsreplay_id: @hsreplay_id)
+  end
+
+  def rh
+    @rh ||= ReplayHtmlData.find_by(hsreplay_id: @hsreplay_id)
   end
 
   def rx
