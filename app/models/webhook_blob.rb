@@ -68,7 +68,7 @@ class WebhookBlob < ApplicationRecord
       return
     end
     logger.info "#{p1_name} submitted webhook #{id}. Processing..."
-    if !is_standard? or !is_wild? or !is_arena?
+    unless is_standard? or is_wild? or is_arena?
       logger.info "Ignoring webhook #{id}. Not standard, wild, or arena"
       self.converted_at = Time.now
       self.state = "ignored"

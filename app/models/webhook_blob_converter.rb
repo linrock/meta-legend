@@ -41,7 +41,7 @@ class WebhookBlobConverter
       logger.info name
     end
     blobs.map {|row| row[1] }.shuffle.each do |blob|
-      blob.convert_to_replay_outcome
+      blob.convert!
     end
   end
 
