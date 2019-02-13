@@ -4,20 +4,34 @@ class StatsPopularDecks
   def initialize
   end
 
-  def standard_stats
-    search_results(:standard)
-      .facet(:p1_class_and_archetype)
-      .rows.take(5).map do |f|
-        [f.value, f.count]
+  # use p1 and p2 class and archetypes
+  def standard_stats(use_p2_stats = true)
+    results = search_results(:standard)
+    counts = Hash.new(0)
+    results.facet(:p1_class_and_archetype).rows.each do |f|
+      counts[f.value] = f.count
+    end
+    if use_p2_stats
+      results.facet(:p2_class_and_archetype).rows.each do |f|
+        counts[f.value] += f.count
       end
+    end
+    counts.sort_by {|_, counts| -counts }.take(5)
   end
 
-  def wild_stats
-    search_results(:wild)
-      .facet(:p1_class_and_archetype)
-      .rows.take(5).map do |f|
-        [f.value, f.count]
+  # use p1 and p2 class and archetypes
+  def wild_stats(use_p2_stats = true)
+    results = search_results(:wild)
+    counts = Hash.new(0)
+    results.facet(:p1_class_and_archetype).rows.each do |f|
+      counts[f.value] = f.count
+    end
+    if use_p2_stats
+      results.facet(:p2_class_and_archetype).rows.each do |f|
+        counts[f.value] += f.count
       end
+    end
+    counts.sort_by {|_, counts| -counts }.take(5)
   end
 
   # games played by rank 5+ players since the past week
@@ -33,9 +47,10 @@ class StatsPopularDecks
           without(:p2_legend_rank, nil)
         end
       end
-      with(:played_at).greater_than(1.week.ago)
+      with(:played_at).greater_than(7.days.ago)
       with(:game_type, game_type)
       facet :p1_class_and_archetype
+      facet :p2_class_and_archetype
     end
   end
 end

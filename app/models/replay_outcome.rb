@@ -1,5 +1,8 @@
 # Represents the outcome of a replay
 # These only exist for standard and wild game types (not arena)
+# Created in 2 scenarios
+# - replay found from hsreplay.net live replay feed
+# - webhook converted into a replay outcome
 
 class ReplayOutcome < ApplicationRecord
   validate :check_hsreplay_id
@@ -212,23 +215,6 @@ class ReplayOutcome < ApplicationRecord
     end
     unless %w( True False ).include? data["player2_won"]
       errors.add(:data, "player2_won is invalid")
-    end
-    # check_rank_consistency
-  end
-
-  def check_rank_consistency
-    p1_rank, p1_legend_rank, p2_rank, p2_legend_rank = ranks = [
-      data["player1_rank"], data["player1_legend_rank"],
-      data["player2_rank"], data["player2_legend_rank"]
-    ]
-    ranks.each do |rank|
-      errors.add(:data, "player_ranks are invalid") unless rank == "None" || rank.to_i > 0
-    end
-    if ((p1_rank == "None" && p1_legend_rank == "None") ||
-        (p1_rank.to_i > 0 && p1_legend_rank.to_i > 0) ||
-        (p2_rank == "None" && p2_legend_rank == "None") ||
-        (p2_rank.to_i > 0 && p2_legend_rank.to_i > 0))
-      errors.add(:data, "player ranks are invalid")
     end
   end
 end
