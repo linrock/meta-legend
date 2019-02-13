@@ -32,8 +32,10 @@ module HearthstoneCard
     }]
   end
 
+  # handles cards like LOOT_103t1
   def find_by_id(card_id, full_info = false)
-    full_info ? full_card_map[card_id] : card_map[card_id]
+    cleaned_card_id = card_id.gsub(/t\d+\z/, '')
+    full_info ? full_card_map[cleaned_card_id] : card_map[cleaned_card_id]
   end
 
   def find_by_name(card_name)
@@ -55,7 +57,7 @@ module HearthstoneCard
   end
 
   def card_ids_to_cards(card_ids)
-    card_ids.map {|card_id| find_by_id(card_id) }
+    card_ids.map { |card_id| find_by_id(card_id) }
   end
 
   def card_ids_to_deck_list(card_ids)
