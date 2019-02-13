@@ -23,6 +23,7 @@
         :key="replay.key"
         :replay="replay"
       )
+
 </template>
 
 <script lang="ts">
@@ -47,28 +48,6 @@
       },
       chooseVs() {
         console.log(`choosing vs`)
-      }
-    },
-
-    computed: {
-      apiPath() {
-        const queryParams = {
-          game_type: this.$store.getters.gameType,
-          rank_range: this.$store.getters.rankRange,
-          p1_class: this.$store.getters.p1Class,
-          p2_class: this.$store.getters.p2Class,
-        }
-        return `/search.json?${paramsToString(queryParams)}`
-      }
-    },
-
-    watch: {
-      apiPath() {
-        api.get(this.apiPath)
-          .then(response => response.data)
-          .then(jsonData => {
-            this.$store.dispatch(`setReplays`, jsonData.replays)
-          })
       }
     },
 
