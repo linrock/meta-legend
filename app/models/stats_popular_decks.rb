@@ -1,3 +1,5 @@
+# Popular decks widget in sidebar of /beta page
+
 class StatsPopularDecks
   def initialize
   end
