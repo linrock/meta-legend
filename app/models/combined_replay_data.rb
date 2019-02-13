@@ -44,7 +44,7 @@ class CombinedReplayData < ActiveRecord::Base
     boolean :p1_is_first
     boolean :p1_wins
 
-    # p1 is the opponent
+    # p2 is the opponent
     string :p2_battletag
     string :p2_name do
       p2_battletag.split("#").first
