@@ -13,14 +13,6 @@ class ReplayOutcome < ApplicationRecord
 
   delegate :player_names, to: :replay_xml_data
 
-  scope :filter, -> (filter) do
-    case filter
-      when "top-100" then self.top_legend(100)
-      when "top-500" then self.top_legend(500)
-      when "top-1000" then self.top_legend(1000)
-    end
-  end
-
   scope :legend_players, -> do
     where("
       replay_outcomes.data ->> 'player1_legend_rank' != 'None'
