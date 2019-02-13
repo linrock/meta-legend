@@ -117,7 +117,7 @@ class WebhookBlob < ApplicationRecord
   # Called by WebhookConverterJob to create replay outcomes from webhook blobs
   def convert_to_replay_outcome
     create_replay_outcome
-    logger.info "#{p1_name} sent a webhook blob. Converted"
+    logger.info "#{p1_name} webhook #{id}. Converted"
     if is_arena? or is_wild?
       # TODO centralize replay data fetching between different game types
       FetchReplayDataJob.perform_async(blob.hsreplay_id)
