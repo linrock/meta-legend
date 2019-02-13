@@ -78,8 +78,8 @@ class WebhookBlob < ApplicationRecord
     create_replay_outcome
     if is_arena? or is_wild?
       # TODO centralize replay data fetching for different game types
-      FetchReplayDataJob.new.perform(blob.hsreplay_id)
-      if ReplayData.new(blob.hsreplay_id).exists?
+      FetchReplayDataJob.new.perform(hsreplay_id)
+      if ReplayData.new(hsreplay_id).exists?
         self.converted_at = Time.now
         self.state = "fetched"
         self.save!
