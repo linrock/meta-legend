@@ -15,7 +15,7 @@
 
 <script lang="ts">
   const gameTypes = {
-    'all':      'All ranked games',
+    'all':      'Standard and wild games',
     'standard': 'Standard games',
     'wild':     'Wild games',
   }

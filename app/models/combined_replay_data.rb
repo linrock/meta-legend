@@ -103,7 +103,7 @@ class CombinedReplayData < ActiveRecord::Base
   end
 
   # Data structure should match ReplayData#to_hash
-  def as_json(options = {})
+  def as_v0_json(options = {})
     {
       hsreplay_id: hsreplay_id,
       num_turns: num_turns,
@@ -133,6 +133,40 @@ class CombinedReplayData < ActiveRecord::Base
     }
   end
 
+  def as_json(options = {})
+    return as_v0_json(options)
+    {
+      hsreplay_id: hsreplay_id,
+      game_type: game_type,
+      num_turns: num_turns,
+      duration_seconds: duration_seconds,
+      p1: {
+        tag: p1_battletag,
+        rank: p1_rank,
+        legend_rank: p1_legend_rank,
+        class: p1_class,
+        archetype: p1_archetype,
+        deck_cards: HearthstoneCard.card_ids_to_deck_list(p1_deck_card_ids),
+        is_winner: p1_wins,
+      },
+      p2: {
+        tag: p2_battletag,
+        rank: p2_rank,
+        legend_rank: p2_legend_rank,
+        class: p2_class,
+        archetype: p2_archetype,
+        is_winner: p2_wins,
+        deck_cards: HearthstoneCard.card_ids_to_deck_list(p2_deck_card_ids),
+        predicted_deck_cards: HearthstoneCard.card_ids_to_deck_list(
+          p2_predicted_deck_card_ids
+        ),
+      },
+      played_at: played_at
+    }
+  end
+
+  # since metadata currently contains data both relevant to the game
+  # or for internal use (ie. source: webhook 123)
   def filtered_metadata
     return unless game_type == "arena"
     {

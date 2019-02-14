@@ -1,17 +1,12 @@
 import Replay from './replay'
 
 export default class Replays {
-  replayList: Array<Replay>
-  replaySet: Set<string>
+  public replayList: Array<Replay> = []
+  private replaySet: Set<string> = new Set()
 
-  constructor() {
-    this.replayList = []
-    this.replaySet = new Set()
-  }
-
-  // returns a list of all replays
-  addReplays(replays): Array<Replay> {
-    replays.forEach(replayOptions => {
+  // de-duplicates and returns a list of all replays
+  public addReplays(replayData: Array<any>): Array<Replay> {
+    replayData.forEach(replayOptions => {
       const replay = new Replay(replayOptions)
       if (!this.replaySet.has(replay.key)) {
         this.replaySet.add(replay.key)

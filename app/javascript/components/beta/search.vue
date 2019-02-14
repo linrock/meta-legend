@@ -18,7 +18,7 @@
         select-p2-class
     .search-stats
     .search-results
-      replay-row(
+      replay-card(
         v-for="replay in $store.getters.replays"
         :key="replay.key"
         :replay="replay"
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-  import ReplayRow from './replay_row'
+  import ReplayCard from './replay_card'
   import SelectGameType from './select_game_type'
   import SelectRankRange from './select_rank_range'
   import SelectP1Class from './select_p1_class'
@@ -54,7 +54,7 @@
     },
 
     components: {
-      ReplayRow,
+      ReplayCard,
       SelectGameType,
       SelectRankRange,
       SelectP1Class,
