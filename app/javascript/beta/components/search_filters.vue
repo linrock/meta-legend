@@ -1,64 +1,35 @@
 <template lang="pug">
-  .search
-    .search-filters
-      .selector-group
-        .label Show me
-        select-game-type
-      .selector-group
-        .label Played at
-        select-rank-range
-      .selector-group
-        .label With at least
-        .label 8 turns
-      .selector-group
-        .label Piloted by
-        select-p1-class
-      .selector-group
-        .label Against
-        select-p2-class
-    .search-stats
-    .search-results
-      replay-card(
-        v-for="replay in $store.getters.replays"
-        :key="replay.key"
-        :replay="replay"
-      )
-    infinite-scroll
+  .search-filters
+    .selector-group
+      .label Show me
+      select-game-type
+    .selector-group
+      .label Played at
+      select-rank-range
+    .selector-group
+      .label With at least
+      .label 8 turns
+    .selector-group
+      .label Piloted by
+      select-p1-class
+    .selector-group
+      .label Against
+      select-p2-class
 
 </template>
 
 <script lang="ts">
-  import ReplayCard from './replay_card'
   import SelectGameType from './select_game_type'
   import SelectRankRange from './select_rank_range'
   import SelectP1Class from './select_p1_class'
   import SelectP2Class from './select_p2_class'
-  import InfiniteScroll from './infinite_scroll'
-  import { paramsToString } from '../../utils'
 
   export default {
-    data() {
-      return {
-        choosing: null,
-      }
-    },
-
-    methods: {
-      chooseClassAndArchetype() {
-        console.log(`choosing class and archetype`)
-      },
-      chooseVs() {
-        console.log(`choosing vs`)
-      }
-    },
-
     components: {
-      ReplayCard,
       SelectGameType,
       SelectRankRange,
       SelectP1Class,
       SelectP2Class,
-      InfiniteScroll,
     }
   }
 </script>
