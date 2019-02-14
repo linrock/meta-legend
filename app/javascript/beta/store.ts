@@ -15,6 +15,7 @@ const store = new Vuex.Store({
     currentDropdown: null,   // homepage select dropdowns
 
     // controls for api and infinite scroll
+    isReady: true,           // set to true to start making requests
     infScrollEnabled: true,
     isFetching: false,
 
@@ -66,12 +67,16 @@ const store = new Vuex.Store({
       state.page = state.page + 1
     },
     setInitialProps(state, props) {
+      state.isReady = false
       if (props.cardId) {
         state.cardId = props.cardId
       }
     },
     setInfScrollEnabled(state, enabled) {
       state.infScrollEnabled = enabled
+    },
+    apiIsReady(state) {
+      state.isReady = true
     }
   },
 
@@ -108,7 +113,7 @@ const store = new Vuex.Store({
       commit(`toggleDropdown`, null)
       commit(`selectP2Class`, p2Class)
     },
-    fetchReplays({ commit, state }, apiPath) {
+    fetchReplays({ commit }, apiPath) {
       api.get(apiPath)
         .then(response => response.data)
         .then(({ page, replays }) => {
@@ -121,14 +126,14 @@ const store = new Vuex.Store({
           commit(`setIsFetching`, false)
         })
     },
-    fetchNextPage({ state, commit }, apiPath) {
+    fetchNextPage({ commit, state }, apiPath) {
       if (state.isFetching) {
         return
       }
       commit(`setIsFetching`, true)
       commit(`nextPage`)
     },
-    setInitialProps({ state, commit }, props) {
+    setInitialProps({ commit }, props) {
       commit(`setInitialProps`, props)
     }
   },
@@ -158,8 +163,13 @@ const store = new Vuex.Store({
 })
 
 store.watch(() => store.getters.apiPath, apiPath => {
-  console.log(`api path changed - ${apiPath}`)
-  store.dispatch(`fetchReplays`, apiPath)
+  if (!store.state.isReady) {
+    console.log(`ignoring: ${apiPath}`)
+    store.commit(`apiIsReady`)
+  } else {
+    console.log(`fetching: ${apiPath}`)
+    store.dispatch(`fetchReplays`, apiPath)
+  }
 })
 
 export default store

@@ -9,8 +9,9 @@ import store from '../beta/store'
 document.addEventListener(`DOMContentLoaded`, () => {
   const searchFiltersEl: HTMLElement = document.querySelector(`.search-filters`)
   if (searchFiltersEl) {
-    console.dir(searchFiltersEl.dataset)
-    store.dispatch(`setInitialProps`, searchFiltersEl.dataset)
+    if (Object.entries(searchFiltersEl.dataset).length > 0) {
+      store.dispatch(`setInitialProps`, searchFiltersEl.dataset)
+    }
     new Vue({
       el: searchFiltersEl,
       render: h => h(SearchFilters, {
