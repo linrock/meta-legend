@@ -31,7 +31,7 @@ class HomeController < ApplicationController
         with(:num_turns).greater_than(7)
       end
       order_by :played_at, :desc
-    end.each_hit_with_result.map {|_, result| result }.to_json
+    end.results.to_json
     @stats_popular_decks = StatsPopularDecks.new
     @stats_top_submitters = StatsTopSubmitters.new
     render layout: "beta"

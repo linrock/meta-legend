@@ -43,9 +43,10 @@ class SearchController < ActionController::API
           end
         end
       end
+      with(:num_turns).greater_than(7)
       order_by(:played_at, :desc)
       paginate(page: page, per_page: 20)
-    end.each_hit_with_result.map {|_, result| result }.as_json
+    end.results.as_json
     render json: {
       replays: replay_data,
       page: page,

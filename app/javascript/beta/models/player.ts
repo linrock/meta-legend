@@ -14,6 +14,15 @@ export interface PlayerOptions {
 }
 
 const initCards = (cardData): Array<Card> => cardData.map(c => new Card(c))
+const expand = (cards: Array<Card>): Array<Card> => {
+  const cardList = []
+  cards.forEach(card => {
+    for (let i = 0; i < card.n; i++) {
+      cardList.push(card)
+    }
+  })
+  return cardList
+}
 
 export class Player {
   public className: string
@@ -45,10 +54,10 @@ export class Player {
       this.deckStatus = `partial`
     }
     if (options.pre_mulligan_cards) {
-      this.preMulliganCards = initCards(options.pre_mulligan_cards)
+      this.preMulliganCards = expand(initCards(options.pre_mulligan_cards))
     }
     if (options.post_mulligan_cards) {
-      this.postMulliganCards = initCards(options.post_mulligan_cards)
+      this.postMulliganCards = expand(initCards(options.post_mulligan_cards))
     }
   }
 
