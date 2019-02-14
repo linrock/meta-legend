@@ -14,7 +14,7 @@
         .label Against
         select-p2-class
     .selector-group
-      .label With at least
+      .label For at least
       .label 8 turns
     .selector-group(v-if="cardId && cardName")
       .label With the card
