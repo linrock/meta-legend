@@ -19,15 +19,15 @@ class CombinedReplayDataQuery
         order_by :played_at, :desc
         paginate page: 1, per_page: 100
       end
-    elsif @query[:name]
+    elsif @query[:player_name]
       # initial data for /players/:name routes
       CombinedReplayData.search do
         any_of do
-          with :p1_name, query[:name]
-          with :p2_name, query[:name]
+          with :p1_name, query[:player_name]
+          with :p2_name, query[:player_name]
         end
         order_by :played_at, :desc
-        paginate page: 1, per_page: 100
+        paginate page: 1, per_page: PAGE_SIZE
       end
     elsif @query[:card_id]
       # initial data for /card routes

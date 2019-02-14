@@ -1,5 +1,6 @@
 class SearchController < ActionController::API
 
+  # TODO merge with CombinedReplayDataQuery
   def index
     replay_data = CombinedReplayData.search do
       if PlayerClass::NAMES.include? params[:p1_class]
@@ -40,8 +41,14 @@ class SearchController < ActionController::API
           end
         end
       end
-      with(:num_turns).greater_than(7)
-      # TODO merge with CombinedReplayDataQuery
+      if params[:player_name]
+        any_of do
+          with :p1_name, params[:player_name]
+          with :p2_name, params[:player_name]
+        end
+      else
+        with(:num_turns).greater_than(7)
+      end
       if params[:card_id] && HearthstoneCard.find_by_id(params[:card_id])
         any_of do
           with :p1_deck_card_ids, params[:card_id]

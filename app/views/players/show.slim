@@ -1,0 +1,9 @@
+.container.flex
+  .left
+    h2 Recent games played by #{@player_name}
+    template.replay-data= sanitize(@replay_data).html_safe
+    .search
+      .search-filters(data-player-name="#{@player_name}")
+      .search-results
+
+  aside.fixed-sidebar

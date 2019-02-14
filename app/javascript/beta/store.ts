@@ -21,6 +21,7 @@ const store = new Vuex.Store({
 
     // params for api requests
     cardId: null,
+    playerName: null,
     gameType: `all`,         // all, standard, wild
     rankRange: `rank-5`,     // rank-5, legend, top-1000, top-500, top-100
     p1Class: `all`,
@@ -70,6 +71,9 @@ const store = new Vuex.Store({
       state.isReady = false
       if (props.cardId) {
         state.cardId = props.cardId
+      }
+      if (props.playerName) {
+        state.playerName = props.playerName
       }
     },
     setInfScrollEnabled(state, enabled) {
@@ -156,6 +160,9 @@ const store = new Vuex.Store({
       }
       if (state.cardId) {
         queryParams.card_id = state.cardId
+      }
+      if (state.playerName) {
+        queryParams.player_name = state.playerName
       }
       return `/search.json?${paramsToString(queryParams)}`
     },
