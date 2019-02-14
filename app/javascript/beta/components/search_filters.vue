@@ -9,10 +9,14 @@
     template(v-if="!cardId && !cardName")
       .selector-group
         .label Piloted by
-        select-p1-class
+        .select-class-and-archetype
+          select-p1-archetype
+          select-p1-class
       .selector-group
         .label Against
-        select-p2-class
+        .select-class-and-archetype
+          select-p2-archetype
+          select-p2-class
     .selector-group
       .label For at least
       .label 8 turns
@@ -25,7 +29,9 @@
 <script lang="ts">
   import SelectGameType from './select_game_type'
   import SelectRankRange from './select_rank_range'
+  import SelectP1Archetype from './select_p1_archetype'
   import SelectP1Class from './select_p1_class'
+  import SelectP2Archetype from './select_p2_archetype'
   import SelectP2Class from './select_p2_class'
 
   export default {
@@ -44,7 +50,9 @@
     components: {
       SelectGameType,
       SelectRankRange,
+      SelectP1Archetype,
       SelectP1Class,
+      SelectP2Archetype,
       SelectP2Class,
     }
   }
@@ -59,6 +67,12 @@
 
   .selector-group
     position relative
+
+    .select-class-and-archetype
+      display flex
+
+      .selector:first-child
+        margin-right 30px
 
     .selector
       .selected

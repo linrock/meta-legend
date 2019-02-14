@@ -16,7 +16,7 @@
   import { DropdownType } from '../enums'
 
   const classes = {
-    'all':     'Any class',
+    'all':     'Class',
     'Druid':   'Druid',
     'Hunter':  'Hunter',
     'Mage':    'Mage',

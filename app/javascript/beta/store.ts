@@ -24,7 +24,9 @@ const store = new Vuex.Store({
     playerName: null,
     gameType: `all`,         // all, standard, wild
     rankRange: `rank-5`,     // rank-5, legend, top-1000, top-500, top-100
+    p1Archetype: `all`,
     p1Class: `all`,
+    p2Archetype: `all`,
     p2Class: `all`,
     page: 1,
   },
@@ -53,8 +55,16 @@ const store = new Vuex.Store({
       state.rankRange = rankRange
       state.page = 1
     },
+    selectP1Archetype(state, archetype) {
+      state.p1Archetype = archetype
+      state.page = 1
+    },
     selectP1Class(state, p1Class) {
       state.p1Class = p1Class
+      state.page = 1
+    },
+    selectP2Archetype(state, archetype) {
+      state.p2Archetype = archetype
       state.page = 1
     },
     selectP2Class(state, p2Class) {
@@ -109,9 +119,17 @@ const store = new Vuex.Store({
       commit(`toggleDropdown`, null)
       commit(`selectRankRange`, rankRange)
     },
+    selectP1Archetype({ commit }, archetype) {
+      commit(`toggleDropdown`, null)
+      commit(`selectP1Archetype`, archetype)
+    },
     selectP1Class({ commit }, p1Class) {
       commit(`toggleDropdown`, null)
       commit(`selectP1Class`, p1Class)
+    },
+    selectP2Archetype({ commit }, archetype) {
+      commit(`toggleDropdown`, null)
+      commit(`selectP2Archetype`, archetype)
     },
     selectP2Class({ commit }, p2Class) {
       commit(`toggleDropdown`, null)
