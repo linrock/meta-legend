@@ -133,6 +133,7 @@ class CombinedReplayData < ActiveRecord::Base
     }
   end
 
+  # used in the new /beta pages
   def as_json(options = {})
     {
       hsreplay_id: hsreplay_id,
@@ -147,6 +148,8 @@ class CombinedReplayData < ActiveRecord::Base
         class_name: p1_class,
         archetype: p1_archetype,
         deck_cards: HearthstoneCard.card_ids_to_deck_list(p1_deck_card_ids),
+        pre_mulligan_cards: HearthstoneCard.card_ids_to_deck_list(p1_pre_mulligan_card_ids),
+        post_mulligan_cards: HearthstoneCard.card_ids_to_deck_list(p1_post_mulligan_card_ids),
       },
       p2: {
         battletag: p2_battletag,
