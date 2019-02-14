@@ -1,5 +1,6 @@
 <template lang="pug">
   .infinite-scroll(ref="bottom")
+    .no-more(v-if="!enabled") No more games!
 
 </template>
 
@@ -19,7 +20,7 @@
 
     computed: {
       enabled() {
-        return this.$store.getters.replays.length > 0 && this.$store.state.page < 20
+        return this.$store.state.infScrollEnabled && this.$store.state.page < 20
       }
     },
 
@@ -34,3 +35,13 @@
     }
   }
 </script>
+
+<style lang="stylus">
+  .infinite-scroll
+    min-height 120px
+
+    .no-more
+      text-align center
+      line-height 120px
+
+</style>

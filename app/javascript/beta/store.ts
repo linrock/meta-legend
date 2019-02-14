@@ -10,14 +10,20 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     replays: new Replays(),  // all replays in the current list
+
     currentReplay: null,     // if a replay was clicked
     currentDropdown: null,   // homepage select dropdowns
+
+    // controls for api and infinite scroll
+    infScrollEnabled: true,
+    isFetching: false,
+
+    // params for api requests
     cardId: null,
     gameType: `all`,         // all, standard, wild
     rankRange: `rank-5`,     // rank-5, legend, top-1000, top-500, top-100
     p1Class: `all`,
     p2Class: `all`,
-    isFetching: false,
     page: 1,
   },
 
@@ -64,6 +70,9 @@ const store = new Vuex.Store({
         state.cardId = props.cardId
       }
     },
+    setInfScrollEnabled(state, enabled) {
+      state.infScrollEnabled = enabled
+    }
   },
 
   actions: {
@@ -99,16 +108,17 @@ const store = new Vuex.Store({
       commit(`toggleDropdown`, null)
       commit(`selectP2Class`, p2Class)
     },
-    fetchReplays({ commit, dispatch }, apiPath) {
-      commit(`setIsFetching`, true)
+    fetchReplays({ commit, state }, apiPath) {
       api.get(apiPath)
         .then(response => response.data)
         .then(({ page, replays }) => {
           if (page === 1) {
-            dispatch(`setReplays`, replays)
+            commit(`setReplays`, replays)
           } else {
-            dispatch(`addReplays`, replays)
+            commit(`addReplays`, replays)
           }
+          commit(`setInfScrollEnabled`, replays.length > 0)
+          commit(`setIsFetching`, false)
         })
     },
     fetchNextPage({ state, commit }, apiPath) {
