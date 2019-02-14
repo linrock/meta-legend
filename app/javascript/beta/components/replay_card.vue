@@ -6,22 +6,22 @@
     .player.player1
       .player-name
         .win-indicator
-          svg.crown(v-if="replay.winner === `p1`")
+          svg.crown(v-if="p1.isWinner")
             use(xlink:href="#crown")
-        .name {{ replay.p1.name }}
+        .name {{ p1.name }}
       .archetype
-        | {{ replay.p1.deckType }}
-    player-rank(:player="replay.p1")
+        | {{ p1.archetype }} {{ p1.className }}
+    player-rank(:player="p1")
     .vs vs
-    player-rank(:player="replay.p2")
+    player-rank(:player="p2")
     .player.player2
       .player-name
-        .name {{ replay.p2.name }}
+        .name {{ p2.name }}
         .win-indicator
-          svg.crown(v-if="replay.winner === `p2`")
+          svg.crown(v-if="p2.isWinner")
             use(xlink:href="#crown")
       .archetype
-        | {{ replay.p2.deckType }}
+        | {{ p2.archetype }} {{ p2.className }}
 
 </template>
 
@@ -51,6 +51,12 @@
     computed: {
       isSelectedReplay() {
         return this.replay === this.$store.getters.currentReplay
+      },
+      p1() {
+        return this.replay.p1
+      },
+      p2() {
+        return this.replay.p2
       },
     },
 

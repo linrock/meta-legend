@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-  import { Player } from '../../models/player'
+  import { Player } from '../models/player'
 
   export default {
     props: {

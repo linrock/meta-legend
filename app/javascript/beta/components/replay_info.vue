@@ -22,31 +22,14 @@
         target="_blank"
         @click="replayClicked"
       ) Watch on hsreplay.net
-    deck-cards(
-      :player="replay.p1"
-      :dustCost="replay.deckDustCost"
-      :cards="replay.deckCards"
-    )
-    template(v-if="replay.opposingDeckPredictedCards && replay.opposingDeckPredictedCards.length > 0")
-      deck-cards(
-        :player="replay.p2"
-        :predicted="true"
-        :cards="replay.opposingDeckPredictedCards"
-      )
-    template(v-else)
-      deck-cards(
-        v-if="replay.opposingDeckCards.length > 0"
-        :player="replay.p2"
-        :partial="true"
-        :cards="replay.opposingDeckCards"
-      )
+    deck-cards(:player="replay.p1")
+    deck-cards(:player="replay.p2")
 
 </template>
 
 <script lang="ts">
   import Replay from '../models/replay'
-  import DeckCards from '../../components/deck_cards'
-  import api from '../../api'
+  import DeckCards from './deck_cards'
   import { trackEvent, timeAgo } from '../../utils'
 
   export default {
@@ -57,52 +40,18 @@
       }
     },
 
-    data() {
-      return {
-        showError: false,
-        cardUrl: false,
-        showReplayComment: false,
-      }
-    },
-
-    watch: {
-      replay() {
-        this.showReplayComment = false
-      }
-    },
-
     methods: {
       replayClicked() {
         trackEvent('click', 'watch replay', this.replay.hsreplayId)
-        const replay = this.replay
-        setTimeout(() => {
-          if (this.$store.getters.currentReplay === replay) {
-            this.showReplayComment = true
-            trackEvent('comment box', 'displayed', this.replay.hsreplayId)
-          }
-        }, 3000)
-      },
-      cardClicked(cardName) {
-        trackEvent('click', 'card name', cardName)
       },
       playerNameClicked(name) {
         trackEvent('click player', 'name', name)
-      },
-      showCardImage(cardId) {
-        if ('ontouchstart' in document.documentElement) {
-          return
-        }
-        if (cardId) {
-          this.cardUrl = `https://art.hearthstonejson.com/v1/render/latest/enUS/256x/${cardId}.png`
-        } else {
-          this.cardUrl = null
-        }
       },
     },
 
     computed: {
       timeAgo() {
-        return timeAgo(this.replay.foundAt)
+        return timeAgo(this.replay.playedAt)
       },
     },
 
