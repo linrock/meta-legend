@@ -23,10 +23,16 @@
               use(xlink:href="#crown")
         .archetype
           | {{ p2.archetype }} {{ p2.className }}
-    .replay-info
-      .num-turns {{ replay.numTurns }} turns
-      .duration {{ parseInt(replay.durationSeconds / 60) }} minutes
-      .game-type {{ replay.gameType }}
+    .under-info
+      .starting-hand
+        .post
+          div(v-for="card in p1.postMulliganCards")
+            span.cost {{ card.cost }}
+            span.name {{ card.name }}
+      .replay-info
+        .num-turns {{ replay.numTurns }} turns
+        .duration {{ parseInt(replay.durationSeconds / 60) }} minutes
+        .game-type {{ replay.gameType }}
 
 </template>
 
@@ -97,16 +103,29 @@
     justify-content center
     display flex
 
-  .replay-info
+  // info under the list of game players
+  .under-info
     display flex
-    justify-content flex-end
-    font-size 14px
+    justify-content space-between
     margin-top 15px
-    padding-right 15px
-    opacity 0.5
 
-    > div
+    .starting-hand
+      font-size 13px
+      line-height 18px
       margin-left 15px
+
+      .cost
+        margin-right 10px
+
+    .replay-info
+      display flex
+      justify-content flex-end
+      font-size 14px
+      padding-right 15px
+      opacity 0.5
+
+      > div
+        margin-left 15px
 
   .player
     display flex

@@ -9,7 +9,11 @@ export interface PlayerOptions {
   is_winner: boolean
   deck_cards: Array<Card>
   predicted_deck_cards?: Array<Card>
+  pre_mulligan_cards?: Array<Card>
+  post_mulligan_cards?: Array<Card>
 }
+
+const initCards = (cardData): Array<Card> => cardData.map(c => new Card(c))
 
 export class Player {
   public className: string
@@ -18,6 +22,8 @@ export class Player {
   public legendRank: number
   public rank: number
   public deckCards: Array<Card>
+  public preMulliganCards: Array<Card>
+  public postMulliganCards: Array<Card>
   public deckStatus: string
   public isWinner: boolean
 
@@ -29,14 +35,20 @@ export class Player {
     this.rank = parseInt(options.rank, 10)
     this.isWinner = options.is_winner
     if (this.nCards(options.deck_cards) === 30) {
-      this.deckCards = options.deck_cards.map(c => new Card(c))
+      this.deckCards = initCards(options.deck_cards)
       this.deckStatus = `full`
     } else if (options.predicted_deck_cards) {
-      this.deckCards = options.predicted_deck_cards.map(c => new Card(c))
+      this.deckCards = initCards(options.predicted_deck_cards)
       this.deckStatus = `predicted`
     } else {
-      this.deckCards = options.deck_cards.map(c => new Card(c))
+      this.deckCards = initCards(options.deck_cards)
       this.deckStatus = `partial`
+    }
+    if (options.pre_mulligan_cards) {
+      this.preMulliganCards = initCards(options.pre_mulligan_cards)
+    }
+    if (options.post_mulligan_cards) {
+      this.postMulliganCards = initCards(options.post_mulligan_cards)
     }
   }
 

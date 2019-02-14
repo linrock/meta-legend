@@ -2,6 +2,10 @@ module MetaLegend
   module Console
     # convenience functions
 
+    def migrate(hsreplay_id)
+      CombinedReplayDataMigrator.new(hsreplay_id).migrate!
+    end
+
     def rx(hsreplay_id)
       ReplayXmlData.find_by(hsreplay_id: hsreplay_id)
     end
