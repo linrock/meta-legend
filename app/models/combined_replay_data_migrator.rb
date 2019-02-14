@@ -6,6 +6,7 @@
 # ReplayXmlData
 
 class CombinedReplayDataMigrator
+  ERROR_LOG = Rails.root.join("log/combined_replay_data_migrator.error.log")
 
   def self.check_hsreplay_ids(hsreplay_ids)
     counts = {
@@ -34,7 +35,7 @@ class CombinedReplayDataMigrator
   end
 
   def self.migrate_hsreplay_ids!(hsreplay_ids)
-    logger = Logger.new("#{Rails.root}/log/combined_replay_data_migrator.error.log")
+    logger = Logger.new(ERROR_LOG)
     ActiveRecord::Base.logger.silence do
       hsreplay_ids.each do |hsreplay_id|
         begin
@@ -78,7 +79,8 @@ class CombinedReplayDataMigrator
     begin
       @combined.save!
     rescue => e
-      logger.error "Error migrating: #{hsreplay_id}"
+      logger = Logger.new(ERROR_LOG)
+      logger.error "Error migrating: #{@hsreplay_id}"
       logger.error "#{e.class.name}: #{e.message}"
     end
   end
