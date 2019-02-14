@@ -46,7 +46,7 @@ export class Player {
     if (this.nCards(options.deck_cards) === 30) {
       this.deckCards = initCards(options.deck_cards)
       this.deckStatus = `full`
-    } else if (options.predicted_deck_cards) {
+    } else if (options.predicted_deck_cards && options.predicted_deck_cards.length > 0) {
       this.deckCards = initCards(options.predicted_deck_cards)
       this.deckStatus = `predicted`
     } else {
