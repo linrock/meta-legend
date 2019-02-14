@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-  import Replay from '../../models/replay'
+  import Replay from '../models/replay'
   import PlayerRank from './player_rank'
   import { trackEvent } from '../../utils'
 

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import FastClick from 'fastclick'
 
-import Search from '../components/beta/search'
-import FixedSidebar from '../components/beta/fixed_sidebar'
-import store from '../beta_store'
+import Search from '../beta/components/search'
+import FixedSidebar from '../beta/components/fixed_sidebar'
+import store from '../beta/store'
 
 document.addEventListener(`DOMContentLoaded`, () => {
   const replayDataEl: HTMLElement = document.querySelector(`.replay-data`)

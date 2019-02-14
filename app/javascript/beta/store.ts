@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import Replays from './models/replays'
-import api from './api'
-import { paramsToString } from './utils'
+import api from '../api'
+import { paramsToString } from '../utils'
 
 Vue.use(Vuex)
 

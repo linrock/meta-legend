@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-  import ReplayInfo from '../sidebar/replay_info'
+  import ReplayInfo from './replay_info'
 
   export default {
     computed: {
