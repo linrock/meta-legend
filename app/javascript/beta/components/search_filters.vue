@@ -1,5 +1,5 @@
 <template lang="pug">
-  .search-filters
+  .search-filters(v-if="!playerName")
     .selector-group
       .label Show me
       select-game-type
@@ -34,6 +34,9 @@
         type: String,
       },
       cardName: {
+        type: String,
+      },
+      playerName: {
         type: String,
       }
     },
