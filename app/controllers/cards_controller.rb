@@ -12,10 +12,9 @@ class CardsController < ApplicationController
     @title = "#{@card[:name]} | Cards | Meta Legend"
     @meta_desc = "Find recent legend replays where #{@card[:name]} was used in a game"
     # @hsreplay_ids = hsreplay_ids_from_xml_data
-    @hsreplay_ids = hsreplay_ids_from_solr
-    @replay_data = @hsreplay_ids.map do |hsreplay_id|
-      ReplayDataCache.new.replay_data_hash(hsreplay_id) rescue nil
-    end.compact.sort_by {|r| -r[:found_at].to_i }.to_json
+    # @hsreplay_ids = hsreplay_ids_from_solr
+    @replay_data = replay_data
+    render layout: "beta"
   end
 
   private
@@ -33,5 +32,12 @@ class CardsController < ApplicationController
       .new({ card_id: @card[:id] })
       .search_results
       .results.pluck(:hsreplay_id)
+  end
+
+  def replay_data
+    CombinedReplayDataQuery
+      .new({ card_id: @card[:id] })
+      .search_results
+      .results.to_json
   end
 end

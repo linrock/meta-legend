@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     replays: new Replays(),  // all replays in the current list
     currentReplay: null,     // if a replay was clicked
     currentDropdown: null,   // homepage select dropdowns
+    cardId: null,
     gameType: `all`,         // all, standard, wild
     rankRange: `rank-5`,     // rank-5, legend, top-1000, top-500, top-100
     p1Class: `all`,
@@ -57,7 +58,12 @@ const store = new Vuex.Store({
     },
     nextPage(state) {
       state.page = state.page + 1
-    }
+    },
+    setInitialProps(state, props) {
+      if (props.cardId) {
+        state.cardId = props.cardId
+      }
+    },
   },
 
   actions: {
@@ -111,6 +117,9 @@ const store = new Vuex.Store({
       }
       commit(`setIsFetching`, true)
       commit(`nextPage`)
+    },
+    setInitialProps({ state, commit }, props) {
+      commit(`setInitialProps`, props)
     }
   },
 
@@ -123,12 +132,15 @@ const store = new Vuex.Store({
     p1Class: state => state.p1Class,
     p2Class: state => state.p2Class,
     apiPath: state => {
-      const queryParams = {
+      const queryParams: any = {
         game_type: state.gameType,
         rank_range: state.rankRange,
         p1_class: state.p1Class,
         p2_class: state.p2Class,
         page: state.page,
+      }
+      if (state.cardId) {
+        queryParams.card_id = state.cardId
       }
       return `/search.json?${paramsToString(queryParams)}`
     },

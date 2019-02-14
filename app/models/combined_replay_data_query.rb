@@ -33,7 +33,7 @@ class CombinedReplayDataQuery
           with :p2_deck_card_ids, query[:card_id]
         end
         order_by :played_at, :desc
-        paginate page: 1, per_page: 100
+        paginate page: 1, per_page: 20
       end
     else
       CombinedReplayData.search do

@@ -6,15 +6,19 @@
     .selector-group
       .label Played at
       select-rank-range
+    template(v-if="!cardId && !cardName")
+      .selector-group
+        .label Piloted by
+        select-p1-class
+      .selector-group
+        .label Against
+        select-p2-class
     .selector-group
       .label With at least
       .label 8 turns
-    .selector-group
-      .label Piloted by
-      select-p1-class
-    .selector-group
-      .label Against
-      select-p2-class
+    .selector-group(v-if="cardId && cardName")
+      .label With the card
+      .label {{ cardName }}
 
 </template>
 
@@ -25,6 +29,15 @@
   import SelectP2Class from './select_p2_class'
 
   export default {
+    props: {
+      cardId: {
+        type: String,
+      },
+      cardName: {
+        type: String,
+      }
+    },
+
     components: {
       SelectGameType,
       SelectRankRange,

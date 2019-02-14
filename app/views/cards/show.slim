@@ -1,0 +1,25 @@
+.container.flex
+  .left
+    template.replay-data= sanitize(@replay_data).html_safe
+    .search
+      .search-filters(
+        data-card-id="#{@card[:id]}"
+        data-card-name="#{@card[:name]}"
+      )
+        div
+          .label Show me
+          .selector Standard games
+        div
+          .label Played at
+          .selector Rank 5 and above
+        div
+          .label With at least
+          .selector 8 turns
+        div
+          .label With the card
+          .label #{@card[:name]}
+      .search-results
+
+  aside.fixed-sidebar
+  aside.sidebar
+    img(src="https://art.hearthstonejson.com/v1/render/latest/enUS/256x/#{@card[:id]}.png" alt="#{@card[:name]}")

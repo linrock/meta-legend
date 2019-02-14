@@ -7,11 +7,18 @@ import FixedSidebar from '../beta/components/fixed_sidebar'
 import store from '../beta/store'
 
 document.addEventListener(`DOMContentLoaded`, () => {
-  new Vue({
-    el: document.querySelector(`.search-filters`),
-    render: h => h(SearchFilters),
-    store,
-  })
+  const searchFiltersEl: HTMLElement = document.querySelector(`.search-filters`)
+  if (searchFiltersEl) {
+    console.dir(searchFiltersEl.dataset)
+    store.dispatch(`setInitialProps`, searchFiltersEl.dataset)
+    new Vue({
+      el: searchFiltersEl,
+      render: h => h(SearchFilters, {
+        props: searchFiltersEl.dataset
+      }),
+      store,
+    })
+  }
 
   const searchResultsEl = document.querySelector(`.search-results`)
   if (searchResultsEl) {

@@ -44,6 +44,13 @@ class SearchController < ActionController::API
         end
       end
       with(:num_turns).greater_than(7)
+      # TODO merge with CombinedReplayDataQuery
+      if params[:card_id] && HearthstoneCard.find_by_id(params[:card_id])
+        any_of do
+          with :p1_deck_card_ids, params[:card_id]
+          with :p2_deck_card_ids, params[:card_id]
+        end
+      end
       order_by(:played_at, :desc)
       paginate(page: page, per_page: 20)
     end.results.as_json
