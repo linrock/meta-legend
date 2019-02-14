@@ -30,7 +30,8 @@ class HomeController < ApplicationController
         end
         with(:num_turns).greater_than(7)
       end
-      order_by :played_at, :desc
+      order_by(:played_at, :desc)
+      paginate(page: 1, per_page: CombinedReplayDataQuery::PAGE_SIZE)
     end.results.to_json
     @stats_popular_decks = StatsPopularDecks.new
     @stats_top_submitters = StatsTopSubmitters.new

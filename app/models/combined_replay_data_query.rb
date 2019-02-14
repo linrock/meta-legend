@@ -1,6 +1,8 @@
 # Takes a user-submitted query and returns results
 
 class CombinedReplayDataQuery
+  PAGE_SIZE = 20   # number of results per page
+  PAGE_LIMIT = 20  # highest page
 
   def initialize(query = {})
     @query = sanitize_query(query)
@@ -18,6 +20,7 @@ class CombinedReplayDataQuery
         paginate page: 1, per_page: 100
       end
     elsif @query[:name]
+      # initial data for /players/:name routes
       CombinedReplayData.search do
         any_of do
           with :p1_name, query[:name]
@@ -27,13 +30,14 @@ class CombinedReplayDataQuery
         paginate page: 1, per_page: 100
       end
     elsif @query[:card_id]
+      # initial data for /card routes
       CombinedReplayData.search do
         any_of do
           with :p1_deck_card_ids, query[:card_id]
           with :p2_deck_card_ids, query[:card_id]
         end
         order_by :played_at, :desc
-        paginate page: 1, per_page: 20
+        paginate page: 1, per_page: PAGE_SIZE
       end
     else
       CombinedReplayData.search do
