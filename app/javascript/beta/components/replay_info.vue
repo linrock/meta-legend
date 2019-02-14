@@ -14,8 +14,6 @@
           @click="playerNameClicked(replay.p2.name)"
         ) {{ replay.p2.name }}
       .small
-        .num-turns {{ replay.numTurns }} turns
-        .separator &bull;
         .time-ago {{ timeAgo }}
       a.watch-link(
         :href="replay.hsreplayLink"
@@ -86,7 +84,7 @@
     .small
       display flex
       opacity 0.7
-      font-size 17px
+      font-size 12px
       margin-bottom 12px
 
     .watch-link

@@ -9,6 +9,7 @@ interface ReplayOptions {
   p2: PlayerOptions
   metadata?: any
   played_at: string
+  game_type: string
 }
 
 export default class Replay {
@@ -19,6 +20,7 @@ export default class Replay {
   public p2: Player
   public metadata: any
   public playedAt: string
+  public gameType: string
 
   constructor(options: ReplayOptions) {
     this.hsreplayId = options.hsreplay_id
@@ -27,6 +29,7 @@ export default class Replay {
     this.p1 = new Player(options.p1)
     this.p2 = new Player(options.p2)
     this.playedAt = options.played_at
+    this.gameType = options.game_type
     if (options.metadata) {
       this.metadata = options.metadata
     }

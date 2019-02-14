@@ -35,7 +35,6 @@
   import SelectP2Class from './select_p2_class'
   import InfiniteScroll from './infinite_scroll'
   import { paramsToString } from '../../utils'
-  import api from '../../api'
 
   export default {
     data() {

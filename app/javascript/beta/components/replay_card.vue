@@ -3,25 +3,30 @@
     :class="[{ selected: isSelectedReplay }]"
     @click="selectReplay(replay)"
   )
-    .player.player1
-      .player-name
-        .win-indicator
-          svg.crown(v-if="p1.isWinner")
-            use(xlink:href="#crown")
-        .name {{ p1.name }}
-      .archetype
-        | {{ p1.archetype }} {{ p1.className }}
-    player-rank(:player="p1")
-    .vs vs
-    player-rank(:player="p2")
-    .player.player2
-      .player-name
-        .name {{ p2.name }}
-        .win-indicator
-          svg.crown(v-if="p2.isWinner")
-            use(xlink:href="#crown")
-      .archetype
-        | {{ p2.archetype }} {{ p2.className }}
+    .game-players
+      .player.player1
+        .player-name
+          .win-indicator
+            svg.crown(v-if="p1.isWinner")
+              use(xlink:href="#crown")
+          .name {{ p1.name }}
+        .archetype
+          | {{ p1.archetype }} {{ p1.className }}
+      player-rank(:player="p1")
+      .vs vs
+      player-rank(:player="p2")
+      .player.player2
+        .player-name
+          .name {{ p2.name }}
+          .win-indicator
+            svg.crown(v-if="p2.isWinner")
+              use(xlink:href="#crown")
+        .archetype
+          | {{ p2.archetype }} {{ p2.className }}
+    .replay-info
+      .num-turns {{ replay.numTurns }} turns
+      .duration {{ parseInt(replay.durationSeconds / 60) }} minutes
+      .game-type {{ replay.gameType }}
 
 </template>
 
@@ -68,34 +73,40 @@
 
 <style lang="stylus" scoped>
   a.replay-card
-    align-items center
+    display block
     color #111
-    display flex
     text-decoration none
-    justify-content center
     font-size 17px
     padding 10px 0
     margin 10px 0
-    width 510px
-    border-radius 2px
+    width 490px
+    border 1px solid #eaeaea
+    border-radius 3px
 
     &:hover
       opacity 1
       cursor pointer
-
-      .player
-        color #45ABFE
-
-        .archetype
-          color #45ABFE
-
-    &:visited
-      color #999
-      opacity 0.7
+      background #fafafa
 
     &.selected
       background rgba(0, 0, 0, 0.04)
       border-radius 2px
+
+  .game-players
+    align-items center
+    justify-content center
+    display flex
+
+  .replay-info
+    display flex
+    justify-content flex-end
+    font-size 14px
+    margin-top 15px
+    padding-right 15px
+    opacity 0.5
+
+    > div
+      margin-left 15px
 
   .player
     display flex
@@ -122,7 +133,7 @@
       flex-direction row
 
       .name
-        transition color 0.2s ease
+        font-size 16px
 
   .archetype
     font-size 15px
