@@ -126,7 +126,7 @@ class CombinedReplayDataMigrator
     if data["p1"]["pre_mulligan_card_ids"]
       @combined.p1_pre_mulligan_card_ids = data["p1"]["pre_mulligan_card_ids"]
     end
-    if data["p2"]["pre_mulligan_card_ids"]
+    if data["p1"]["post_mulligan_card_ids"]
       @combined.p1_post_mulligan_card_ids = data["p1"]["post_mulligan_card_ids"]
     end
     @combined.utc_offset = rx.utc_offset
