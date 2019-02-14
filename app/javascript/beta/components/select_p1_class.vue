@@ -3,7 +3,7 @@
     .selected(@click="chooseP1Class")
       | {{ classes[$store.getters.p1Class] }}
     .selector-dropdown(
-      v-if="$store.getters.currentDropdown === 'p1_class'"
+      v-if="$store.getters.currentDropdown === DropdownType.P1Class"
     )
       .option(
         v-for="[value, label] in Object.entries(classes)"
@@ -13,6 +13,8 @@
 </template>
 
 <script lang="ts">
+  import { DropdownType } from '../enums'
+
   const classes = {
     'all':     'Any class',
     'Druid':   'Druid',
@@ -29,13 +31,14 @@
   export default {
     data() {
       return {
-        classes
+        classes,
+        DropdownType,
       }
     },
 
     methods: {
       chooseP1Class() {
-        this.$store.dispatch(`toggleDropdown`, `p1_class`)
+        this.$store.dispatch(`toggleDropdown`, DropdownType.P1Class)
       },
       selectP1Class(p1Class) {
         this.$store.dispatch(`selectP1Class`, p1Class)

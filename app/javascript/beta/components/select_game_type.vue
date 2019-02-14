@@ -3,7 +3,7 @@
     .selected(@click="chooseGameType")
       | {{ gameTypes[$store.getters.gameType] }}
     .selector-dropdown(
-      v-if="$store.getters.currentDropdown === 'game_type'"
+      v-if="$store.getters.currentDropdown === DropdownType.GameType"
     )
       .select-dropdown-container
         .option(
@@ -14,6 +14,8 @@
 </template>
 
 <script lang="ts">
+  import { DropdownType } from '../enums'
+
   const gameTypes = {
     'all':      'Standard and wild games',
     'standard': 'Standard games',
@@ -23,13 +25,14 @@
   export default {
     data() {
       return {
-        gameTypes
+        gameTypes,
+        DropdownType,
       }
     },
 
     methods: {
       chooseGameType() {
-        this.$store.dispatch(`toggleDropdown`, `game_type`)
+        this.$store.dispatch(`toggleDropdown`, DropdownType.GameType)
       },
       selectGameType(gameType) {
         this.$store.dispatch(`selectGameType`, gameType)
