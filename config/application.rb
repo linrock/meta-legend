@@ -17,7 +17,7 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module HsReplayFinder
+module MetaLegend
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
@@ -30,5 +30,12 @@ module HsReplayFinder
     config.active_job.queue_name_prefix = "metalegend-#{Rails.env}"
 
     config.autoload_paths << Rails.root.join('app/view-models')
+
+    console do
+      # require 'pry'
+      # config.console = Pry
+      require './app/console/console.rb'
+      Rails::ConsoleMethods.send :include, MetaLegend::Console
+    end
   end
 end
