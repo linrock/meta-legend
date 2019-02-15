@@ -1,24 +1,25 @@
 <template lang="pug">
-  aside.fixed-sidebar(v-if="showSidebar")
-    .sidebar-container
-      template(v-if="$store.getters.currentReplay")
-        replay-info(:replay="$store.getters.currentReplay")
-      template(v-else)
-        .share-replays
-          div Share your replays!
-          a(href="https://hsreplay.net/account/api/hooks/new/")
-            | Set up a webhook on hsreplay.net
-          br
-          br
-          div with this Payload URL:
-          b https://metalegend.com/webhook
+  transition(name="fade")
+    aside.fixed-sidebar(v-if="showSidebar")
+      .sidebar-container
+        template(v-if="$store.getters.currentReplay")
+          replay-info(:replay="$store.getters.currentReplay")
+        template(v-else)
+          .share-replays
+            div Share your replays!
+            a(href="https://hsreplay.net/account/api/hooks/new/")
+              | Set up a webhook on hsreplay.net
+            br
+            br
+            div with this Payload URL:
+            b https://metalegend.com/webhook
 
 </template>
 
 <script lang="ts">
   import ReplayInfo from './replay_info'
 
-  const pollInterval = 500
+  const pollInterval = 300
 
   export default {
     created() {
@@ -84,5 +85,11 @@
       color #45abfe
     b
       font-weight bold
+
+  .fade-enter-active, .fade-leave-active
+    transition opacity 0.1s
+
+  .fade-enter, .fade-leave-to
+    opacity 0
 
 </style>
