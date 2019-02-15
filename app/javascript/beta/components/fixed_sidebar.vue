@@ -65,8 +65,7 @@
     top: 40px
     background white
     width 260px
-    height 100%
-    max-height 100%
+    height calc(100% - 40px)
     overflow-x hidden
     overflow-y auto
     margin-left 135px
