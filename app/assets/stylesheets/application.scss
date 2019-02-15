@@ -1,7 +1,11 @@
 /*
  *= require reset
  *= require_self
- *= require_tree .
+ *= require main_header
+ *= require colors
+ *= require cards
+ *= require decks
+ *= require user_profile
  */
 
 html {
