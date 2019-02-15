@@ -1,6 +1,9 @@
 <template lang="pug">
   transition(name="fade")
-    aside.fixed-sidebar(v-if="showSidebar")
+    aside.fixed-sidebar(
+      v-if="currentReplay || shouldShow"
+      ref="sidebar"
+    )
       .sidebar-container
         template(v-if="$store.getters.currentReplay")
           replay-info(:replay="$store.getters.currentReplay")
@@ -38,9 +41,9 @@
     },
 
     computed: {
-      showSidebar() {
-        return this.$store.getters.currentReplay || this.shouldShow
-      }
+      currentReplay() {
+        return this.$store.getters.currentReplay
+      },
     },
 
     methods: {
@@ -50,6 +53,12 @@
         }
         return window.scrollY > this.sidebarHeight + 200
       }
+    },
+
+    watch: {
+      currentReplay() {
+        this.$refs.sidebar.scrollTo(0, 0)
+      },
     },
 
     components: {
