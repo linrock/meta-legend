@@ -1,17 +1,46 @@
 <template lang="pug">
   aside.fixed-sidebar(v-if="showSidebar")
     .sidebar-container
-      replay-info(:replay="$store.getters.currentReplay")
+      template(v-if="$store.getters.currentReplay")
+        replay-info(:replay="$store.getters.currentReplay")
+      template(v-else)
+        |
 
 </template>
 
 <script lang="ts">
   import ReplayInfo from './replay_info'
 
+  const pollInterval = 500
+
   export default {
+    created() {
+      setInterval(() => {
+        this.shouldShow = this.sidebarOutOfView()
+      }, pollInterval)
+    },
+
+    data() {
+      const sidebarEl = document.querySelector('.sidebar-container')
+      const sidebarHeight = sidebarEl ? sidebarEl.scrollHeight : 0
+      return {
+        shouldShow: false,
+        sidebarHeight,
+      }
+    },
+
     computed: {
       showSidebar() {
-        return this.$store.getters.currentReplay
+        return this.$store.getters.currentReplay || this.shouldShow
+      }
+    },
+
+    methods: {
+      sidebarOutOfView() {
+        if (this.sidebarHeight === 0) {
+          return true
+        }
+        return window.scrollY > this.sidebarHeight + 200
       }
     },
 

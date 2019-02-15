@@ -18,14 +18,14 @@ body {
   min-width: 100%;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.1);
+  background: rgb(224, 224, 224);
   text-align: left;
   overflow-y: scroll;
 }
 
 .container {
   width: 790px;
-  padding: 0 20px;
+  // padding: 0 20px;
   margin: 0 auto;
   background: white;
 
@@ -35,19 +35,24 @@ body {
     & > .left {
       font-size: 16px;
       color: rgba(0,0,0,0.7);
-      width: 510px;
-      padding-right: 20px;
-      margin-top: 20px;
+      border-right: 1px solid #eaeaea;
+      width: 530px;
+      padding-top: 20px;
 
       h2 {
         margin-bottom: 20px;
+        margin-left: 20px;
       }
     }
   }
 }
 
+.main-header .container {
+  padding: 0 20px;
+}
+
 .search-filters {
-  margin: 10px 0 30px;
+  margin: 10px 20px 10px;
 
   & > div {
     display: flex;
@@ -64,8 +69,15 @@ body {
   }
 }
 
+.search-results {
+  background: #ececec;
+  padding: 10px 10px;
+}
+
 .sidebar {
-  width: 240px;
+  width: 260px;
+  padding-left: 10px;
+  padding-right: 20px;
 
   .sidebar-section-header {
     padding-bottom: 10px;

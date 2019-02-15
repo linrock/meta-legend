@@ -85,21 +85,22 @@
 <style lang="stylus" scoped>
   a.replay-card
     display block
+    background white
     color #111
     text-decoration none
     font-size 17px
     margin 10px 0
-    width 490px
+    width 100%
     border 1px solid #eaeaea
     border-radius 3px
 
     &:hover
       opacity 1
       cursor pointer
-      background #fafafa
+      border 1px solid #c0c0c0
 
     &.selected
-      background rgba(0, 0, 0, 0.04)
+      border 1px solid #45abfe
       border-radius 2px
 
   .game-players
@@ -112,7 +113,7 @@
   .under-info
     display flex
     justify-content space-between
-    background #f7f7f7
+    border-top 1px solid #f0f0f0
     padding 15px 0
     line-height 18px
     font-size 13px
