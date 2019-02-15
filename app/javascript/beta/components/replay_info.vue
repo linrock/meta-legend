@@ -13,8 +13,6 @@
           target="_blank"
           @click="playerNameClicked(replay.p2.name)"
         ) {{ replay.p2.name }}
-      .small
-        .time-ago {{ timeAgo }}
       a.watch-link(
         :href="replay.hsreplayLink"
         target="_blank"
@@ -28,7 +26,7 @@
 <script lang="ts">
   import Replay from '../models/replay'
   import DeckCards from './deck_cards'
-  import { trackEvent, timeAgo } from '../../utils'
+  import { trackEvent } from '../../utils'
 
   export default {
     props: {
@@ -47,12 +45,6 @@
       },
     },
 
-    computed: {
-      timeAgo() {
-        return timeAgo(this.replay.playedAt)
-      },
-    },
-
     components: {
       DeckCards
     }
@@ -63,9 +55,6 @@
   .replay-info
     font-size 14px
     width 230px
-
-  .separator
-    margin 0 5px
 
   .about-replay
     margin-bottom 15px
@@ -80,12 +69,6 @@
 
       .vs
         margin 0 5px
-
-    .small
-      display flex
-      opacity 0.7
-      font-size 12px
-      margin-bottom 12px
 
     .watch-link
       color white

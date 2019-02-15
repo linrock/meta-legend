@@ -1,43 +1,44 @@
 <template lang="pug">
-  a.replay-card(
-    :class="[{ selected: isSelectedReplay }]"
-    @click="selectReplay(replay)"
-  )
-    .game-players
-      .player.player1
-        .player-name
-          .win-indicator
-            svg.crown(v-if="p1.isWinner")
-              use(xlink:href="#crown")
-          .name {{ p1.name }}
-        .archetype
-          | {{ p1.archetype }} {{ p1.className }}
-      player-rank(:player="p1")
-      .vs vs
-      player-rank(:player="p2")
-      .player.player2
-        .player-name
-          .name {{ p2.name }}
-          .win-indicator
-            svg.crown(v-if="p2.isWinner")
-              use(xlink:href="#crown")
-        .archetype
-          | {{ p2.archetype }} {{ p2.className }}
-    .under-info
-      .starting-hand
-        .post
-          div(v-for="card in p1.postMulliganCards")
-            span.cost {{ card.cost }}
-            span.name {{ card.name }}
-      .replay-info
-        .left
-          .num-turns {{ replay.numTurns }}
-          .duration {{ Math.round(replay.durationSeconds / 60) }}
-        .right
-          .label turns
-          .label minutes
-          .game-type {{ replay.gameType }}
-
+  .replay-card-container
+    .time-ago {{ replay.playedAtTimeAgo }}
+    a.replay-card(
+      :class="[{ selected: isSelectedReplay }]"
+      @click="selectReplay(replay)"
+    )
+      .game-players
+        .player.player1
+          .player-name
+            .win-indicator
+              svg.crown(v-if="p1.isWinner")
+                use(xlink:href="#crown")
+            .name {{ p1.name }}
+          .archetype
+            | {{ p1.archetype }} {{ p1.className }}
+        player-rank(:player="p1")
+        .vs vs
+        player-rank(:player="p2")
+        .player.player2
+          .player-name
+            .name {{ p2.name }}
+            .win-indicator
+              svg.crown(v-if="p2.isWinner")
+                use(xlink:href="#crown")
+          .archetype
+            | {{ p2.archetype }} {{ p2.className }}
+      .under-info
+        .starting-hand
+          .post
+            div(v-for="card in p1.postMulliganCards")
+              span.cost {{ card.cost }}
+              span.name {{ card.name }}
+        .replay-info
+          .left
+            .num-turns {{ replay.numTurns }}
+            .duration {{ Math.round(replay.durationSeconds / 60) }}
+          .right
+            .label turns
+            .label minutes
+            .game-type {{ replay.gameType }}
 
 </template>
 
@@ -83,14 +84,22 @@
 </script>
 
 <style lang="stylus" scoped>
+  .replay-card-container
+    margin 20px 0
+
+  .time-ago
+    font-size 12px
+    margin-left 22px
+    opacity 0.5
+
   a.replay-card
     display block
     background white
     color #111
     text-decoration none
     font-size 17px
-    margin 10px 0
     width 100%
+    margin-top 5px
     border 1px solid #eaeaea
     border-radius 3px
 

@@ -1,5 +1,6 @@
 import Card from '../../models/card'
 import { PlayerOptions, Player } from './player'
+import { timeAgo } from '../../utils'
 
 interface ReplayOptions {
   hsreplay_id: string
@@ -37,6 +38,10 @@ export default class Replay {
 
   get key(): string {
     return this.hsreplayId
+  }
+
+  get playedAtTimeAgo(): string {
+    return timeAgo(this.playedAt)
   }
 
   get hsreplayLink(): string {
