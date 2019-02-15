@@ -1,0 +1,20 @@
+header.main-header
+  .container.header-container
+    h1.title
+      a(href="/")
+        | Meta Legend
+        small beta
+
+    .header-links.left
+      a(href="/decks") Decks
+      a(href="/wild") Wild
+      a(href="/arena") Arena
+
+    .header-links.right
+      a(href="https://discord.gg/mtx6yyB" target="_blank") Discord
+
+      - if @user
+        a(href="/account")= @user.forum_name
+      - else
+        a.bnet-login(href="/account/login") Log in with Battle.net
+.main-header-spacer

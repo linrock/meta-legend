@@ -4,7 +4,14 @@
       template(v-if="$store.getters.currentReplay")
         replay-info(:replay="$store.getters.currentReplay")
       template(v-else)
-        |
+        .share-replays
+          div Share your replays!
+          a(href="https://hsreplay.net/account/api/hooks/new/")
+            | Set up a webhook on hsreplay.net
+          br
+          br
+          div with this Payload URL:
+          b https://metalegend.com/webhook
 
 </template>
 
@@ -54,7 +61,7 @@
   .fixed-sidebar
     position fixed
     left 50%
-    top: 0
+    top: 40px
     background white
     width 260px
     height 100%
@@ -63,10 +70,19 @@
     overflow-y auto
     margin-left 135px
     padding-left 10px
-    padding-top 20px
+    padding-top 15px
     z-index 5 // needs to be higher than rank diamonds
 
   .sidebar-container
     max-height 100%
+
+  .share-replays
+    font-size 14px
+    line-height 22px
+
+    a
+      color #45abfe
+    b
+      font-weight bold
 
 </style>
