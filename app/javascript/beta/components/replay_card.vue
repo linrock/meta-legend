@@ -30,9 +30,14 @@
             span.cost {{ card.cost }}
             span.name {{ card.name }}
       .replay-info
-        .num-turns {{ replay.numTurns }} turns
-        .duration {{ parseInt(replay.durationSeconds / 60) }} minutes
-        .game-type {{ replay.gameType }}
+        .left
+          .num-turns {{ replay.numTurns }}
+          .duration {{ Math.round(replay.durationSeconds / 60) }}
+        .right
+          .label turns
+          .label minutes
+          .game-type {{ replay.gameType }}
+
 
 </template>
 
@@ -83,7 +88,6 @@
     color #111
     text-decoration none
     font-size 17px
-    padding 10px 0
     margin 10px 0
     width 490px
     border 1px solid #eaeaea
@@ -102,30 +106,36 @@
     align-items center
     justify-content center
     display flex
+    padding 10px 0
 
   // info under the list of game players
   .under-info
     display flex
     justify-content space-between
-    margin-top 15px
+    background #f7f7f7
+    padding 15px 0
+    line-height 18px
+    font-size 13px
 
+    // pre and post mulligan cards
     .starting-hand
-      font-size 13px
-      line-height 18px
-      margin-left 15px
+      margin-left 20px
 
       .cost
         margin-right 10px
 
+    // num turns, duration, game type
     .replay-info
       display flex
       justify-content flex-end
-      font-size 14px
-      padding-right 15px
       opacity 0.5
+      margin-right 30px
 
-      > div
-        margin-left 15px
+      .left
+        margin-right 10px
+
+      .game-type
+        text-transform capitalize
 
   .player
     display flex
