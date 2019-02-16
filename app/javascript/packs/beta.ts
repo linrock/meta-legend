@@ -33,11 +33,20 @@ document.addEventListener(`DOMContentLoaded`, () => {
     })
   }
 
-  new Vue({
-    el: document.querySelector(`.fixed-sidebar`),
-    render: h => h(FixedSidebar),
-    store,
-  })
+  const fixedSidebarEl = document.querySelector(`.fixed-sidebar`)
+  if (fixedSidebarEl) {
+    const props: any = {}
+    const content = fixedSidebarEl.innerHTML.trim()
+    if (content.length > 0) {
+      props.content = content
+    }
+    console.dir(props)
+    new Vue({
+      el: fixedSidebarEl,
+      render: h => h(FixedSidebar, { props }),
+      store,
+    })
+  }
 
   if (`addEventListener` in document) {
     FastClick.attach(document.body)

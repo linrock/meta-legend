@@ -17,9 +17,9 @@
           .selector 8 turns
         div
           .label With the card
-          .label #{@card[:name]}
+          .value #{@card[:name]}
       .search-results
 
   aside.fixed-sidebar
+    img.card-img(src="https://art.hearthstonejson.com/v1/render/latest/enUS/256x/#{@card[:id]}.png" alt="#{@card[:name]}")
   aside.sidebar
-    img(src="https://art.hearthstonejson.com/v1/render/latest/enUS/256x/#{@card[:id]}.png" alt="#{@card[:name]}")

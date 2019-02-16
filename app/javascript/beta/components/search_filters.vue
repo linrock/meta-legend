@@ -19,10 +19,10 @@
           select-p2-class
     .selector-group
       .label For at least
-      .label 8 turns
+      .value 8 turns
     .selector-group(v-if="cardId && cardName")
       .label With the card
-      .label {{ cardName }}
+      .value {{ cardName }}
 
 </template>
 

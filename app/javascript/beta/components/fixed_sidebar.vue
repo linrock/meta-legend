@@ -7,6 +7,7 @@
       .sidebar-container
         template(v-if="$store.getters.currentReplay")
           replay-info(:replay="$store.getters.currentReplay")
+        div(v-else-if="content" v-html="content")
         template(v-else)
           .share-replays
             div Share your replays!
@@ -25,6 +26,10 @@
   const pollInterval = 300
 
   export default {
+    props: {
+      content: String
+    },
+
     created() {
       setInterval(() => {
         this.shouldShow = this.sidebarOutOfView()

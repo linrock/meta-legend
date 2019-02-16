@@ -72,6 +72,10 @@ body {
     padding: 8px 0;
   }
 
+  .value {
+    padding: 8px 0;
+  }
+
   .selector {
     font-weight: bold;
     padding: 7px 0;
@@ -127,4 +131,9 @@ body {
       }
     }
   }
+}
+
+.card-img {
+  width: 240px;
+  margin-top: -25px;
 }
