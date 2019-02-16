@@ -22,4 +22,6 @@
 
   aside.fixed-sidebar
     img.card-img(src="https://art.hearthstonejson.com/v1/render/latest/enUS/256x/#{@card[:id]}.png" alt="#{@card[:name]}")
+    a.card-link(href="https://hsreplay.net/cards/#{@hsreplay_card_id}")
+      | View #{@card[:name]} on hsreplay.net
   aside.sidebar

@@ -137,3 +137,15 @@ body {
   width: 240px;
   margin-top: -25px;
 }
+
+.card-link {
+  line-height: 24px;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  color: #45ABFE;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

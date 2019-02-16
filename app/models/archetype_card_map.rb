@@ -5,6 +5,10 @@
 class ArchetypeCardMap
   CARD_MAP_FILE = "data/archetype_card_map.json"
 
+  def hsreplay_card_id(card_id)
+    card_map[card_id]
+  end
+
   def card_map
     if File.exists?(CARD_MAP_FILE)
       open(CARD_MAP_FILE, "r") do |f|
@@ -25,6 +29,7 @@ class ArchetypeCardMap
     map
   end
 
+  # loads data from html files and exports to json data file
   def export!
     json_data = dynamic_card_map
     open(CARD_MAP_FILE, "w") do |f|

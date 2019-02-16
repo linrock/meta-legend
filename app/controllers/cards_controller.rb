@@ -5,6 +5,7 @@ class CardsController < ApplicationController
 
   def show
     @card = HearthstoneCard.card_path_map[params[:card].strip]
+    @hsreplay_card_id = ArchetypeCardMap.new.hsreplay_card_id @card[:id]
     unless @card.present?
       render status: 404
       return
