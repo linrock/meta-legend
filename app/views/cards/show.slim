@@ -21,7 +21,17 @@
       .search-results
 
   aside.fixed-sidebar
-    img.card-img(src="https://art.hearthstonejson.com/v1/render/latest/enUS/256x/#{@card[:id]}.png" alt="#{@card[:name]}")
-    a.card-link(href="https://hsreplay.net/cards/#{@hsreplay_card_id}")
-      | View #{@card[:name]} on hsreplay.net
+    .thinner
+      img.card-img(src="https://art.hearthstonejson.com/v1/render/latest/enUS/256x/#{@card[:id]}.png" alt="#{@card[:name]}")
+      a.card-link(href="https://hsreplay.net/cards/#{@hsreplay_card_id}")
+        | View #{@card[:name]} on hsreplay.net
+      - if @stats.total_count > 0
+        header.sidebar-section-header
+          h3 Frequent appearances
+          h4 In the past 5 days at rank 5 to legend
+        .stats-section
+          - @stats.stats.each do |row|
+            .stats-row
+              .class-and-archetype = row[0]
+              .count = row[1]
   aside.sidebar

@@ -91,7 +91,16 @@ body {
   width: 260px;
   padding-left: 10px;
   padding-right: 20px;
+}
 
+// TODO move this
+.fixed-sidebar {
+  .thinner {
+    padding-right: 15px;
+  }
+}
+
+.sidebar, .fixed-sidebar {
   .sidebar-section-header {
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(0,0,0,0.1);
@@ -133,13 +142,17 @@ body {
   }
 }
 
+// TODO move to new cards section
 .card-img {
-  width: 240px;
+  width: 200px;
   margin-top: -25px;
+  margin-left: 20px;
+  margin-bottom: -10px;
 }
 
 .card-link {
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 20px;
   text-decoration: none;
   text-align: center;
   display: block;

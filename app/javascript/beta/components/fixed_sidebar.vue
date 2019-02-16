@@ -37,7 +37,9 @@
     },
 
     data() {
-      const sidebarEl = document.querySelector('.sidebar-container')
+      const sidebarEl = document.querySelector(
+        'aside.sidebar .sidebar-container'
+      )
       const sidebarHeight = sidebarEl ? sidebarEl.scrollHeight : 0
       return {
         shouldShow: false,

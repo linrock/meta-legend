@@ -14,6 +14,7 @@ class CardsController < ApplicationController
     @meta_desc = "Find recent legend replays where #{@card[:name]} was used in a game"
     # @hsreplay_ids = hsreplay_ids_from_xml_data
     # @hsreplay_ids = hsreplay_ids_from_solr
+    @stats = StatsCardFrequency.new(@card[:id])
     @replay_data = replay_data
     render layout: "beta"
   end

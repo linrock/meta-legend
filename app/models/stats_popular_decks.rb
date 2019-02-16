@@ -47,7 +47,7 @@ class StatsPopularDecks
           without(:p2_legend_rank, nil)
         end
       end
-      with(:played_at).greater_than(7.days.ago)
+      with(:played_at).greater_than(5.days.ago)
       with(:game_type, game_type)
       facet :p1_class_and_archetype
       facet :p2_class_and_archetype
