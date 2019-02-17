@@ -4,13 +4,11 @@
       .players
         a(
           :href="`/players/${replay.p1.name}`"
-          target="_blank"
           @click="playerNameClicked(replay.p1.name)"
         ) {{ replay.p1.name }}
         .vs vs.
         a(
           :href="`/players/${replay.p2.name}`"
-          target="_blank"
           @click="playerNameClicked(replay.p2.name)"
         ) {{ replay.p2.name }}
       .small

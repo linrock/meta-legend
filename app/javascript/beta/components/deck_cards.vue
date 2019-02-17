@@ -13,7 +13,6 @@
           .cost {{ card.cost }}
           a.name(
             :href="card.href"
-            target="_blank"
             @click="cardClicked(card.name)"
           ) {{ card.name }}
           .quantity(v-if="card.n > 1") x{{ card.n }}
