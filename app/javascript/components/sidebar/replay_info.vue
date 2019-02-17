@@ -59,26 +59,12 @@
       return {
         showError: false,
         cardUrl: false,
-        showReplayComment: false,
-      }
-    },
-
-    watch: {
-      replay() {
-        this.showReplayComment = false
       }
     },
 
     methods: {
       replayClicked() {
         trackEvent('click', 'watch replay', this.replay.hsreplayId)
-        const replay = this.replay
-        setTimeout(() => {
-          if (this.$store.getters.currentReplay === replay) {
-            this.showReplayComment = true
-            trackEvent('comment box', 'displayed', this.replay.hsreplayId)
-          }
-        }, 3000)
       },
       cardClicked(cardName) {
         trackEvent('click', 'card name', cardName)

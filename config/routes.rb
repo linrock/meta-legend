@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   get "/popular.json"              => "replays#popular"
   get "/search.json"               => "search#index"
 
-  post "/replays/like.json"        => "replay_likes#create"
-  post "/replays/get_likes.json"   => "replay_likes#likes_batch"
+  # post "/replays/like.json"        => "replay_likes#create"
+  # post "/replays/get_likes.json"   => "replay_likes#likes_batch"
 
   # header links
   get "/decks"                     => "decks#index"
@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   # forum posts
   get "/forum/posts/new"           => "forum_posts#new"
   get "/forum/posts/:id"           => "forum_posts#show", as: "forum_post"
-  post "/forum/posts"              => "forum_posts#create"
-  post "/forum/posts/:id/comments" => "forum_comments#create", as: "forum_comments"
+  # post "/forum/posts"              => "forum_posts#create"
+  # post "/forum/posts/:id/comments" => "forum_comments#create", as: "forum_comments"
 
   # card routes
   # get "/cards"                     => "cards#index"
