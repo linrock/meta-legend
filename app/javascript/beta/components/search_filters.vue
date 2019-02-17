@@ -60,7 +60,7 @@
 
 <style lang="stylus">
   .search-filters
-    min-height 100px
+    min-height 128px
 
   .search-stats
     border-bottom 1px solid rgba(0,0,0,0.15)
